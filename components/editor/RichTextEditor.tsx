@@ -20,30 +20,66 @@ import {
   X,
 } from "lucide-react";
 
+// Extended interface to include full Basel hierarchy for reference picker
+interface ReferenceStandard {
+  id: string;
+  code: string;
+  name: string;
+  chapters: Array<{
+    id: string;
+    code: string;
+    title: string;
+    sections?: Array<{
+      id: string;
+      title: string;
+      subsections?: Array<{ id: string; number: string }>;
+    }>;
+  }>;
+}
+
 interface RichTextEditorProps {
   content: string;
   onChange: (content: string) => void;
   placeholder?: string;
-  standards?: Array<{
-    id: string;
-    code: string;
-    name: string;
-    chapters: Array<{ id: string; code: string; title: string }>;
-  }>;
+  standards?: ReferenceStandard[];
 }
 
 export default function RichTextEditor({
   content,
   onChange,
   placeholder = "Start writing...",
-  standards = [],
+  standards: propStandards = [],
 }: RichTextEditorProps) {
   const [showTooltipModal, setShowTooltipModal] = useState(false);
   const [showReferenceModal, setShowReferenceModal] = useState(false);
   const [tooltipDefinition, setTooltipDefinition] = useState("");
   const [selectedStandard, setSelectedStandard] = useState("");
   const [selectedChapter, setSelectedChapter] = useState("");
-  const [subsectionNumber, setSubsectionNumber] = useState("");
+  const [selectedSection, setSelectedSection] = useState("");
+  const [selectedSubsection, setSelectedSubsection] = useState("");
+
+  // Fetch full standards with sections/subsections for reference picker
+  const [fullStandards, setFullStandards] = useState<ReferenceStandard[]>([]);
+  const [loadingRefs, setLoadingRefs] = useState(false);
+
+  // Use prop standards for basic data, but fetch full hierarchy when modal opens
+  const standards = fullStandards.length > 0 ? fullStandards : propStandards;
+
+  // Parse initial content for the editor
+  const parseContent = (contentStr: string) => {
+    if (!contentStr) return "";
+    try {
+      const parsed =
+        typeof contentStr === "string" ? JSON.parse(contentStr) : contentStr;
+      if (parsed.type === "doc") {
+        return parsed;
+      }
+      return contentStr;
+    } catch {
+      // Not valid JSON, treat as plain text
+      return contentStr;
+    }
+  };
 
   const editor = useEditor({
     extensions: [
@@ -58,7 +94,7 @@ export default function RichTextEditor({
       TooltipMark,
       ReferenceMark,
     ],
-    content: content || "",
+    content: parseContent(content),
     immediatelyRender: false, // Fix SSR hydration mismatch
     onUpdate: ({ editor }) => {
       onChange(editor.getJSON() as unknown as string);
@@ -71,23 +107,20 @@ export default function RichTextEditor({
     },
   });
 
-  // Update content when prop changes
+  // Update content when prop changes (for editing different subsections)
   useEffect(() => {
     if (editor && content) {
-      try {
-        const parsed =
-          typeof content === "string" ? JSON.parse(content) : content;
-        if (parsed.type === "doc") {
-          editor.commands.setContent(parsed);
-        }
-      } catch {
-        // If not JSON, treat as plain text
-        if (typeof content === "string" && content.trim()) {
-          editor.commands.setContent(`<p>${content}</p>`);
-        }
+      const parsed = parseContent(content);
+      const currentContent = JSON.stringify(editor.getJSON());
+      const newContent =
+        typeof parsed === "object" ? JSON.stringify(parsed) : parsed;
+
+      // Only update if content actually changed
+      if (currentContent !== newContent) {
+        editor.commands.setContent(parsed);
       }
     }
-  }, []);
+  }, [editor, content]);
 
   const addTooltip = useCallback(() => {
     if (!editor || !tooltipDefinition.trim()) return;
@@ -103,23 +136,25 @@ export default function RichTextEditor({
   }, [editor, tooltipDefinition]);
 
   const addReference = useCallback(() => {
-    if (!editor || !selectedStandard) return;
+    if (!editor || !selectedStandard || !selectedChapter || !selectedSubsection)
+      return;
 
     editor
       .chain()
       .focus()
       .setMark("reference", {
         standardCode: selectedStandard,
-        chapterCode: selectedChapter || null,
-        subsectionNumber: subsectionNumber || null,
+        chapterCode: selectedChapter,
+        subsectionNumber: selectedSubsection,
       })
       .run();
 
     setSelectedStandard("");
     setSelectedChapter("");
-    setSubsectionNumber("");
+    setSelectedSection("");
+    setSelectedSubsection("");
     setShowReferenceModal(false);
-  }, [editor, selectedStandard, selectedChapter, subsectionNumber]);
+  }, [editor, selectedStandard, selectedChapter, selectedSubsection]);
 
   const removeTooltip = useCallback(() => {
     if (!editor) return;
@@ -207,7 +242,22 @@ export default function RichTextEditor({
         </ToolbarButton>
 
         <ToolbarButton
-          onClick={() => setShowReferenceModal(true)}
+          onClick={async () => {
+            setShowReferenceModal(true);
+            // Fetch full hierarchy if not already loaded
+            if (fullStandards.length === 0) {
+              setLoadingRefs(true);
+              try {
+                const res = await fetch("/api/basel/references");
+                const data = await res.json();
+                setFullStandards(data.standards || []);
+              } catch (error) {
+                console.error("Error fetching references:", error);
+              } finally {
+                setLoadingRefs(false);
+              }
+            }
+          }}
           active={editor.isActive("reference")}
           title="Add Basel Reference"
           className="text-blue-600"
@@ -284,81 +334,161 @@ export default function RichTextEditor({
       {/* Reference Modal */}
       {showReferenceModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4 max-h-[80vh] overflow-y-auto">
             <h3 className="font-bold text-[#14213D] mb-4">
               Add Basel Reference
             </h3>
             <p className="text-sm text-gray-500 mb-3">
-              Link to another Basel Framework section.
+              Link to a specific Basel Framework subsection.
             </p>
 
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-[#14213D] mb-1">
-                  Standard
-                </label>
-                <select
-                  value={selectedStandard}
-                  onChange={(e) => {
-                    setSelectedStandard(e.target.value);
-                    setSelectedChapter("");
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none"
-                >
-                  <option value="">Select a standard...</option>
-                  {standards.map((std) => (
-                    <option key={std.id} value={std.code}>
-                      {std.code} - {std.name}
-                    </option>
-                  ))}
-                </select>
+            {loadingRefs ? (
+              <div className="text-center py-8 text-gray-500">
+                Loading references...
               </div>
-
-              {selectedChapters.length > 0 && (
+            ) : (
+              <div className="space-y-4">
+                {/* Standard Selection */}
                 <div>
                   <label className="block text-sm font-semibold text-[#14213D] mb-1">
-                    Chapter (optional)
+                    Standard *
                   </label>
                   <select
-                    value={selectedChapter}
-                    onChange={(e) => setSelectedChapter(e.target.value)}
+                    value={selectedStandard}
+                    onChange={(e) => {
+                      setSelectedStandard(e.target.value);
+                      setSelectedChapter("");
+                      setSelectedSection("");
+                      setSelectedSubsection("");
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none"
                   >
-                    <option value="">Any chapter</option>
-                    {selectedChapters.map((ch) => (
-                      <option key={ch.id} value={ch.code}>
-                        {selectedStandard}
-                        {ch.code} - {ch.title}
+                    <option value="">Select a standard...</option>
+                    {standards.map((std) => (
+                      <option key={std.id} value={std.code}>
+                        {std.code} - {std.name}
                       </option>
                     ))}
                   </select>
                 </div>
-              )}
 
-              {selectedChapter && (
-                <div>
-                  <label className="block text-sm font-semibold text-[#14213D] mb-1">
-                    Subsection Number (optional)
-                  </label>
-                  <input
-                    type="text"
-                    value={subsectionNumber}
-                    onChange={(e) => setSubsectionNumber(e.target.value)}
-                    placeholder="e.g., 1, 2, 3"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Links to {selectedStandard}
-                    {selectedChapter}.{subsectionNumber || "X"}
-                  </p>
-                </div>
-              )}
-            </div>
+                {/* Chapter Selection */}
+                {selectedStandard && (
+                  <div>
+                    <label className="block text-sm font-semibold text-[#14213D] mb-1">
+                      Chapter *
+                    </label>
+                    <select
+                      value={selectedChapter}
+                      onChange={(e) => {
+                        setSelectedChapter(e.target.value);
+                        setSelectedSection("");
+                        setSelectedSubsection("");
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none"
+                    >
+                      <option value="">Select a chapter...</option>
+                      {standards
+                        .find((s) => s.code === selectedStandard)
+                        ?.chapters.map((ch) => (
+                          <option key={ch.id} value={ch.code}>
+                            {selectedStandard}
+                            {ch.code} - {ch.title}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                )}
+
+                {/* Section Selection */}
+                {selectedChapter &&
+                  (() => {
+                    const chapter = standards
+                      .find((s) => s.code === selectedStandard)
+                      ?.chapters.find((c) => c.code === selectedChapter);
+                    const sections = chapter?.sections || [];
+
+                    return sections.length > 0 ? (
+                      <div>
+                        <label className="block text-sm font-semibold text-[#14213D] mb-1">
+                          Section *
+                        </label>
+                        <select
+                          value={selectedSection}
+                          onChange={(e) => {
+                            setSelectedSection(e.target.value);
+                            setSelectedSubsection("");
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none"
+                        >
+                          <option value="">Select a section...</option>
+                          {sections.map((sec) => (
+                            <option key={sec.id} value={sec.id}>
+                              {sec.title}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-gray-500 italic">
+                        No sections in this chapter yet.
+                      </p>
+                    );
+                  })()}
+
+                {/* Subsection Selection */}
+                {selectedSection &&
+                  (() => {
+                    const chapter = standards
+                      .find((s) => s.code === selectedStandard)
+                      ?.chapters.find((c) => c.code === selectedChapter);
+                    const section = chapter?.sections?.find(
+                      (s) => s.id === selectedSection
+                    );
+                    const subsections = section?.subsections || [];
+
+                    return subsections.length > 0 ? (
+                      <div>
+                        <label className="block text-sm font-semibold text-[#14213D] mb-1">
+                          Subsection *
+                        </label>
+                        <select
+                          value={selectedSubsection}
+                          onChange={(e) =>
+                            setSelectedSubsection(e.target.value)
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none"
+                        >
+                          <option value="">Select a subsection...</option>
+                          {subsections.map((sub) => (
+                            <option key={sub.id} value={sub.number}>
+                              {selectedStandard}
+                              {selectedChapter}.{sub.number}
+                            </option>
+                          ))}
+                        </select>
+                        {selectedSubsection && (
+                          <p className="text-xs text-[#355189] mt-2 font-medium">
+                            → Will link to: {selectedStandard}
+                            {selectedChapter}.{selectedSubsection}
+                          </p>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-gray-500 italic">
+                        No subsections in this section yet.
+                      </p>
+                    );
+                  })()}
+              </div>
+            )}
 
             <div className="flex gap-2 mt-4">
               <button
                 onClick={addReference}
-                disabled={!selectedStandard}
+                disabled={
+                  !selectedStandard || !selectedChapter || !selectedSubsection
+                }
                 className="flex-1 py-2 bg-[#355189] text-white rounded-lg font-semibold hover:bg-[#1B2B4B] disabled:opacity-50"
               >
                 Add Reference
@@ -368,7 +498,8 @@ export default function RichTextEditor({
                   setShowReferenceModal(false);
                   setSelectedStandard("");
                   setSelectedChapter("");
-                  setSubsectionNumber("");
+                  setSelectedSection("");
+                  setSelectedSubsection("");
                 }}
                 className="flex-1 py-2 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50"
               >

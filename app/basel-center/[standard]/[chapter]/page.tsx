@@ -314,75 +314,81 @@ export default function ChapterPage({
                         </p>
                       ) : (
                         <div className="space-y-6">
-                          {section.subsections.map((subsection) => (
-                            <div
-                              key={subsection.id}
-                              id={subsection.id}
-                              ref={(el) => {
-                                sectionRefs.current[subsection.id] = el;
-                              }}
-                              className="pl-4 border-l-2 border-[#E1E7EF]"
-                            >
-                              <div className="flex items-start gap-3">
-                                <span className="font-bold text-[#F48C25] text-sm whitespace-nowrap">
-                                  {chapter.standard.code}
-                                  {chapter.code}.{subsection.number}
-                                </span>
-                                <div className="flex-1">
-                                  <RichContentRenderer
-                                    content={subsection.content}
-                                  />
+                          {section.subsections.map((subsection) => {
+                            // Create anchor ID matching the reference format: {STANDARD}{CHAPTER}.{NUMBER}
+                            const anchorId = `${chapter.standard.code}${chapter.code}.${subsection.number}`;
 
-                                  {/* Footnotes */}
-                                  {subsection.footnotes.length > 0 && (
-                                    <ExpandableSection
-                                      title="Footnotes"
-                                      icon={BookOpen}
-                                      count={subsection.footnotes.length}
-                                    >
-                                      <div className="space-y-3">
-                                        {subsection.footnotes.map((fn) => (
-                                          <div
-                                            key={fn.id}
-                                            className="flex gap-2 text-sm"
-                                          >
-                                            <span className="font-bold text-[#355189]">
-                                              [{fn.number}]
-                                            </span>
-                                            <p className="text-gray-600">
-                                              {fn.content}
-                                            </p>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </ExpandableSection>
-                                  )}
+                            return (
+                              <div
+                                key={subsection.id}
+                                id={anchorId}
+                                ref={(el) => {
+                                  sectionRefs.current[subsection.id] = el;
+                                  sectionRefs.current[anchorId] = el;
+                                }}
+                                className="pl-4 border-l-2 border-[#E1E7EF] scroll-mt-24"
+                              >
+                                <div className="flex items-start gap-3">
+                                  <span className="font-bold text-[#F48C25] text-sm whitespace-nowrap">
+                                    {chapter.standard.code}
+                                    {chapter.code}.{subsection.number}
+                                  </span>
+                                  <div className="flex-1">
+                                    <RichContentRenderer
+                                      content={subsection.content}
+                                    />
 
-                                  {/* FAQs */}
-                                  {subsection.faqs.length > 0 && (
-                                    <ExpandableSection
-                                      title="FAQ"
-                                      icon={HelpCircle}
-                                      count={subsection.faqs.length}
-                                    >
-                                      <div className="space-y-4">
-                                        {subsection.faqs.map((faq) => (
-                                          <div key={faq.id}>
-                                            <p className="font-semibold text-[#14213D] text-sm mb-1">
-                                              Q: {faq.question}
-                                            </p>
-                                            <p className="text-gray-600 text-sm">
-                                              A: {faq.answer}
-                                            </p>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </ExpandableSection>
-                                  )}
+                                    {/* Footnotes */}
+                                    {subsection.footnotes.length > 0 && (
+                                      <ExpandableSection
+                                        title="Footnotes"
+                                        icon={BookOpen}
+                                        count={subsection.footnotes.length}
+                                      >
+                                        <div className="space-y-3">
+                                          {subsection.footnotes.map((fn) => (
+                                            <div
+                                              key={fn.id}
+                                              className="flex gap-2 text-sm"
+                                            >
+                                              <span className="font-bold text-[#355189]">
+                                                [{fn.number}]
+                                              </span>
+                                              <p className="text-gray-600">
+                                                {fn.content}
+                                              </p>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </ExpandableSection>
+                                    )}
+
+                                    {/* FAQs */}
+                                    {subsection.faqs.length > 0 && (
+                                      <ExpandableSection
+                                        title="FAQ"
+                                        icon={HelpCircle}
+                                        count={subsection.faqs.length}
+                                      >
+                                        <div className="space-y-4">
+                                          {subsection.faqs.map((faq) => (
+                                            <div key={faq.id}>
+                                              <p className="font-semibold text-[#14213D] text-sm mb-1">
+                                                Q: {faq.question}
+                                              </p>
+                                              <p className="text-gray-600 text-sm">
+                                                A: {faq.answer}
+                                              </p>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </ExpandableSection>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       )}
                     </div>

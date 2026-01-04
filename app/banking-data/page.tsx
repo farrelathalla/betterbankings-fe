@@ -45,7 +45,7 @@ export default function BankingData() {
 
   const tableauUrls: Record<string, string> = {
     deposit:
-      "https://public.tableau.com/views/SEKIBIConsolPrioritas1_17245471572730/Deposit-Bank",
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/Solvency",
     solvency:
       "https://public.tableau.com/views/MaskedGroupingRiskIndicator-MedianIndustryRatioBankKBMIGrouped_17265081096610/Solvency",
   };
@@ -238,7 +238,7 @@ export default function BankingData() {
       <Sidebar />
 
       {/* Main Content */}
-      <main className="w-full flex-1 lg:ml-[280px] min-h-screen">
+      <main className="w-full flex-1 lg:pl-[280px] min-h-screen">
         {/* Background Gradients */}
         <div className="fixed inset-0 pointer-events-none z-0">
           <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-50 rounded-full blur-[100px] opacity-60"></div>
@@ -247,7 +247,7 @@ export default function BankingData() {
 
         <div className="relative z-10 px-4 lg:px-8 py-4 pt-24">
           {/* Header Row */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 ">
             <div>
               <h1 className="text-2xl lg:text-3xl font-bold text-[#14213D]">
                 Banking Industry{" "}

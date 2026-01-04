@@ -62,11 +62,11 @@ export const ReferenceMark = Mark.create({
           "data-chapter": attributes.chapterCode,
         }),
       },
-      sectionId: {
+      subsectionNumber: {
         default: null,
-        parseHTML: (element) => element.getAttribute("data-section"),
+        parseHTML: (element) => element.getAttribute("data-subsection"),
         renderHTML: (attributes) => ({
-          "data-section": attributes.sectionId,
+          "data-subsection": attributes.subsectionNumber,
         }),
       },
     };
