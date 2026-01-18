@@ -63,7 +63,7 @@ export default function BankingData() {
     lcrNsfr:
       "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LCRandNSFRDashboard",
     creditFundingRates:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/Credit%26FundingRates",
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/CreditFundingRates",
     profitabilityRoA:
       "https://public.tableau.com/views/GroupingRiskIndicator-Separated/ProfitabilityRoA",
     profitabilityRoE:
