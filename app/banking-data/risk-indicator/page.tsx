@@ -59,7 +59,7 @@ export default function BankingData() {
     irrbSummary:
       "https://public.tableau.com/views/GroupingRiskIndicator-Separated/IRRBBSummary",
     fundingLiquidity:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/FundingandLiduqity",
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/FundingandLiquidity",
     lcrNsfr:
       "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LCRandNSFRDashboard",
     creditFundingRates:
@@ -94,7 +94,7 @@ export default function BankingData() {
   // Load Tableau JS API once on mount
   useEffect(() => {
     const existingScript = document.querySelector(
-      'script[src*="tableau.embedding"]'
+      'script[src*="tableau.embedding"]',
     );
 
     if (existingScript) {
@@ -133,7 +133,7 @@ export default function BankingData() {
       if (!containerRef.current) return;
 
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);
@@ -232,7 +232,7 @@ export default function BankingData() {
     } catch (error) {
       console.error("Error downloading data:", error);
       alert(
-        "Error downloading data. This may be due to permissions on the Tableau dashboard."
+        "Error downloading data. This may be due to permissions on the Tableau dashboard.",
       );
     } finally {
       setIsDownloading(false);
@@ -251,7 +251,7 @@ export default function BankingData() {
     setTimeout(() => {
       if (!containerRef.current) return;
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);
