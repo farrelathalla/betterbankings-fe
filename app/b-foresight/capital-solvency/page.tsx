@@ -52,26 +52,6 @@ export default function BankingData() {
       "https://public.tableau.com/views/GroupingRiskIndicator-Separated/OwnFundsandRWA",
     ifrs9:
       "https://public.tableau.com/views/GroupingRiskIndicator-Separated/IFRS9",
-    creditRisk:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/CreditRisk",
-    irrbGranular:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/IRRBBGranular",
-    irrbSummary:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/IRRBBSummary",
-    fundingLiquidity:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/FundingandLiquidity",
-    lcrNsfr:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LCRandNSFRDashboard",
-    creditFundingRates:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/CreditFundingRates",
-    profitabilityRoA:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/ProfitabilityRoA",
-    profitabilityRoE:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/ProfitabilityRoE",
-    bankScore:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/BankScore",
-    heatmap:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/RiskIndicatorHeatmap",
   };
 
   const tabLabels: Record<string, string> = {
@@ -79,16 +59,6 @@ export default function BankingData() {
     baselCompliance: "Basel Compliance",
     ownFundsRWA: "Own Funds & RWA",
     ifrs9: "IFRS 9",
-    creditRisk: "Credit Risk",
-    irrbGranular: "IRRBB Granular",
-    irrbSummary: "IRRBB Summary",
-    fundingLiquidity: "Funding & Liquidity",
-    lcrNsfr: "LCR & NSFR",
-    creditFundingRates: "Credit & Funding Rates",
-    profitabilityRoA: "Profitability (RoA)",
-    profitabilityRoE: "Profitability (RoE)",
-    bankScore: "Bank Score",
-    heatmap: "Risk Indicator Heatmap",
   };
 
   // Load Tableau JS API once on mount

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
 
-// GET /api/basel/subsections/[id]
+// GET /api/basel/revisions/[id]
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -10,42 +10,43 @@ export async function GET(
   try {
     const { id } = await params;
 
-    const subsection = await prisma.baselSubsection.findUnique({
+    const revision = await prisma.baselRevision.findUnique({
       where: { id },
       include: {
-        section: {
+        subsection: {
           include: {
-            chapter: {
+            section: {
               include: {
-                standard: { select: { code: true, name: true } },
+                chapter: {
+                  include: {
+                    standard: { select: { code: true, name: true } },
+                  },
+                },
               },
             },
           },
         },
-        footnotes: { orderBy: { number: "asc" } },
-        faqs: { orderBy: { order: "asc" } },
-        revisions: { orderBy: { order: "asc" } },
       },
     });
 
-    if (!subsection) {
+    if (!revision) {
       return NextResponse.json(
-        { error: "Subsection not found" },
+        { error: "Revision not found" },
         { status: 404 },
       );
     }
 
-    return NextResponse.json({ subsection });
+    return NextResponse.json({ revision });
   } catch (error) {
-    console.error("Error fetching subsection:", error);
+    console.error("Error fetching revision:", error);
     return NextResponse.json(
-      { error: "Failed to fetch subsection" },
+      { error: "Failed to fetch revision" },
       { status: 500 },
     );
   }
 }
 
-// PUT /api/basel/subsections/[id]
+// PUT /api/basel/revisions/[id]
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -56,29 +57,29 @@ export async function PUT(
 
     const { id } = await params;
     const body = await request.json();
-    const { number, content, betterBankingNotes, order } = body;
+    const { title, content, revisionDate, order } = body;
 
-    const subsection = await prisma.baselSubsection.update({
+    const revision = await prisma.baselRevision.update({
       where: { id },
       data: {
-        ...(number && { number }),
+        ...(title && { title }),
         ...(content !== undefined && { content }),
-        ...(betterBankingNotes !== undefined && { betterBankingNotes }),
+        ...(revisionDate && { revisionDate: new Date(revisionDate) }),
         ...(order !== undefined && { order }),
       },
     });
 
-    return NextResponse.json({ subsection });
+    return NextResponse.json({ revision });
   } catch (error) {
-    console.error("Error updating subsection:", error);
+    console.error("Error updating revision:", error);
     return NextResponse.json(
-      { error: "Failed to update subsection" },
+      { error: "Failed to update revision" },
       { status: 500 },
     );
   }
 }
 
-// DELETE /api/basel/subsections/[id]
+// DELETE /api/basel/revisions/[id]
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -89,15 +90,15 @@ export async function DELETE(
 
     const { id } = await params;
 
-    await prisma.baselSubsection.delete({
+    await prisma.baselRevision.delete({
       where: { id },
     });
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting subsection:", error);
+    console.error("Error deleting revision:", error);
     return NextResponse.json(
-      { error: "Failed to delete subsection" },
+      { error: "Failed to delete revision" },
       { status: 500 },
     );
   }

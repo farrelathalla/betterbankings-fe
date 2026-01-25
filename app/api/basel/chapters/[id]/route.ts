@@ -5,7 +5,7 @@ import { requireAdmin } from "@/lib/admin";
 // GET /api/basel/chapters/[id] - Get single chapter with full content
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -23,6 +23,7 @@ export async function GET(
               include: {
                 footnotes: { orderBy: { number: "asc" } },
                 faqs: { orderBy: { order: "asc" } },
+                revisions: { orderBy: { order: "asc" } },
               },
             },
           },
@@ -39,7 +40,7 @@ export async function GET(
     console.error("Error fetching chapter:", error);
     return NextResponse.json(
       { error: "Failed to fetch chapter" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -47,7 +48,7 @@ export async function GET(
 // PUT /api/basel/chapters/[id] - Update chapter (admin only)
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const adminError = await requireAdmin();
@@ -76,7 +77,7 @@ export async function PUT(
     console.error("Error updating chapter:", error);
     return NextResponse.json(
       { error: "Failed to update chapter" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -84,7 +85,7 @@ export async function PUT(
 // DELETE /api/basel/chapters/[id] - Delete chapter (admin only)
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const adminError = await requireAdmin();
@@ -101,7 +102,7 @@ export async function DELETE(
     console.error("Error deleting chapter:", error);
     return NextResponse.json(
       { error: "Failed to delete chapter" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

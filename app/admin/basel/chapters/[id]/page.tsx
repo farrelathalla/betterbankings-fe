@@ -20,6 +20,8 @@ import {
   X,
   Upload,
   FileText,
+  History,
+  MessageSquare,
 } from "lucide-react";
 
 // Dynamically import SubsectionEditor to avoid SSR issues with TipTap
@@ -32,7 +34,7 @@ const SubsectionEditor = dynamic(
         <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
       </div>
     ),
-  }
+  },
 );
 
 // Dynamically import NewSubsectionEditor for creating new subsections
@@ -48,7 +50,7 @@ const NewSubsectionEditor = dynamic(
         <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
       </div>
     ),
-  }
+  },
 );
 
 // Dynamically import RichContentRenderer for displaying content
@@ -57,7 +59,7 @@ const RichContentRenderer = dynamic(
   {
     ssr: false,
     loading: () => <span className="text-gray-400">Loading...</span>,
-  }
+  },
 );
 
 interface Footnote {
@@ -73,13 +75,23 @@ interface FAQ {
   order: number;
 }
 
+interface Revision {
+  id: string;
+  title: string;
+  content: string;
+  revisionDate: string;
+  order: number;
+}
+
 interface Subsection {
   id: string;
   number: string;
   content: string;
+  betterBankingNotes: string | null;
   order: number;
   footnotes: Footnote[];
   faqs: FAQ[];
+  revisions: Revision[];
 }
 
 interface Section {
@@ -123,10 +135,10 @@ export default function AdminChapterPage({
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
   const [expandedSubsections, setExpandedSubsections] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
 
   // Edit chapter form
@@ -150,7 +162,7 @@ export default function AdminChapterPage({
 
   // Edit states
   const [editingSubsection, setEditingSubsection] = useState<string | null>(
-    null
+    null,
   );
   const [subsectionContent, setSubsectionContent] = useState("");
 
@@ -164,6 +176,16 @@ export default function AdminChapterPage({
   const [uploadingPDF, setUploadingPDF] = useState(false);
   const [pdfName, setPdfName] = useState("");
   const [pdfFile, setPdfFile] = useState<File | null>(null);
+
+  // Revision/Notes forms
+  const [addingRevision, setAddingRevision] = useState<string | null>(null);
+  const [newRevision, setNewRevision] = useState({
+    title: "",
+    content: "",
+    revisionDate: "",
+  });
+  const [editingNotes, setEditingNotes] = useState<string | null>(null);
+  const [notesContent, setNotesContent] = useState("");
 
   useEffect(() => {
     if (!authLoading && (!user || user.role !== "admin")) {
@@ -372,6 +394,49 @@ export default function AdminChapterPage({
       fetchChapter();
     } catch (error) {
       console.error("Error deleting PDF:", error);
+    }
+  };
+
+  // Revision CRUD
+  const handleAddRevision = async (subsectionId: string) => {
+    if (!newRevision.title || !newRevision.content || !newRevision.revisionDate)
+      return;
+    try {
+      await fetch("/api/basel/revisions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...newRevision, subsectionId }),
+      });
+      setNewRevision({ title: "", content: "", revisionDate: "" });
+      setAddingRevision(null);
+      fetchChapter();
+    } catch (error) {
+      console.error("Error adding revision:", error);
+    }
+  };
+
+  const handleDeleteRevision = async (id: string) => {
+    if (!confirm("Delete this revision?")) return;
+    try {
+      await fetch(`/api/basel/revisions/${id}`, { method: "DELETE" });
+      fetchChapter();
+    } catch (error) {
+      console.error("Error deleting revision:", error);
+    }
+  };
+
+  // BetterBanking Notes CRUD
+  const handleSaveNotes = async (subsectionId: string) => {
+    try {
+      await fetch(`/api/basel/subsections/${subsectionId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ betterBankingNotes: notesContent }),
+      });
+      setEditingNotes(null);
+      fetchChapter();
+    } catch (error) {
+      console.error("Error saving notes:", error);
     }
   };
 
@@ -692,7 +757,7 @@ export default function AdminChapterPage({
                             } catch (error) {
                               console.error(
                                 "Error creating subsection:",
-                                error
+                                error,
                               );
                             }
                           }}
@@ -753,6 +818,25 @@ export default function AdminChapterPage({
                                     +FAQ
                                   </button>
                                   <button
+                                    onClick={() => {
+                                      setEditingNotes(sub.id);
+                                      setNotesContent(
+                                        sub.betterBankingNotes || "",
+                                      );
+                                    }}
+                                    className="text-xs px-2 py-1 text-gray-600 hover:text-green-600 flex items-center gap-1"
+                                  >
+                                    <MessageSquare className="w-3 h-3" />
+                                    Notes
+                                  </button>
+                                  <button
+                                    onClick={() => setAddingRevision(sub.id)}
+                                    className="text-xs px-2 py-1 text-gray-600 hover:text-purple-600 flex items-center gap-1"
+                                  >
+                                    <History className="w-3 h-3" />
+                                    +Rev
+                                  </button>
+                                  <button
                                     onClick={() =>
                                       handleDeleteSubsection(sub.id)
                                     }
@@ -780,14 +864,14 @@ export default function AdminChapterPage({
                                                   "application/json",
                                               },
                                               body: JSON.stringify({ content }),
-                                            }
+                                            },
                                           );
                                           setEditingSubsection(null);
                                           fetchChapter();
                                         } catch (error) {
                                           console.error(
                                             "Error saving subsection:",
-                                            error
+                                            error,
                                           );
                                         }
                                       }}
@@ -961,6 +1045,160 @@ export default function AdminChapterPage({
                                         </button>
                                         <button
                                           onClick={() => setAddingFAQ(null)}
+                                          className="px-2 py-1 border rounded text-xs"
+                                        >
+                                          Cancel
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* BetterBanking Notes Section */}
+                                  {editingNotes === sub.id && (
+                                    <div className="mt-3 pt-3 border-t border-gray-200 bg-green-50 p-3 rounded">
+                                      <p className="text-xs font-semibold text-green-700 mb-2 flex items-center gap-1">
+                                        <MessageSquare className="w-3 h-3" />
+                                        BetterBanking Notes
+                                      </p>
+                                      <textarea
+                                        value={notesContent}
+                                        onChange={(e) =>
+                                          setNotesContent(e.target.value)
+                                        }
+                                        className="w-full px-2 py-1 border rounded text-xs mb-2"
+                                        placeholder="Add summary notes for this subsection..."
+                                        rows={4}
+                                      />
+                                      <div className="flex gap-2">
+                                        <button
+                                          onClick={() =>
+                                            handleSaveNotes(sub.id)
+                                          }
+                                          className="px-2 py-1 bg-green-600 text-white rounded text-xs"
+                                        >
+                                          Save Notes
+                                        </button>
+                                        <button
+                                          onClick={() => setEditingNotes(null)}
+                                          className="px-2 py-1 border rounded text-xs"
+                                        >
+                                          Cancel
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* Show existing notes */}
+                                  {sub.betterBankingNotes &&
+                                    editingNotes !== sub.id && (
+                                      <div className="mt-3 pt-3 border-t border-gray-200">
+                                        <p className="text-xs font-semibold text-green-700 mb-2 flex items-center gap-1">
+                                          <MessageSquare className="w-3 h-3" />
+                                          BetterBanking Notes
+                                        </p>
+                                        <p className="text-xs text-gray-600 bg-green-50 p-2 rounded">
+                                          {sub.betterBankingNotes}
+                                        </p>
+                                      </div>
+                                    )}
+
+                                  {/* Previous Revisions Section */}
+                                  {sub.revisions &&
+                                    sub.revisions.length > 0 && (
+                                      <div className="mt-3 pt-3 border-t border-gray-200">
+                                        <p className="text-xs font-semibold text-purple-700 mb-2 flex items-center gap-1">
+                                          <History className="w-3 h-3" />
+                                          Previous Revisions (
+                                          {sub.revisions.length})
+                                        </p>
+                                        {sub.revisions.map((rev) => (
+                                          <div
+                                            key={rev.id}
+                                            className="text-xs text-gray-600 mb-2 bg-purple-50 p-2 rounded"
+                                          >
+                                            <div className="flex justify-between items-start">
+                                              <div>
+                                                <p className="font-semibold text-purple-800">
+                                                  {rev.title}
+                                                </p>
+                                                <p className="text-gray-500">
+                                                  {new Date(
+                                                    rev.revisionDate,
+                                                  ).toLocaleDateString()}
+                                                </p>
+                                              </div>
+                                              <button
+                                                onClick={() =>
+                                                  handleDeleteRevision(rev.id)
+                                                }
+                                                className="text-red-400 hover:text-red-600"
+                                              >
+                                                <X className="w-3 h-3" />
+                                              </button>
+                                            </div>
+                                            <p className="mt-1 text-gray-600 line-clamp-2">
+                                              {rev.content.substring(0, 100)}...
+                                            </p>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    )}
+
+                                  {/* Add Revision Form */}
+                                  {addingRevision === sub.id && (
+                                    <div className="mt-3 pt-3 border-t border-gray-200 bg-purple-50 p-3 rounded">
+                                      <p className="text-xs font-semibold text-purple-700 mb-2 flex items-center gap-1">
+                                        <History className="w-3 h-3" />
+                                        Add Previous Revision
+                                      </p>
+                                      <input
+                                        type="text"
+                                        value={newRevision.title}
+                                        onChange={(e) =>
+                                          setNewRevision({
+                                            ...newRevision,
+                                            title: e.target.value,
+                                          })
+                                        }
+                                        className="w-full px-2 py-1 border rounded text-xs mb-2"
+                                        placeholder="Revision title (e.g., Perubahan 1)..."
+                                      />
+                                      <input
+                                        type="date"
+                                        value={newRevision.revisionDate}
+                                        onChange={(e) =>
+                                          setNewRevision({
+                                            ...newRevision,
+                                            revisionDate: e.target.value,
+                                          })
+                                        }
+                                        className="w-full px-2 py-1 border rounded text-xs mb-2"
+                                      />
+                                      <textarea
+                                        value={newRevision.content}
+                                        onChange={(e) =>
+                                          setNewRevision({
+                                            ...newRevision,
+                                            content: e.target.value,
+                                          })
+                                        }
+                                        className="w-full px-2 py-1 border rounded text-xs mb-2"
+                                        placeholder="Previous content..."
+                                        rows={4}
+                                      />
+                                      <div className="flex gap-2">
+                                        <button
+                                          onClick={() =>
+                                            handleAddRevision(sub.id)
+                                          }
+                                          className="px-2 py-1 bg-purple-600 text-white rounded text-xs"
+                                        >
+                                          Add Revision
+                                        </button>
+                                        <button
+                                          onClick={() =>
+                                            setAddingRevision(null)
+                                          }
                                           className="px-2 py-1 border rounded text-xs"
                                         >
                                           Cancel

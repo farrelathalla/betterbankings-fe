@@ -1,0 +1,1062 @@
+=== ORIGINAL ===
+BAB II MODAL
+
+Bagian Kesatu Umum
+
+Pasal 9
+(1) Modal bagi Bank yang berkantor pusat di Indonesia terdiri atas:
+a. modal inti (Tier 1) yang meliputi:
+1. modal inti utama (Common Equity Tier 1);
+2. modal inti tambahan (Additional Tier 1); dan
+b. modal pelengkap (Tier 2).
+(2) Modal sebagaimana dimaksud pada ayat (1) wajib memperhitungkan faktor-faktor yang menjadi pengurang modal sebagaimana dimaksud dalam Pasal 17 dan Pasal 22.
+(3) Dalam perhitungan modal secara konsolidasi, komponen modal Perusahaan Anak yang dapat diperhitungkan sebagai modal inti utama, modal inti tambahan, dan modal pelengkap harus memenuhi persyaratan yang berlaku untuk masing-masing komponen modal sebagaimana diterapkan bagi Bank secara individu.
+(4) Dalam perhitungan modal secara konsolidasi sebagaimana dimaksud dalam ayat (3) untuk modal inti tambahan dan modal pelengkap yang diterbitkan oleh Perusahaan Anak bukan Bank harus:
+a. memenuhi persyaratan sebagaimana dimaksud pada ayat (3); dan
+b. memiliki fitur untuk dikonversi menjadi saham biasa atau mekanisme write down, dalam hal
+
+
+
+
+Bank secara konsolidasi berpotensi terganggu kelangsungan usahanya (point of non-viability).
+(5) Fitur untuk dikonversi menjadi saham biasa atau mekanisme write down sebagaimana dimaksud pada ayat (4) huruf b dinyatakan secara jelas dalam dokumentasi penerbitan.
+
+Pasal 10
+(1) Modal bagi kantor cabang dari bank yang berkedudukan di luar negeri terdiri atas:
+a. dana usaha;
+b. laba ditahan dan laba tahun lalu setelah dikeluarkan pengaruh faktor-faktor sebagaimana dimaksud dalam Pasal 14 ayat (2);
+c. laba tahun berjalan setelah dikeluarkan pengaruh faktor-faktor sebagaimana dimaksud dalam Pasal 14 ayat (2);
+d. cadangan umum;
+e. saldo surplus revaluasi aset tetap;
+f. pendapatan komprehensif lainnya berupa potensi keuntungan yang berasal dari peningkatan nilai wajar aset keuangan yang diklasifikasikan dalam kelompok tersedia untuk dijual;
+g. cadangan tujuan; dan
+h. cadangan umum Penyisihan Penghapusan Aset (PPA) atas aset produktif dengan perhitungan sebagaimana dimaksud dalam Pasal 20 ayat (1) huruf c.
+(2) Modal bagi kantor cabang dari bank yang berkedudukan di luar negeri sebagaimana dimaksud pada ayat (1) wajib memperhitungkan faktor-faktor yang menjadi pengurang modal sebagaimana diatur dalam Pasal 14 ayat (1) huruf b, Pasal 17, dan Pasal 22.
+(3) Perhitungan dana usaha sebagai komponen modal sebagaimana dimaksud pada ayat (1) huruf a dilakukan dalam hal:
+
+
+
+
+a. posisi dana usaha yang sebenarnya (actual dana usaha) lebih besar dari dana usaha yang dinyatakan (declared dana usaha), yang diperhitungkan adalah dana usaha yang dinyatakan;
+b. posisi dana usaha yang sebenarnya (actual dana usaha) lebih kecil dari dana usaha yang dinyatakan (declared dana usaha), yang diperhitungkan adalah dana usaha yang sebenarnya;
+c. posisi dana usaha yang sebenarnya negatif, menjadi faktor pengurang komponen modal sebagaimana dimaksud pada ayat (1).
+
+Bagian Kedua Modal Inti
+
+Pasal 11
+(1) Modal inti sebagaimana dimaksud dalam Pasal 9 ayat (1) huruf a terdiri atas:
+a. modal inti utama (Common Equity Tier 1) yang mencakup:
+1. modal disetor;
+2. cadangan tambahan modal (disclosed reserve); dan
+b. modal inti tambahan (Additional Tier 1).
+(2) Bank wajib menyediakan modal inti paling rendah sebesar 6% (enam persen) dari ATMR baik secara individu maupun secara konsolidasi dengan Perusahaan Anak.
+(3) Bank wajib menyediakan modal inti utama paling rendah sebesar 4,5% (empat koma lima persen) dari ATMR baik secara individu maupun secara konsolidasi dengan Perusahaan Anak.
+
+
+
+
+Pasal 12
+Instrumen modal disetor sebagaimana dimaksud dalam Pasal 11 ayat (1) huruf a angka 1 wajib memenuhi persyaratan:
+a. diterbitkan dan telah dibayar penuh;
+b. bersifat subordinasi terhadap komponen modal lain;
+c. bersifat permanen;
+d. tersedia	untuk	menyerap	kerugian	yang	terjadi sebelum likuidasi maupun pada saat likuidasi;
+e. perolehan imbal hasil tidak dapat dipastikan dan tidak dapat diakumulasikan antar periode;
+f. tidak	diproteksi	maupun	dijamin	oleh	Bank	atau Perusahaan Anak;
+g. memiliki karakteristik pembayaran dividen atau imbal hasil:
+1. berasal dari saldo laba dan/atau laba tahun berjalan;
+2. tidak memiliki nilai yang pasti dan tidak terkait dengan nilai yang dibayarkan atas instrumen modal;
+3. tidak memiliki fitur preferensi; dan
+h. sumber pendanaan tidak berasal dari Bank penerbit baik secara langsung atau tidak langsung.
+
+Pasal 13
+Pembelian kembali saham (treasury stock) yang telah diakui sebagai komponen modal disetor, wajib memenuhi persyaratan:
+a. setelah jangka waktu 5 (lima) tahun sejak penerbitan;
+b. untuk tujuan tertentu;
+c. dilakukan sesuai peraturan perundang-undangan;
+d. telah memperoleh persetujuan Otoritas Jasa Keuangan; dan
+e. tidak menyebabkan penurunan modal di bawah persyaratan minimum sebagaimana dimaksud dalam Pasal 2, Pasal 3, dan Pasal 7.
+
+
+
+
+Pasal 14
+(1) Cadangan tambahan modal (disclosed reserve) sebagaimana dimaksud dalam Pasal 11 ayat (1) huruf a angka 2 terdiri atas:
+a. faktor penambah, yaitu:
+1. agio yang berasal dari penerbitan instrumen yang tergolong sebagai modal inti utama (Common Equity Tier 1);
+2. modal sumbangan;
+3. cadangan umum;
+4. laba tahun-tahun lalu;
+5. laba tahun berjalan;
+6. selisih lebih penjabaran laporan keuangan;
+7. dana setoran modal, yang memenuhi persyaratan:
+a) telah disetor penuh untuk tujuan penambahan modal namun belum didukung dengan kelengkapan persyaratan untuk dapat digolongkan sebagai modal disetor seperti pelaksanaan rapat umum pemegang saham maupun pengesahan anggaran dasar dari instansi yang berwenang;
+b) ditempatkan pada rekening khusus (escrow account) yang tidak diberikan imbal hasil;
+c) tidak boleh ditarik kembali oleh pemegang saham atau calon pemegang saham dan tersedia untuk menyerap kerugian; dan
+d) penggunaan dana harus dengan persetujuan Otoritas Jasa Keuangan;
+8. waran yang diterbitkan sebagai insentif kepada pemegang saham Bank yang diakui sebesar 50% (lima puluh persen) dari nilai wajar dan harus memenuhi persyaratan:
+
+
+
+
+a) instrumen yang mendasari adalah saham biasa;
+b) tidak dapat dikonversi ke dalam bentuk selain saham; dan
+c) nilai yang diperhitungkan adalah nilai wajar dari waran pada tanggal penerbitannya;
+9. opsi saham (stock option) yang diterbitkan melalui program kompensasi pegawai atau manajemen berbasis saham (employee atau management stock option) yang diakui sebesar 50% (lima puluh persen), dengan memenuhi persyaratan:
+a) instrumen yang mendasari adalah saham biasa;
+b) tidak dapat dikonversi ke dalam bentuk selain saham; dan
+c) nilai yang diperhitungkan adalah nilai wajar dari stock option pada tanggal pemberian kompensasi;
+10. pendapatan komprehensif lainnya berupa potensi keuntungan yang berasal dari peningkatan nilai wajar aset keuangan yang dikategorikan sebagai kelompok tersedia untuk dijual; dan
+11. saldo surplus revaluasi aset tetap;
+b. faktor pengurang, yaitu:
+1. disagio yang berasal dari penerbitan instrumen yang tergolong sebagai modal inti utama (Common Equity Tier 1);
+2. rugi tahun-tahun lalu;
+3. rugi tahun berjalan;
+4. selisih kurang penjabaran laporan keuangan;
+5. pendapatan komprehensif lainnya berupa:
+a) potensi kerugian yang berasal dari penurunan nilai wajar aset keuangan
+
+
+
+
+yang dikategorikan sebagai kelompok tersedia untuk dijual; dan
+b) kerugian atas pengukuran kembali atas program pensiun manfaat pasti;
+6. selisih kurang antara PPA atas aset produktif dan Cadangan Kerugian Penurunan Nilai (CKPN) atas aset produktif;
+7. selisih kurang antara jumlah penyesuaian terhadap hasil valuasi dari instrumen keuangan dalam Trading Book dan jumlah penyesuaian berdasarkan standar akuntansi keuangan; dan
+8. PPA non-produktif.
+(2) Dalam perhitungan laba rugi tahun-tahun lalu dan/atau tahun berjalan sebagaimana dimaksud pada ayat (1) huruf a angka 4 dan angka 5 harus dikeluarkan dari pengaruh faktor:
+a. peningkatan atau penurunan nilai wajar atas kewajiban keuangan; dan/atau
+b. keuntungan atas penjualan aset dalam transaksi sekuritisasi (gain on sale).
+
+Pasal 15
+(1) Instrumen modal inti tambahan sebagaimana dimaksud dalam Pasal 11 ayat (1) huruf b wajib memenuhi persyaratan:
+a. diterbitkan dan telah dibayar penuh;
+b. tidak memiliki jangka waktu dan tidak terdapat persyaratan yang mewajibkan pelunasan oleh Bank di masa mendatang;
+c. pembelian kembali atau pembayaran pokok instrumen harus mendapat persetujuan pengawas;
+d. tidak memiliki fitur step-up;
+e. memiliki fitur untuk dikonversi menjadi saham biasa atau mekanisme write down dalam hal Bank  berpotensi  terganggu  kelangsungan
+
+
+
+
+usahanya (point of non-viability) yang dinyatakan secara jelas dalam dokumentasi penerbitan atau perjanjian;
+f. bersifat subordinasi pada saat likuidasi, yang secara jelas dinyatakan dalam dokumentasi penerbitan atau perjanjian;
+g. perolehan imbal hasil tidak dapat dipastikan baik jumlah maupun waktu dan tidak dapat diakumulasikan antar periode;
+h. tidak diproteksi maupun dijamin oleh Bank atau Perusahaan Anak;
+i. tidak memiliki fitur pembayaran dividen atau imbal hasil yang sensitif terhadap Risiko Kredit;
+j. dalam hal disertai dengan fitur opsi beli (call option), harus memenuhi persyaratan:
+1. hanya dapat dieksekusi paling cepat 5 (lima) tahun setelah instrumen modal diterbitkan; dan
+2. dokumentasi penerbitan harus menyatakan bahwa opsi hanya dapat dieksekusi atas persetujuan Otoritas Jasa Keuangan;
+k. tidak dapat dibeli oleh Bank penerbit dan/atau Perusahaan Anak;
+l. sumber pendanaan tidak berasal dari Bank penerbit baik secara langsung maupun tidak langsung;
+m. tidak memiliki fitur yang menghambat proses penambahan modal pada masa mendatang; dan
+n. telah memperoleh persetujuan Otoritas Jasa Keuangan untuk diperhitungkan sebagai komponen modal.
+(2) Eksekusi opsi beli (call option) sebagaimana dimaksud pada ayat (1) huruf j angka 1 dan angka 2 hanya dapat dilakukan oleh Bank sepanjang:
+a. telah memperoleh persetujuan Otoritas Jasa Keuangan;
+
+
+
+
+b. tidak menyebabkan penurunan modal dibawah persyaratan minimum sebagaimana dimaksud dalam Pasal 2, Pasal 3, dan Pasal 7; dan
+c. digantikan dengan instrumen modal yang mempunyai kualitas sama atau lebih baik.
+
+Pasal 16
+(1) Dalam perhitungan rasio KPMM secara konsolidasi, kepentingan non-pengendali (non-controlling interest) wajib diperhitungkan sebagai modal inti utama kecuali terdapat bagian dari kepentingan non-pengendali yang tidak sesuai dengan persyaratan komponen modal inti utama.
+(2) Kepentingan non-pengendali sebagaimana dimaksud pada ayat (1) dapat diperhitungkan dalam modal inti utama secara konsolidasi apabila kepemilikan Bank pada Perusahaan Anak lebih dari 50% (lima puluh persen) dan memenuhi persyaratan:
+a. Perusahaan Anak berupa Bank;
+b. terdapat keterkaitan atau afiliasi antara pemegang saham non-pengendali pada Perusahaan Anak dengan Bank; dan
+c. terdapat komitmen dari pemegang saham non-pengendali pada Perusahaan Anak untuk mendukung modal kelompok usaha Bank yang dinyatakan dalam surat pernyataan atau keputusan rapat umum pemegang saham Perusahaan Anak.
+
+Pasal 17
+(1) Modal inti utama sebagaimana dimaksud dalam Pasal 9 ayat (1) huruf a angka 1 diperhitungkan dengan faktor pengurang berupa:
+a. perhitungan pajak tangguhan (deferred tax);
+b. goodwill;
+c. aset tidak berwujud;
+d. seluruh penyertaan Bank yang meliputi:
+
+
+
+
+1. penyertaan Bank kepada Perusahaan Anak kecuali penyertaan modal sementara Bank kepada Perusahaan Anak dalam rangka restrukturisasi kredit;
+2. penyertaan kepada perusahaan atau badan hukum dengan kepemilikan Bank lebih dari 20% (dua puluh persen) sampai dengan 50% (lima puluh persen) namun Bank tidak memiliki Pengendalian; dan
+3. penyertaan kepada perusahaan asuransi;
+e. kekurangan modal (shortfall) dari pemenuhan tingkat rasio solvabilitas minimum (Risk Based Capital atau RBC minimum) pada perusahaan asuransi yang dimiliki dan dikendalikan oleh Bank;
+f. eksposur sekuritisasi;
+g. faktor pengurang modal inti utama lainnya sebagaimana dimaksud dalam Pasal 22.
+(2) Faktor pengurang modal sebagaimana dimaksud pada ayat (1) huruf d dan huruf e tidak diperhitungkan lagi dalam ATMR untuk Risiko Kredit.
+
+  Bagian Ketiga Modal Pelengkap
+
+Pasal 18
+Modal pelengkap sebagaimana dimaksud dalam Pasal 9 ayat (1) huruf b hanya dapat diperhitungkan paling tinggi sebesar 100% (seratus persen) dari modal inti sebagaimana dimaksud dalam Pasal 9 ayat (1) huruf a.
+
+Pasal 19
+(1) Instrumen modal pelengkap sebagaimana dimaksud dalam Pasal 9 ayat (1) huruf b wajib memenuhi persyaratan:
+a. diterbitkan dan telah dibayar penuh;
+
+
+
+
+b. memiliki jangka waktu 5 (lima) tahun atau lebih dan hanya dapat dilunasi setelah memperoleh persetujuan Otoritas Jasa Keuangan;
+c. memiliki fitur untuk dikonversi menjadi saham biasa atau mekanisme write down dalam hal Bank berpotensi terganggu kelangsungan usahanya (point of non-viability), yang dinyatakan secara jelas dalam dokumentasi penerbitan atau perjanjian;
+d. bersifat subordinasi yang dinyatakan dalam dokumentasi penerbitan atau perjanjian;
+e. pembayaran pokok dan/atau imbal hasil ditangguhkan dan diakumulasikan antar periode (cummulative) apabila pembayaran dapat menyebabkan rasio KPMM secara individu atau secara konsolidasi tidak memenuhi ketentuan sebagaimana dimaksud dalam Pasal 2, Pasal 3, dan Pasal 7;
+f. tidak diproteksi maupun dijamin oleh Bank atau Perusahaan Anak;
+g. tidak memiliki fitur pembayaran dividen atau imbal hasil yang sensitif terhadap Risiko Kredit;
+h. tidak memiliki fitur step-up;
+i. apabila disertai dengan fitur opsi beli (call option), harus memenuhi persyaratan:
+1. hanya dapat dieksekusi paling cepat 5 (lima) tahun setelah instrumen modal diterbitkan; dan
+2. dokumentasi penerbitan harus menyatakan bahwa opsi hanya dapat dieksekusi atas persetujuan Otoritas Jasa Keuangan;
+j. tidak memiliki persyaratan percepatan pembayaran bunga atau pokok yang dinyatakan dalam dokumentasi penerbitan atau perjanjian;
+k. tidak dapat dibeli oleh Bank penerbit dan/atau Perusahaan Anak;
+
+
+
+
+l. sumber pendanaan tidak berasal dari Bank penerbit baik secara langsung maupun tidak langsung; dan
+m. telah memperoleh persetujuan Otoritas Jasa Keuangan untuk diperhitungkan sebagai komponen modal.
+(2) Eksekusi opsi beli (call option) sebagaimana dimaksud pada ayat (1) huruf i angka 1 dan angka 2 hanya dapat dilakukan oleh Bank sepanjang:
+a. telah memperoleh persetujuan Otoritas Jasa Keuangan; dan
+b. tidak menyebabkan penurunan modal di bawah persyaratan minimum sebagaimana dimaksud dalam Pasal 2, Pasal 3, dan Pasal 7 atau digantikan dengan instrumen modal yang mempunyai:
+1. kualitas sama atau lebih baik; dan
+2. dalam jumlah yang sama atau jumlah yang berbeda sepanjang tidak melebihi batasan modal pelengkap sebagaimana dimaksud dalam Pasal 18.
+(3) Jumlah yang dapat diperhitungkan sebagai modal pelengkap adalah jumlah modal pelengkap dikurangi amortisasi yang dihitung dengan menggunakan metode garis lurus.
+(4) Amortisasi sebagaimana dimaksud pada ayat (3) dilakukan untuk sisa jangka waktu instrumen 5 (lima) tahun terakhir.
+(5) Dalam hal terdapat opsi beli (call option), jangka waktu sampai Bank dapat mengeksekusi opsi beli (call option) merupakan sisa jangka waktu instrumen.
+
+Pasal 20
+(1) Modal pelengkap meliputi:
+a. instrumen modal dalam bentuk saham atau dalam  bentuk  lainnya  yang  memenuhi
+
+
+
+
+persyaratan sebagaimana dimaksud dalam Pasal 19;
+b. agio atau disagio yang berasal dari penerbitan instrumen modal yang tergolong sebagai modal pelengkap;
+c. cadangan umum PPA atas aset produktif yang wajib dihitung dengan jumlah paling tinggi sebesar 1,25% (satu koma dua puluh lima persen) dari ATMR untuk Risiko Kredit; dan
+d. cadangan tujuan.
+(2) Selisih lebih cadangan umum yang wajib dihitung dari batasan sebagaimana dimaksud pada ayat (1) huruf c dapat diperhitungkan sebagai faktor pengurang perhitungan ATMR untuk Risiko Kredit.
+
+Pasal 21
+Bagian dari modal pelengkap yang telah dibentuk cadangan pelunasan (sinking fund) tidak diperhitungkan sebagai komponen modal pelengkap, dalam hal Bank:
+a. telah menetapkan untuk menyisihkan dan mengelola dana cadangan pelunasan (sinking fund) secara khusus; dan
+b. telah mempublikasikan pembentukan cadangan pelunasan (sinking fund), termasuk dalam Rapat Umum Pemegang Obligasi (RUPO).
+
+Pasal 22
+(1) Faktor-faktor yang menjadi pengurang modal sebagaimana dimaksud dalam Pasal 9 ayat (2) dan Pasal 10 ayat (2) mencakup:
+a. pembelian kembali instrumen modal yang telah diakui sebagai komponen permodalan Bank; dan
+b. penempatan dana pada instrumen utang Bank lain yang diakui sebagai komponen modal oleh Bank lain (Bank penerbit).
+
+
+
+
+(2) Seluruh faktor pengurang modal sebagaimana dimaksud pada ayat (1) huruf b tidak diperhitungkan lagi dalam ATMR untuk Risiko Kredit.
+
+Pasal 23
+Dalam perhitungan KPMM secara konsolidasi sebagaimana dimaksud dalam Pasal 9 ayat (3), Bank wajib menyampaikan data pendukung untuk komponen modal inti tambahan dan modal pelengkap, yang menunjukkan bahwa komponen modal Perusahaan Anak yang diperhitungkan telah memenuhi seluruh persyaratan sebagai komponen modal.
+
+Bagian Keempat
+Capital Equivalency Maintained Assets (CEMA)
+
+Pasal 24
+(1) Kantor cabang dari bank yang berkedudukan di luar negeri wajib memenuhi CEMA minimum.
+(2) CEMA minimum sebagaimana dimaksud pada ayat (1) ditetapkan sebesar 8% (delapan persen) dari total kewajiban kantor cabang dari bank yang berkedudukan di luar negeri pada setiap bulan dan paling sedikit sebesar Rp1.000.000.000.000,00 (satu triliun rupiah).
+(3) Pemenuhan CEMA minimum sebagaimana dimaksud pada ayat (2) dilakukan dengan tahapan:
+a. sampai dengan posisi bulan November 2017, CEMA minimum ditetapkan sebesar 8% (delapan persen) dari total kewajiban kantor cabang dari bank yang berkedudukan di luar negeri pada setiap bulan;
+b. mulai posisi bulan Desember 2017, CEMA minimum ditetapkan 8% (delapan persen) dari total kewajiban kantor cabang dari bank yang berkedudukan di luar negeri pada setiap bulan
+
+
+
+
+dan	paling	sedikit	sebesar Rp1.000.000.000.000,00 (satu triliun rupiah).
+
+Pasal 25
+(1) CEMA minimum sebagaimana dimaksud dalam Pasal 24 ayat (2) wajib dipenuhi dari dana usaha sebagaimana dimaksud dalam Pasal 10 ayat (1) huruf a.
+(2) Dana usaha yang dimiliki kantor cabang dari bank yang berkedudukan di luar negeri harus memenuhi KPMM sesuai profil risiko dan CEMA minimum.
+(3) CEMA minimum sebagaimana dimaksud dalam Pasal 24 ayat (2) dihitung setiap bulan.
+(4) CEMA minimum sebagaimana dimaksud dalam Pasal 24 ayat (2) wajib dipenuhi dan ditempatkan paling lambat tanggal 6 bulan berikutnya.
+
+Pasal 26
+(1) Kantor cabang dari bank yang berkedudukan di luar negeri wajib menetapkan aset keuangan yang digunakan untuk memenuhi CEMA minimum.
+(2) Aset keuangan yang telah ditetapkan untuk memenuhi CEMA minimum dilarang dipertukarkan dan diubah dalam periode pemenuhan CEMA minimum.
+(3) Aset keuangan sebagaimana dimaksud pada ayat (1) yang memenuhi syarat dan dapat diperhitungkan sebagai CEMA adalah:
+a. surat berharga yang diterbitkan oleh Pemerintah Republik Indonesia dan dimaksudkan untuk dimiliki hingga jatuh tempo;
+b. surat berharga yang diterbitkan oleh Bank lain yang berbadan hukum Indonesia dan memenuhi kriteria:
+1. tidak bersifat ekuitas;
+2. memiliki peringkat investasi; dan
+3. tidak	dimaksudkan	untuk	tujuan diperdagangkan (trading); dan/atau
+
+
+
+
+c. surat berharga yang diterbitkan oleh korporasi berbadan hukum Indonesia dan memenuhi kriteria:
+1. tidak bersifat ekuitas;
+2. memiliki peringkat surat berharga paling kurang A+ atau yang setara;
+3. tidak dimaksudkan untuk tujuan diperdagangkan (trading); dan
+4. porsi surat berharga korporasi paling banyak sebesar 20% (dua puluh persen) dari total CEMA minimum.
+(4) Aset keuangan yang digunakan sebagai CEMA harus bebas dari klaim pihak manapun.
+(5) Perhitungan aset keuangan yang digunakan untuk memenuhi CEMA minimum:
+a. untuk aset keuangan yang telah dimiliki oleh Bank, dihitung berdasarkan nilai tercatat aset keuangan pada posisi akhir bulan laporan;
+b. untuk aset keuangan yang dibeli setelah posisi akhir bulan laporan, dihitung berdasarkan nilai tercatat aset keuangan pada posisi pembelian aset keuangan.
+
+=== REVISION 1 ===
+6. Ketentuan Pasal 10 diubah sehingga berbunyi sebagai berikut:
+
+Pasal 10
+(1) Modal bagi kantor cabang dari bank yang berkedudukan di luar negeri terdiri atas:
+a. dana usaha;
+b. laba ditahan dan laba tahun lalu setelah dikeluarkan	pengaruh	faktor-faktor sebagaimana dimaksud dalam Pasal 14 ayat (2);
+c. laba tahun berjalan setelah dikeluarkan pengaruh faktor-faktor sebagaimana dimaksud dalam Pasal 14 ayat (2);
+d. cadangan umum;
+e. saldo surplus revaluasi aset tetap;
+f. pendapatan komprehensif lainnya berupa potensi keuntungan yang berasal dari peningkatan nilai wajar aset keuangan yang diklasifikasikan dalam kelompok tersedia untuk dijual;
+g. cadangan umum Penyisihan Penghapusan Aset (PPA) atas aset produktif dengan perhitungan sebagaimana dimaksud dalam Pasal 20 ayat (1) huruf c; dan
+h. lainnya berdasarkan persetujuan Otoritas Jasa Keuangan.
+
+
+(2) Modal bagi kantor cabang dari bank yang berkedudukan di luar negeri sebagaimana dimaksud pada ayat (1) wajib memperhitungkan faktor-faktor yang menjadi pengurang modal sebagaimana diatur dalam Pasal 14 ayat (1) huruf b, Pasal 17, dan Pasal 22.
+(3) Perhitungan dana usaha sebagai komponen modal sebagaimana dimaksud pada ayat (1) huruf a dilakukan dalam hal:
+a. posisi dana usaha yang sebenarnya (actual dana usaha) lebih besar dari dana usaha yang dinyatakan (declared dana usaha), yang diperhitungkan adalah dana usaha yang dinyatakan (declared dana usaha);
+b. posisi dana usaha yang sebenarnya (actual dana usaha) lebih kecil dari dana usaha yang dinyatakan (declared dana usaha), yang diperhitungkan adalah dana usaha yang sebenarnya (actual dana usaha); atau
+c. posisi dana usaha yang sebenarnya negatif, menjadi faktor pengurang komponen modal sebagaimana dimaksud pada ayat (1).
+
+7. Ketentuan Pasal 12 diubah sehingga berbunyi sebagai berikut:
+
+Pasal 12
+Instrumen modal disetor sebagaimana dimaksud dalam Pasal 11 ayat (1) huruf a angka 1 wajib memenuhi persyaratan:
+a. diterbitkan dan telah dibayar penuh;
+b. bersifat subordinasi terhadap komponen modal lain;
+c. bersifat permanen;
+d. tidak dapat dibayar kembali oleh Bank, kecuali memenuhi kriteria pembelian kembali saham (treasury stock) atau pada saat likuidasi;
+
+
+e. tersedia	untuk	menyerap	kerugian	yang	terjadi sebelum likuidasi maupun pada saat likuidasi;
+f. perolehan imbal hasil tidak dapat dipastikan dan tidak dapat diakumulasikan antar periode;
+g. tidak diproteksi maupun dijamin oleh Bank atau Perusahaan Anak;
+h. tidak terdapat kesepakatan yang dapat meningkatkan senioritas instrumen secara legal atau ekonomis;
+i. memiliki	karakteristik	pembayaran	dividen	atau imbal hasil:
+1. hanya dapat dilakukan jika Bank telah memenuhi seluruh kewajiban legal dan kontraktual serta melakukan pembayaran atas imbal hasil instrumen modal lainnya;
+2. berasal dari saldo laba dan/atau laba tahun berjalan;
+3. tidak memiliki nilai yang pasti dan tidak terkait dengan nilai yang dibayarkan atas instrumen modal; dan
+4. tidak memiliki fitur preferensi;
+j. sumber pendanaan tidak berasal dari Bank penerbit baik secara langsung atau tidak langsung; dan
+k. diklasifikasikan sebagai ekuitas berdasarkan standar akuntansi keuangan.
+
+8. Ketentuan Pasal 13 diubah sehingga berbunyi sebagai berikut:
+
+Pasal 13
+Bank yang melakukan pembelian kembali saham (treasury stock) sebagaimana dimaksud dalam Pasal 12 huruf d yang telah diakui sebagai komponen modal disetor, wajib memenuhi persyaratan:
+a. setelah jangka waktu 5 (lima) tahun sejak penerbitan;
+b. untuk tujuan tertentu;
+c. dilakukan sesuai dengan ketentuan peraturan perundang-undangan;
+
+
+d. telah memperoleh persetujuan Otoritas Jasa Keuangan; dan
+e. tidak menyebabkan penurunan modal di bawah persyaratan minimum sebagaimana dimaksud dalam Pasal 2, Pasal 3, dan Pasal 7.
+
+9. Ketentuan Pasal 14 diubah sehingga berbunyi sebagai berikut:
+
+Pasal 14
+(1) Cadangan tambahan modal (disclosed reserve) sebagaimana dimaksud dalam Pasal 11 ayat (1) huruf a angka 2 terdiri atas:
+a. faktor penambah, yaitu:
+1. Pendapatan komprehensif lainnya berupa:
+a) selisih lebih penjabaran laporan keuangan;
+b) potensi keuntungan yang berasal dari peningkatan nilai wajar aset keuangan yang dikategorikan sebagai kelompok tersedia untuk dijual; dan
+c) saldo surplus revaluasi aset tetap;
+2. cadangan tambahan modal lainnya (other disclosed reserves) berupa:
+a) agio yang berasal dari penerbitan instrumen yang tergolong sebagai modal inti utama (Common Equity Tier 1);
+b) cadangan umum;
+c) laba tahun-tahun lalu;
+d) laba tahun berjalan;
+e) dana setoran modal, yang memenuhi persyaratan:
+1) telah disetor penuh untuk tujuan penambahan modal namun belum didukung  dengan  kelengkapan
+
+
+persyaratan untuk dapat digolongkan sebagai modal disetor seperti pelaksanaan rapat umum pemegang saham maupun pengesahan anggaran dasar dari instansi yang berwenang;
+2) ditempatkan pada rekening khusus (escrow account) yang tidak diberikan imbal hasil;
+3) tidak boleh ditarik kembali oleh pemegang saham atau calon pemegang saham dan tersedia untuk menyerap kerugian; dan
+4) penggunaan dana harus dengan persetujuan Otoritas Jasa Keuangan; dan
+f) lainnya berdasarkan persetujuan Otoritas Jasa Keuangan;
+b. faktor pengurang, yaitu:
+1. pendapatan komprehensif lainnya berupa:
+a) selisih kurang penjabaran laporan keuangan; dan
+b) potensi kerugian yang berasal dari penurunan nilai wajar aset keuangan yang dikategorikan sebagai kelompok tersedia untuk dijual;
+2. cadangan tambahan modal lainnya (other disclosed reserves) berupa:
+a) disagio yang berasal dari penerbitan instrumen yang tergolong sebagai modal inti utama (Common Equity Tier 1);
+b) rugi tahun-tahun lalu;
+c) rugi tahun berjalan;
+
+
+d) selisih kurang antara PPA atas aset produktif dan Cadangan Kerugian Penurunan Nilai (CKPN) atas aset produktif;
+e) selisih kurang antara jumlah penyesuaian terhadap hasil valuasi dari instrumen keuangan dalam Trading Book dan jumlah penyesuaian berdasarkan standar akuntansi keuangan;
+f) PPA non-produktif; dan
+g) lainnya berdasarkan persetujuan Otoritas Jasa Keuangan.
+(2) Dalam perhitungan laba rugi tahun-tahun lalu dan/atau tahun berjalan sebagaimana dimaksud pada ayat (1) huruf a angka 2 huruf c) dan huruf d) harus dikeluarkan dari pengaruh faktor:
+a. peningkatan atau penurunan nilai wajar atas kewajiban keuangan; dan/atau
+b. keuntungan atas penjualan aset dalam transaksi sekuritisasi (gain on sale).
+
+10. Ketentuan Pasal 15 diubah sehingga berbunyi sebagai berikut:
+
+Pasal 15
+(1) Instrumen modal inti tambahan sebagaimana dimaksud dalam Pasal 11 ayat (1) huruf b wajib memenuhi persyaratan:
+a. diterbitkan dan telah dibayar penuh;
+b. tidak memiliki jangka waktu dan tidak terdapat persyaratan yang mewajibkan pelunasan oleh Bank di masa mendatang;
+c. pembelian kembali atau pembayaran pokok instrumen harus mendapat persetujuan pengawas;
+d. tidak memiliki fitur step-up;
+
+
+e. memiliki fitur untuk dikonversi menjadi saham biasa atau dilakukan write down dalam hal Bank berpotensi terganggu kelangsungan usahanya (point of non-viability) yang dinyatakan secara jelas dalam dokumentasi penerbitan atau perjanjian;
+f. bersifat subordinasi pada saat likuidasi, yang secara jelas dinyatakan dalam dokumentasi penerbitan atau perjanjian;
+g. perolehan imbal hasil tidak dapat dipastikan baik jumlah maupun waktu dan tidak dapat diakumulasikan antar periode serta bank memiliki kewenangan penuh (full access) untuk membatalkan pembayaran imbal hasil pada saat timbul kewajiban pembayaran imbal hasil;
+h. tidak diproteksi maupun dijamin oleh Bank atau Perusahaan Anak;
+i. tidak terdapat kesepakatan yang dapat meningkatkan senioritas instrumen secara legal atau ekonomi;
+j. tidak memiliki fitur pembayaran dividen atau imbal hasil yang sensitif terhadap Risiko Kredit;
+k. dalam hal disertai dengan fitur opsi beli (call option), harus memenuhi persyaratan:
+1. hanya dapat dieksekusi paling cepat 5 (lima) tahun setelah instrumen modal diterbitkan;
+2. dokumentasi penerbitan harus menyatakan bahwa opsi hanya dapat dieksekusi atas persetujuan Otoritas Jasa Keuangan; dan
+3. Bank tidak memberikan ekspektasi akan membeli kembali, atau melakukan aktivitas lain yang dapat memberikan ekspektasi tersebut;
+l. tidak dapat dibeli oleh Bank penerbit dan/atau Perusahaan Anak;
+
+
+m. sumber pendanaan tidak berasal dari Bank penerbit baik secara langsung maupun tidak langsung;
+n. tidak memiliki fitur yang menghambat proses penambahan modal pada masa mendatang;
+o. dalam kondisi tertentu apabila dibutuhkan tambahan modal melalui penerbitan instrumen oleh entitas lain yang berada diluar cakupan konsolidasi maka dana hasil penerbitan harus segera diserahkan kepada Bank; dan
+p. telah memperoleh persetujuan Otoritas Jasa Keuangan untuk diperhitungkan sebagai komponen modal.
+(2) Bank hanya dapat melakukan eksekusi opsi beli (call option) sebagaimana dimaksud pada ayat (1) huruf k sepanjang:
+a. telah memperoleh persetujuan Otoritas Jasa Keuangan;
+b. kondisi rentabilitas Bank dalam keadaan yang baik;
+c. setelah eksekusi opsi beli (call option), permodalan Bank tetap berada di atas persyaratan minimum sebagaimana dimaksud dalam Pasal 2, Pasal 3, dan Pasal 7; dan
+d. digantikan dengan instrumen modal yang mempunyai kualitas sama atau lebih baik.
+
+11. Ketentuan Pasal 17 diubah sehingga berbunyi sebagai berikut:
+
+Pasal 17
+(1) Modal inti utama sebagaimana dimaksud dalam Pasal 9 ayat (1) huruf a angka 1 diperhitungkan dengan faktor pengurang berupa:
+a. pajak tangguhan (deferred tax);
+b. goodwill;
+c. seluruh aset tidak berwujud lainnya;
+
+
+d. seluruh penyertaan Bank yang meliputi:
+1. penyertaan Bank kepada Perusahaan Anak kecuali penyertaan modal sementara Bank kepada Perusahaan Anak dalam rangka restrukturisasi kredit;
+2. penyertaan kepada perusahaan atau badan hukum dengan kepemilikan Bank lebih dari 20% (dua puluh persen) sampai dengan 50% (lima puluh persen) namun Bank tidak memiliki Pengendalian; dan
+3. penyertaan kepada perusahaan asuransi;
+e. kekurangan modal (shortfall) dari pemenuhan tingkat rasio solvabilitas minimum (Risk Based Capital atau RBC minimum) pada perusahaan asuransi yang dimiliki dan dikendalikan oleh Bank;
+f. eksposur sekuritisasi; dan
+g. faktor pengurang modal inti utama lainnya sebagaimana dimaksud dalam Pasal 22.
+(2) Faktor pengurang modal sebagaimana dimaksud pada ayat (1) huruf a, huruf b, huruf c, huruf d, huruf e, dan huruf g tidak diperhitungkan dalam ATMR untuk Risiko Kredit.
+
+12. Ketentuan Pasal 19 diubah sehingga berbunyi sebagai berikut:
+
+Pasal 19
+(1) Instrumen modal pelengkap sebagaimana dimaksud dalam Pasal 9 ayat (1) huruf b wajib memenuhi persyaratan:
+a. diterbitkan dan telah dibayar penuh;
+b. memiliki jangka waktu 5 (lima) tahun atau lebih dan hanya dapat dilunasi setelah memperoleh persetujuan Otoritas Jasa Keuangan;
+
+
+c. memiliki fitur untuk dikonversi menjadi saham biasa atau dilakukan write down dalam hal Bank berpotensi terganggu kelangsungan usahanya (point of non-viability), yang dinyatakan secara jelas dalam dokumentasi penerbitan atau perjanjian;
+d. bersifat subordinasi yang dinyatakan dalam dokumentasi penerbitan atau perjanjian;
+e. pembayaran pokok dan/atau imbal hasil ditangguhkan dan diakumulasikan antar periode (cummulative) apabila pembayaran dapat menyebabkan rasio KPMM secara individu atau secara konsolidasi tidak memenuhi ketentuan sebagaimana dimaksud dalam Pasal 2, Pasal 3, dan Pasal 7;
+f. tidak diproteksi maupun dijamin oleh Bank atau Perusahaan Anak;
+g. tidak memiliki fitur pembayaran dividen atau imbal hasil yang sensitif terhadap Risiko Kredit;
+h. tidak memiliki fitur step-up;
+i. apabila disertai dengan fitur opsi beli (call option), harus memenuhi persyaratan:
+1. hanya dapat dieksekusi paling cepat 5 (lima) tahun setelah instrumen modal diterbitkan;
+2. dokumentasi penerbitan harus menyatakan bahwa opsi hanya dapat dieksekusi atas persetujuan Otoritas Jasa Keuangan; dan
+3. Bank tidak memberikan ekspektasi akan membeli kembali atau melakukan aktivitas lain yang dapat memberikan ekspektasi akan membeli kembali;
+j. tidak memiliki persyaratan percepatan pembayaran bunga atau pokok yang dinyatakan dalam dokumentasi penerbitan atau perjanjian;
+k. tidak dapat dibeli oleh Bank penerbit dan/atau Perusahaan Anak;
+
+
+l. sumber pendanaan tidak berasal dari Bank penerbit baik secara langsung maupun tidak langsung;
+m. dalam kondisi tertentu apabila dibutuhkan tambahan modal melalui penerbitan instrumen oleh entitas lain yang berada diluar cakupan konsolidasi maka dana hasil penerbitan harus segera diserahkan kepada Bank; dan
+n. telah memperoleh persetujuan Otoritas Jasa Keuangan untuk diperhitungkan sebagai komponen modal.
+(2) Bank hanya dapat melakukan eksekusi opsi beli (call option) sebagaimana dimaksud pada ayat (1) huruf i sepanjang:
+a. telah memperoleh persetujuan Otoritas Jasa Keuangan;
+b. kondisi rentabilitas Bank dalam keadaan yang baik; dan
+c. setelah eksekusi opsi beli (call option), permodalan Bank tetap berada di atas persyaratan minimum sebagaimana dimaksud dalam Pasal 2, Pasal 3, dan Pasal 7 atau digantikan dengan instrumen modal yang mempunyai:
+1. kualitas sama atau lebih baik; dan
+2. dalam jumlah yang sama atau jumlah yang berbeda sepanjang tidak melebihi batasan modal pelengkap sebagaimana dimaksud dalam Pasal 18.
+(3) Jumlah yang dapat diperhitungkan sebagai modal pelengkap adalah jumlah modal pelengkap dikurangi amortisasi yang dihitung dengan menggunakan metode garis lurus.
+(4) Amortisasi sebagaimana dimaksud pada ayat (3) dilakukan untuk sisa jangka waktu instrumen 5 (lima) tahun terakhir.
+
+
+(5) Dalam hal terdapat opsi beli (call option), jangka waktu sampai Bank dapat mengeksekusi opsi beli (call option) merupakan sisa jangka waktu instrumen.
+
+13. Ketentuan Pasal 20 diubah sehingga berbunyi sebagai berikut:
+
+Pasal 20
+(1) Modal pelengkap meliputi:
+a. instrumen modal dalam bentuk saham atau dalam bentuk lainnya yang memenuhi persyaratan sebagaimana dimaksud dalam Pasal 19;
+b. agio atau disagio yang berasal dari penerbitan instrumen modal yang tergolong sebagai modal pelengkap; dan
+c. cadangan umum PPA atas aset produktif yang wajib dihitung dengan jumlah paling tinggi sebesar 1,25% (satu koma dua puluh lima persen) dari ATMR untuk Risiko Kredit.
+(2) Selisih lebih cadangan umum yang wajib dihitung dari batasan sebagaimana dimaksud pada ayat (1) huruf c dapat diperhitungkan sebagai faktor pengurang perhitungan ATMR untuk Risiko Kredit.
+
+14. Ketentuan Pasal 22 diubah sehingga berbunyi sebagai berikut:
+
+Pasal 22
+(1) Faktor-faktor yang menjadi pengurang modal sebagaimana dimaksud dalam Pasal 9 ayat (2) dan Pasal 10 ayat (2) mencakup:
+a. pembelian kembali instrumen modal yang telah diakui sebagai komponen permodalan Bank;
+b. penempatan dana pada instrumen utang Bank lain yang diakui sebagai komponen modal oleh Bank lain (Bank penerbit); dan
+
+
+c. kepemilikan silang yang diperoleh berdasarkan peralihan karena hukum, hibah, atau hibah wasiat sebagaimana dimaksud dalam Undang-Undang mengenai Perseroan Terbatas sepanjang belum dialihkan kepada pihak lain.
+(2) Seluruh faktor pengurang modal sebagaimana dimaksud pada ayat (1) huruf b dan huruf c tidak diperhitungkan lagi dalam ATMR untuk Risiko Kredit.
+
+=== REVISION 2 ===
+2. Ketentuan ayat (1) huruf a angka 1 huruf b) dan huruf b angka 1 huruf b) Pasal 14 diubah serta penjelasan Pasal 14 diubah sebagaimana tercantum dalam penjelasan pasal demi pasal, sehingga berbunyi sebagai berikut:
+
+Pasal 14
+(1) Cadangan tambahan modal (disclosed reserve) sebagaimana dimaksud dalam Pasal 11 ayat (1) huruf a angka 2 terdiri atas:
+a. faktor penambah, yaitu:
+1. Pendapatan komprehensif lainnya berupa:
+a) selisih lebih penjabaran laporan keuangan;
+b) potensi keuntungan yang berasal dari peningkatan nilai wajar aset keuangan yang dikategorikan sebagai kelompok tersedia untuk dijual yang dimaknai sebagai aset keuangan yang diukur pada nilai wajar melalui penghasilan komprehensif lain sesuai standar akuntansi keuangan mengenai instrumen keuangan; dan
+c) saldo surplus revaluasi aset tetap;
+2. cadangan tambahan modal lainnya (other disclosed reserves) berupa:
+a) agio yang berasal dari penerbitan instrumen yang tergolong sebagai modal inti utama (Common Equity Tier 1);
+b) cadangan umum;
+c) laba tahun-tahun lalu;
+d) laba tahun berjalan;
+e) dana	setoran	modal,	yang memenuhi persyaratan:
+1) telah disetor penuh untuk tujuan penambahan modal namun belum didukung dengan	kelengkapan persyaratan untuk dapat digolongkan sebagai modal disetor seperti pelaksanaan rapat umum pemegang saham maupun pengesahan anggaran dasar dari instansi yang berwenang;
+
+
+2) ditempatkan pada rekening khusus (escrow account) yang tidak diberikan imbal hasil;
+3) tidak boleh ditarik kembali oleh pemegang saham atau calon pemegang saham dan tersedia untuk menyerap kerugian; dan
+4) penggunaan dana harus dengan persetujuan Otoritas Jasa Keuangan; dan
+f) lainnya berdasarkan persetujuan Otoritas Jasa Keuangan;
+b. faktor pengurang, yaitu:
+1. pendapatan komprehensif lainnya berupa:
+a) selisih kurang penjabaran laporan keuangan; dan
+b) potensi kerugian yang berasal dari penurunan nilai wajar aset keuangan yang dikategorikan sebagai kelompok tersedia untuk dijual yang dimaknai sebagai aset keuangan yang diukur pada nilai wajar melalui penghasilan komprehensif lain sesuai standar akuntansi keuangan mengenai instrumen keuangan;
+2. cadangan tambahan modal lainnya (other disclosed reserves) berupa:
+a) disagio yang berasal dari penerbitan instrumen yang tergolong sebagai modal inti utama (Common Equity Tier 1);
+b) rugi tahun-tahun lalu;
+c) rugi tahun berjalan;
+d) selisih kurang antara PPA atas aset produktif dan Cadangan Kerugian Penurunan Nilai (CKPN) atas aset produktif;
+e) selisih kurang antara jumlah penyesuaian terhadap hasil valuasi dari instrumen keuangan dalam Trading Book dan jumlah penyesuaian berdasarkan standar akuntansi keuangan;
+f) PPA non-produktif; dan
+g) lainnya berdasarkan persetujuan Otoritas Jasa Keuangan.
+(2) Dalam perhitungan laba rugi tahun-tahun lalu dan/atau tahun berjalan sebagaimana dimaksud pada ayat (1) huruf a angka 2 huruf c) dan huruf
+d) harus dikeluarkan dari pengaruh faktor:
+a. peningkatan atau penurunan nilai wajar atas kewajiban keuangan; dan/atau
+b. keuntungan atas penjualan aset dalam transaksi sekuritisasi (gain on sale).
+
+
+=== FOOTNOTES ===
+Pasal 10
+Ayat (1)
+Huruf a
+Yang dimaksud dengan "dana usaha" adalah penempatan yang berasal dari kantor pusat bank pada kantor cabang dari bank yang berkedudukan di luar negeri setelah dikurangi dengan penempatan yang berasal dari kantor cabang bank yang berkedudukan di luar negeri pada:
+1. kantor pusat;
+2. kantor-kantor bank yang bersangkutan di luar negeri; dan
+3. kantor lainnya seperti sister company dari bank yang berkedudukan di luar negeri,
+yang telah dinyatakan sebagai dana usaha (declared dana usaha) dan harus selalu tercatat setiap waktu di Indonesia selama kantor cabang dari bank yang berkedudukan di luar negeri beroperasi di Indonesia.
+
+
+
+
+Dana usaha tidak termasuk komponen dalam rekening antar kantor yang bukan merupakan dana bersih seperti kewajiban bunga dan kewajiban lainnya serta tagihan bunga dan tagihan lainnya.
+Yang dimaksud dengan penempatan mencakup penempatan pada seluruh aset keuangan sesuai standar akuntansi keuangan.
+Huruf b
+Yang dimaksud dengan "laba ditahan" adalah saldo laba bersih setelah dikurangi pajak yang oleh kantor pusatnya diputuskan untuk ditahan di kantor cabangnya di Indonesia.
+Yang dimaksud dengan "laba tahun lalu" adalah seluruh laba bersih tahun-tahun yang lalu setelah dikurangi pajak dan belum ditetapkan penggunaannya oleh kantor pusat.
+Dalam hal bank mempunyai saldo rugi tahun-tahun lalu seluruh kerugian tersebut menjadi faktor pengurang modal.
+Huruf c
+Yang dimaksud dengan "laba tahun berjalan" adalah laba yang diperoleh dalam tahun buku berjalan setelah dikurangi taksiran pajak.
+Dalam hal pada tahun buku berjalan bank mengalami kerugian, seluruh kerugian menjadi faktor pengurang modal.
+Huruf d
+Yang dimaksud dengan "cadangan umum" adalah cadangan yang dibentuk dari penyisihan saldo laba setelah dikurangi pajak dan mendapat persetujuan kantor pusatnya sebagai cadangan umum.
+Huruf e
+Yang dimaksud dengan "saldo surplus revaluasi aset tetap" adalah selisih penilaian kembali aset tetap milik bank.
+Pengakuan surplus revaluasi aset tetap mengacu pada standar akuntansi keuangan mengenai aset tetap.
+
+
+
+
+Huruf f
+Pengertian aset keuangan yang diklasifikasikan dalam kelompok tersedia untuk dijual mengacu pada standar akuntansi keuangan mengenai instrumen keuangan.
+Huruf g
+Yang dimaksud dengan "cadangan tujuan" adalah cadangan yang dibentuk dari penyisihan saldo laba setelah dikurangi pajak untuk tujuan tertentu dan telah mendapat persetujuan kantor pusatnya.
+Penggunaan cadangan tujuan diprioritaskan untuk menutup kerugian bank dalam hal cadangan umum tidak mencukupi untuk menutup kerugian bank.
+Huruf h
+Cukup jelas.
+Ayat (2)
+Cukup jelas.
+Ayat (3)
+Penetapan jumlah dana usaha yang dinyatakan mengacu kepada ketentuan mengenai pinjaman luar negeri.
+
+Pasal 11
+Ayat (1)
+Huruf a
+Angka 1
+Yang termasuk modal disetor adalah saham biasa (common stocks) sesuai dengan ketentuan perundang-undangan dan standar akuntansi keuangan.
+Angka 2
+Cukup jelas.
+Huruf b
+Yang termasuk komponen modal inti tambahan antara lain meliputi:
+1. instrumen utang yang memiliki karakteristik modal, bersifat subordinasi, tidak memiliki jangka waktu, dan  pembayaran  imbal  hasil  tidak  dapat
+
+
+
+
+diakumulasikan (perpetual non-cumulative subordinated debt);
+2. saham  preferen  non-kumulatif  (perpetual non-cumulative preference shares) baik dengan atau tanpa fitur opsi beli (call option);
+3. instrumen hybrid yang tidak memiliki jangka waktu dan pembayaran imbal hasil tidak dapat diakumulasikan (perpetual dan non-cumulative); dan
+4. agio atau disagio yang berasal dari penerbitan instrumen yang tergolong sebagai modal inti tambahan.
+Ayat (2)
+Cukup jelas.
+Ayat (3)
+Cukup jelas.
+
+Pasal 12
+Huruf a
+Cukup jelas.
+Huruf b
+Instrumen modal inti utama bersifat subordinasi terhadap antara lain pemegang instrumen yang memenuhi kriteria modal inti tambahan, modal pelengkap, deposan, dan kreditur.
+Huruf c
+Termasuk dalam pengertian fitur bersifat permanen antara lain tidak terdapat ekspektasi bahwa penerbit akan membeli kembali, atau aktivitas lain yang dapat memberikan ekspektasi tersebut.
+Huruf d
+Cukup jelas.
+Huruf e
+Cukup jelas.
+Huruf f
+Termasuk dalam kategori diproteksi maupun dijamin oleh Bank atau Perusahaan Anak yaitu proteksi maupun jaminan yang diterima dari pihak lain tetapi dilakukan melalui Bank
+
+
+
+
+atau Perusahaan Anak, misalnya premi atau fee dalam rangka penjaminan dibayar oleh Bank atau Perusahaan Anak.
+Huruf g
+Cukup jelas.
+Huruf h
+Cukup jelas.
+
+Pasal 13
+Huruf a
+Cukup jelas.
+Huruf b
+Tujuan tertentu untuk melakukan pembelian kembali saham yang telah diakui sebagai komponen modal disetor yaitu sebagai persediaan saham dalam rangka program employee stock option atau management stock option atau menghindari upaya take over.
+Huruf c
+Yang dimaksud dengan peraturan perundang-undangan yang berlaku antara lain Undang-Undang Nomor 40 Tahun 2007 tentang Perseroan Terbatas dan peraturan perundang- undangan lainnya di bidang pasar modal.
+Huruf d
+Cukup jelas.
+Huruf e
+Cukup jelas.
+
+Pasal 14
+Ayat (1)
+Huruf a
+Angka 1
+Yang dimaksud dengan "agio" adalah selisih lebih setoran modal yang diterima oleh Bank pada saat penerbitan saham karena harga pasar saham lebih tinggi dari nilai nominal.
+
+
+
+
+Angka 2
+Yang dimaksud dengan "modal sumbangan" adalah modal yang diperoleh kembali dari sumbangan saham Bank tersebut termasuk selisih antara nilai yang tercatat dengan harga jual apabila saham tersebut dijual.
+Angka 3
+Yang dimaksud dengan "cadangan umum" adalah cadangan yang dibentuk dari penyisihan saldo laba setelah dikurangi pajak, dan mendapat persetujuan rapat umum pemegang saham atau rapat anggota sebagai cadangan umum.
+Angka 4
+Laba tahun-tahun lalu setelah diperhitungkan pajak mencakup:
+a) laba tahun lalu yaitu seluruh laba bersih tahun-tahun yang lalu setelah dikurangi pajak, dan belum ditetapkan penggunaannya oleh rapat umum pemegang saham atau rapat anggota; dan
+b) laba ditahan (retained earnings) yaitu saldo laba bersih setelah dikurangi pajak yang oleh rapat umum pemegang saham atau rapat anggota diputuskan untuk tidak dibagikan.
+Angka 5
+Yang dimaksud dengan "laba tahun berjalan" adalah laba yang diperoleh dalam tahun buku berjalan setelah dikurangi taksiran pajak.
+Angka 6
+Yang dimaksud dengan "selisih lebih penjabaran laporan keuangan" adalah selisih kurs yang timbul dari penjabaran laporan keuangan kantor cabang Bank dan/atau Perusahaan Anak di luar negeri sebagaimana diatur dalam standar akuntansi keuangan.
+
+
+
+
+Angka 7
+Dalam hal berdasarkan penelitian Otoritas Jasa Keuangan, calon pemegang saham Bank atau dana setoran modal diketahui tidak memenuhi syarat sebagai pemegang saham atau sebagai modal, dana tersebut tidak dapat diakui sebagai komponen modal.
+Angka 8
+Yang dimaksud dengan "waran" adalah efek yang diterbitkan oleh suatu perusahaan yang memberi hak kepada pemegang efek untuk memesan saham dari perusahaan tersebut pada harga dan jangka waktu tertentu.
+Angka 9
+Cukup jelas.
+Angka 10
+Pengertian aset keuangan yang dikategorikan sebagai kelompok tersedia untuk dijual mengacu pada standar akuntansi keuangan mengenai instrumen keuangan.
+Angka 11
+Yang dimaksud dengan "saldo surplus revaluasi aset tetap" adalah selisih penilaian kembali aset tetap milik Bank.
+Pengakuan saldo surplus revaluasi aset tetap mengikuti standar akuntansi keuangan mengenai aset tetap.
+Huruf b
+Angka 1
+Yang dimaksud dengan "disagio" adalah selisih kurang setoran modal yang diterima oleh Bank pada saat penerbitan saham karena harga pasar saham lebih rendah dari nilai nominal.
+Angka 2
+Yang dimaksud dengan "rugi tahun-tahun lalu" adalah seluruh rugi yang dibukukan Bank pada tahun-tahun yang lalu.
+
+
+
+
+Angka 3
+Yang dimaksud dengan "rugi tahun berjalan" adalah seluruh rugi yang dibukukan Bank dalam tahun buku berjalan.
+Angka 4
+Yang dimaksud dengan "selisih kurang penjabaran laporan keuangan" adalah selisih kurs yang timbul dari penjabaran laporan keuangan kantor cabang Bank dan/atau Perusahaan Anak di luar negeri sebagaimana diatur dalam standar akuntansi keuangan mengenai penjabaran laporan keuangan dalam mata uang asing.
+Angka 5
+Huruf a)
+Pengertian aset keuangan yang dikategorikan sebagai kelompok tersedia untuk dijual mengacu pada standar akuntansi keuangan mengenai instrumen keuangan.
+Huruf b)
+Pengertian kerugian atas pengukuran kembali atas program pensiun manfaat pasti mengacu pada standar akuntansi keuangan mengenai imbalan kerja.
+Angka 6
+Yang dimaksud dengan "selisih kurang antara PPA atas aset produktif dan cadangan kerugian penurunan nilai aset keuangan atas aset produktif" adalah selisih kurang antara total PPA (cadangan umum dan cadangan khusus atas seluruh aset produktif) yang wajib dibentuk sesuai ketentuan mengenai penilaian kualitas aset Bank dengan total cadangan kerugian penurunan nilai aset keuangan (impairment) atas seluruh aset produktif (secara individu dan secara kolektif) sesuai standar akuntansi keuangan.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ayat (2)
+
+
+Angka 7
+Selisih kurang ini timbul karena jumlah penyesuaian terhadap hasil valuasi (mark to market) dari instrumen keuangan dalam Trading Book yang mempertimbangkan berbagai faktor tertentu antara lain karena posisi yang kurang likuid melebihi jumlah penyesuaian yang dipersyaratkan sesuai standar akuntansi keuangan mengenai pengukuran instrumen keuangan, khususnya instrumen keuangan yang diukur berdasarkan nilai wajar.
+Sesuai Pedoman Akuntansi Perbankan Indonesia, penyesuaian terhadap hasil valuasi instrumen keuangan akan langsung mengurangi atau menambah nilai tercatat instrumen keuangan.
+Angka 8
+Yang dimaksud dengan "PPA non-produktif" adalah cadangan  yang  wajib  dibentuk  untuk  aset non-produktif sesuai ketentuan yang mengatur mengenai penilaian kualitas aset Bank.
+
+Huruf a
+Hal ini terjadi apabila Bank menetapkan untuk mengukur kewajiban keuangan pada nilai wajar melalui laba rugi (fair value option) sesuai standar akuntansi keuangan.
+Huruf b
+Yang dimaksud dengan "keuntungan atas penjualan aset dalam transaksi sekuritisasi (gain on sale)" adalah keuntungan yang diperoleh Bank sebagai kreditur asal (originator) atas penjualan aset dalam transaksi sekuritisasi yang bersumber dari kapitalisasi pendapatan masa mendatang (expected future margin) atau kapitalisasi pendapatan dari penyediaan jasa (servicing income).
+
+
+
+
+Pasal 15
+Ayat (1)
+Huruf a
+Cukup jelas.
+Huruf b
+Cukup jelas.
+Huruf c
+Dalam rangka memperoleh persetujuan pengawas, Bank tidak dapat mengasumsikan atau menciptakan ekspektasi pasar bahwa persetujuan pengawas akan diberikan.
+Huruf d
+Yang dimaksud dengan "fitur step-up" adalah fitur yang menjanjikan kenaikan tingkat suku bunga atau imbal hasil apabila opsi beli tidak dieksekusi pada jangka waktu yang telah ditetapkan.
+Huruf e
+Otoritas Jasa Keuangan berwenang untuk menetapkan kondisi dimana Bank berpotensi terganggu kelangsungan usahanya (point of non-viability) dan memerintahkan Bank untuk mengkonversi instrumen modal inti tambahan ke saham biasa atau melakukan write down.
+Termasuk dalam mekanisme write down antara lain pengurangan nilai kewajiban, pengurangan nilai kewajiban pada saat opsi beli dieksekusi atau pengurangan sebagian atau seluruh pembayaran imbal hasil.
+Dalam dokumentasi penerbitan wajib terdapat klausul yang menyatakan bahwa instrumen modal inti tambahan dapat dikonversi menjadi saham biasa atau dilakukan write down apabila terdapat perintah dari Otoritas Jasa Keuangan.
+Huruf f
+Instrumen modal inti tambahan bersifat subordinasi terhadap antara lain deposan, kreditur, dan pemegang instrumen yang memenuhi kriteria modal pelengkap.
+
+
+
+
+Huruf g
+Dalam hal imbal hasil tidak dibayarkan, maka tidak menyebabkan adanya pembatasan pembayaran dividen atau kupon, untuk instrumen lain, kecuali untuk saham biasa (common stock).
+Huruf h
+Termasuk dalam kategori diproteksi maupun dijamin oleh Bank atau Perusahaan Anak yaitu proteksi maupun jaminan yang diterima dari pihak lain tetapi dilakukan melalui Bank atau Perusahaan Anak, misalnya premi atau fee dalam rangka penjaminan dibayar oleh Bank atau Perusahaan Anak.
+Huruf i
+Yang dimaksud dengan "dividen atau imbal hasil yang sensitif terhadap Risiko Kredit" adalah tingkat dividen atau imbal hasil yang ditetapkan berdasarkan peringkat atau tingkat Risiko Kredit Bank penerbit.
+Huruf j
+Meskipun terdapat opsi beli, Bank tidak diperkenankan mempersiapkan kriteria atau kondisi tertentu yang memungkinkan eksekusi opsi beli (call option).
+Huruf k
+Cukup jelas.
+Huruf l
+Cukup jelas.
+Huruf m
+Fitur yang menghambat proses penambahan modal di masa mendatang yaitu antara lain persyaratan yang mewajibkan Bank untuk memberikan kompensasi kepada investor apabila Bank menerbitkan instrumen modal baru dengan harga yang lebih rendah.
+Huruf n
+Cukup jelas.
+Ayat (2)
+Huruf a
+Cukup jelas.
+
+
+
+
+Huruf b
+Cukup jelas.
+Huruf c
+Yang dimaksud dengan "kualitas sama atau lebih baik" adalah instrumen modal yang paling sedikit memenuhi persyaratan sebagai komponen modal inti tambahan.
+
+Pasal 16
+Yang dimaksud dengan "kepentingan non-pengendali" adalah kepentingan bukan pengendali sebagaimana dimaksud dalam standar akuntansi keuangan.
+
+Pasal 17
+Ayat (1)
+Huruf a
+Pajak tangguhan dikurangkan sebesar 100% (seratus persen) baik atas perhitungan pajak tangguhan pada tahun-tahun lalu maupun pada tahun berjalan.
+Pajak tangguhan merupakan transaksi yang timbul sebagai akibat penerapan standar akuntansi keuangan mengenai akuntansi pajak penghasilan.
+Dalam perhitungan KPMM secara individu, pajak tangguhan yang dikeluarkan sebesar selisih lebih dari aset pajak tangguhan dikurangi kewajiban pajak tangguhan.
+Dalam hal terjadi selisih kurang, perhitungan pajak tangguhan yang akan dikeluarkan adalah nihil.
+Dalam perhitungan KPMM secara konsolidasi, aset pajak tangguhan satu perusahaan tidak boleh saling hapus dengan kewajiban pajak tangguhan perusahaan lain dalam kelompok usaha Bank.
+Oleh karena itu, pengaruh pajak tangguhan dalam perhitungan KPMM secara konsolidasi harus dihitung dan dikeluarkan secara terpisah untuk masing-masing entitas.
+
+
+
+
+Dengan dikeluarkannya dampak pajak tangguhan dari perhitungan modal inti utama, aset pajak tangguhan tidak diperhitungkan dalam perhitungan ATMR.
+Huruf b
+Pengertian goodwill mengacu pada standar akuntansi keuangan mengenai kombinasi bisnis.
+Goodwill diperhitungkan sebagai faktor pengurang baik dalam perhitungan modal minimum Bank secara individu maupun secara konsolidasi.
+Huruf c
+Pengertian aset tidak berwujud mengacu kepada standar akuntansi keuangan mengenai aset tidak berwujud.
+Seluruh aset tidak berwujud diperhitungkan sebagai faktor pengurang modal inti utama.
+Contoh aset tidak berwujud antara lain copyright, hak paten, dan hak milik intelektual (intellectual property right) lainnya termasuk aplikasi piranti lunak (software) yang dikembangkan oleh Bank.
+Huruf d
+Nilai penyertaan yang diperhitungkan adalah nilai buku yang tercatat pada laporan posisi keuangan (neraca).
+Huruf e
+Kekurangan modal (shortfall) diperhitungkan sebagai faktor pengurang hanya dalam perhitungan rasio KPMM secara konsolidasi.
+Kekurangan modal (shortfall) perusahaan asuransi dari RBC minimum diperhitungkan apabila perusahaan dimaksud tidak dapat memenuhi RBC minimum sampai dengan jangka waktu yang ditetapkan oleh Otoritas Jasa Keuangan.
+Huruf f
+Perlakuan terhadap eksposur sekuritisasi sebagai pengurang modal atau diperhitungkan sebagai ATMR mengacu pada ketentuan mengenai sekuritisasi aset.
+Yang dimaksud dengan "eksposur sekuritisasi" adalah kredit  pendukung  (credit  enhancement),  fasilitas
+
+
+
+
+likuiditas (liquidity support), dan efek beragun aset (asset backed securities).
+Huruf g
+Cukup jelas.
+Ayat (2)
+Cukup jelas.
+
+Pasal 18
+Cukup jelas.
+
+Pasal 19
+Ayat (1)
+Huruf a
+Cukup jelas.
+Huruf b
+Cukup jelas.
+Huruf c
+Otoritas Jasa Keuangan berwenang untuk menetapkan kondisi dimana Bank berpotensi terganggu kelangsungan usahanya (point of non-viability) dan memerintahkan Bank untuk mengkonversi instrumen modal pelengkap pada saham biasa atau melakukan write down.
+Termasuk dalam mekanisme write down antara lain pengurangan nilai kewajiban, pengurangan nilai kewajiban pada saat opsi beli dieksekusi atau pengurangan sebagian atau seluruh pembayaran imbal hasil.
+Dalam dokumentasi penerbitan wajib terdapat klausul yang menyatakan bahwa instrumen modal pelengkap dapat dikonversi menjadi saham biasa atau dilakukan write down apabila terdapat perintah dari Otoritas Jasa Keuangan.
+Huruf d
+Instrumen modal pelengkap bersifat subordinasi terhadap antara lain deposan dan kreditur.
+Huruf e
+Cukup jelas.
+
+
+
+
+Huruf f
+Termasuk dalam pengertian diproteksi maupun dijamin oleh Bank atau Perusahaan Anak yaitu proteksi maupun jaminan yang diterima dari pihak lain tetapi dilakukan melalui Bank atau Perusahaan Anak, misalnya premi atau fee dalam rangka penjaminan dibayar oleh Bank atau Perusahaan Anak.
+Huruf g
+Yang dimaksud dengan "dividen atau imbal hasil yang sensitif terhadap Risiko Kredit" adalah tingkat dividen atau imbal hasil yang ditetapkan berdasarkan peringkat atau tingkat Risiko Kredit Bank penerbit.
+Huruf h
+Yang dimaksud dengan "fitur step-up" adalah fitur yang menjanjikan kenaikan tingkat suku bunga atau imbal hasil apabila opsi beli tidak dieksekusi pada jangka waktu yang telah ditetapkan.
+Huruf i
+Meskipun terdapat opsi beli, Bank tidak diperkenankan mempersiapkan kriteria atau kondisi tertentu yang memungkinkan eksekusi opsi beli (call option).
+Huruf j
+Cukup jelas.
+Huruf k
+Cukup jelas.
+Huruf l
+Cukup jelas.
+Huruf m
+Cukup jelas.
+Ayat (2)
+Huruf a
+Cukup jelas.
+Huruf b
+Angka 1
+Yang dimaksud dengan "kualitas sama atau lebih baik" adalah instrumen modal yang paling sedikit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ayat (3)
+
+
+memenuhi persyaratan sebagai komponen modal pelengkap.
+Angka 2
+Batasan modal pelengkap diperhitungkan dengan memperhatikan seluruh instrumen modal pelengkap yang tersedia.
+Contoh "jumlah yang berbeda":
+Modal pelengkap yang dieksekusi adalah Rp500 juta namun pada saat penggantian, modal inti Bank mengalami perubahan sehingga batasan modal pelengkap menjadi paling tinggi sebesar Rp400 juta. Dengan kondisi ini, Bank dapat menggantikan modal pelengkap sebesar Rp400 juta.
+
+Yang dimaksud dengan "metode garis lurus" adalah perhitungan amortisasi secara prorata.
+Ayat (4)
+Amortisasi dihitung berdasarkan nilai instrumen modal yang telah memperhitungkan pengurangan dari cadangan pelunasan (sinking fund).
+Ayat (5)
+Contoh ilustrasi pelaksanaan amortisasi:
+a. Bank menerbitkan obligasi subordinasi yang memiliki jangka waktu 10 (sepuluh) tahun dan memiliki opsi beli pada akhir tahun kelima. Dalam kondisi ini, Bank wajib mulai menghitung amortisasi sejak tahun pertama. Apabila	pada	 akhir		tahun	kelima,	Bank			tidak mengeksekusi opsi beli (call option), mulai awal tahun keenam		obligasi	subordinasi			tersebut		dapat diperhitungkan	kembali		dalam		perhitungan	KPMM dengan memperhatikan batasan yang dipersyaratkan, termasuk			kewajiban			untuk		memperhitungkan amortisasi.
+b. Bank menerbitkan obligasi subordinasi yang memiliki jangka waktu 10 (sepuluh) tahun dan memiliki opsi beli (call option) setelah lewat tahun kelima. Dalam kondisi ini, sisa jangka waktu instrumen tersebut pada awal
+
+
+
+
+penerbitan adalah 5 (lima) tahun. Amortisasi wajib mulai diperhitungkan oleh Bank sejak tahun pertama.
+Setelah lewat tahun kelima sampai dengan jatuh tempo, Bank tidak dapat memperhitungkan kembali obligasi subordinasi sebagai modal pelengkap meskipun Bank belum mengeksekusi opsi beli (call option).
+
+Pasal 20
+Ayat (1)
+Huruf a
+Contoh instrumen modal dalam bentuk saham atau dalam bentuk lainnya yang memenuhi persyaratan adalah:
+1. saham preferen (yang memberikan hak kepada pemegangnya untuk menerima dividen lebih dahulu dari pemegang saham klasifikasi lain) secara kumulatif (cumulative preference share);
+2. instrumen utang yang memiliki karakteristik modal, bersifat subordinasi, bersifat kumulatif dan memenuhi seluruh persyaratan untuk dapat diperhitungkan sebagai komponen modal pelengkap (cumulative subordinated debt); dan
+3. instrumen utang yang memiliki karakteristik seperti modal yang secara otomatis tanpa persyaratan dapat dikonversi menjadi saham setelah memperoleh persetujuan Otoritas Jasa Keuangan (mandatory convertible bond). Kondisi dan nilai konversi harus ditetapkan pada saat penerbitan yang besarnya sejalan dengan kondisi pasar.
+Huruf b
+Yang dimaksud dengan "agio" adalah selisih lebih setoran modal yang diterima oleh Bank pada saat penerbitan instrumen modal pelengkap karena harga pasar instrumen modal lebih tinggi dari nilai nominal.
+Yang dimaksud dengan "disagio" adalah selisih kurang setoran  modal  yang  diterima  oleh  Bank  pada  saat
+
+
+
+
+penerbitan instrumen modal pelengkap karena harga pasar instrumen modal lebih rendah dari nilai nominal.
+Huruf c
+Pembentukan cadangan umum PPA atas aset produktif yang wajib dibentuk mengacu pada ketentuan yang mengatur mengenai penilaian kualitas aset Bank.
+Contoh:
+Cadangan umum PPA atas aset produktif yang wajib dibentuk sebesar Rp15 juta dan ATMR Bank untuk Risiko Kredit sebesar Rp1 miliar.
+Cadangan umum PPA atas aset produktif yang dapat diperhitungkan sebagai komponen modal pelengkap paling tinggi 1,25% dari Rp1 miliar yaitu sebesar Rp12,5 juta.
+Dalam hal ini terdapat kelebihan cadangan umum sebesar Rp2,5 juta yang tidak dapat diperhitungkan sebagai komponen modal pelengkap.
+Huruf d
+Yang dimaksud dengan "cadangan tujuan" adalah cadangan yang dibentuk dari penyisihan saldo laba setelah dikurangi pajak untuk tujuan tertentu dan telah mendapat persetujuan rapat umum pemegang saham atau rapat anggota.
+Penggunaan cadangan tujuan diprioritaskan untuk menutup kerugian Bank dalam hal cadangan umum tidak mencukupi untuk menutup kerugian Bank.
+Ayat (2)
+Kelebihan cadangan umum PPA atas aset produktif sesuai contoh pada penjelasan ayat (1) huruf c yaitu sebesar Rp2,5 juta menjadi faktor pengurang perhitungan ATMR untuk Risiko Kredit.
+
+Pasal 21
+Cukup jelas.
+
+
+
+
+Pasal 22
+Ayat (1)
+Huruf a
+Pembelian kembali instrumen modal inti utama, modal inti tambahan atau modal pelengkap yang telah diakui sebagai komponen permodalan Bank menjadi faktor pengurang masing-masing komponen modal yang bersangkutan.
+Contoh 1:
+Termasuk dalam pembelian kembali instrumen modal yang harus dikurangkan dari modal inti utama adalah antara lain pembelian kembali instrumen modal yang telah diterbitkan Bank, baik secara langsung maupun tidak langsung.
+Contoh 2:
+Termasuk dalam pembelian kembali instrumen modal yang harus dikurangkan dari modal inti tambahan antara lain eksekusi opsi beli (call option).
+Huruf b
+Penempatan dana pada instrumen utang yang telah diakui sebagai komponen modal Bank lain menjadi faktor pengurang modal bagi Bank yang melakukan penempatan dana pada komponen modal yang memiliki kualitas sama dan/atau lebih baik.
+Contoh 1:
+Bank A memiliki komponen modal pelengkap sebesar Rp100 miliar.
+Bank A membeli obligasi subordinasi yang diterbitkan Bank B yang merupakan komponen modal pelengkap Bank B sebesar Rp20 miliar.
+Dalam kondisi ini, modal pelengkap Bank A akan dikurangi dengan obligasi subordinasi yang dibeli Bank A dari Bank B yaitu:
+Rp100 miliar - Rp20 miliar = Rp80 miliar
+Rp80 miliar tersebut di atas selanjutnya diakui sebagai modal pelengkap dengan memperhatikan batasan modal pelengkap yang diperkenankan.
+
+
+
+
+Contoh 2:
+Bank A memiliki komponen modal pelengkap sebesar Rp10 miliar dan modal inti utama sebesar Rp100 miliar. Bank A membeli obligasi subordinasi yang diterbitkan Bank B yang merupakan komponen modal pelengkap Bank B sebesar Rp20 miliar.
+Dalam kondisi ini, modal pelengkap Bank A akan dikurangi dengan obligasi subordinasi yang dibeli Bank A dari Bank B yaitu:
+Rp10 miliar - Rp20 miliar = (Rp10 miliar)
+Rp10 miliar tersebut di atas selanjutnya akan dikurangkan terhadap modal inti utama Bank A.
+Contoh 3:
+Bank A hanya memiliki komponen modal inti utama sebesar Rp100 miliar dan tidak memiliki komponen modal lainnya.
+Bank A membeli obligasi subordinasi yang diterbitkan Bank B yang merupakan komponen modal pelengkap Bank B sebesar Rp20 miliar.
+Dalam kondisi ini, modal inti utama Bank A akan dikurangi dengan obligasi subordinasi yang dibeli Bank A dari Bank B yaitu:
+Rp100 miliar - Rp20 miliar = Rp80 miliar.
+Ayat (2)
+Cukup jelas.
+
+Pasal 23
+Cukup jelas.
+
+Pasal 24
+Ayat (1)
+Cukup jelas.
+Ayat (2)
+Yang dimaksud dengan "total kewajiban bank" adalah total kewajiban dikurangi dengan seluruh kewajiban antar kantor (kantor pusat dan kantor cabang lainnya di luar negeri).
+
+
+
+
+Total kewajiban bank yang dijadikan dasar penetapan CEMA minimum dihitung berdasarkan rata-rata kewajiban bank secara mingguan dalam bulan yang bersangkutan.
+Contoh:
+Rata-rata total kewajiban posisi akhir minggu I, minggu II, minggu  III,  dan  minggu  IV  masing-masing  sebesar Rp10 triliun, Rp15 triliun, Rp10 triliun, dan Rp20 triliun. Oleh karena itu, rata-rata total kewajiban = (Rp10 triliun+ Rp15 triliun + Rp10 triliun + Rp20 triliun)   4 = Rp13,75 triliun.
+Perhitungan CEMA berdasarkan rata-rata total kewajiban adalah sebesar 8% x Rp13,75 triliun = Rp1,1 triliun.
+Dengan demikian, minimum CEMA yang wajib dipelihara adalah yang terbesar antara Rp1 triliun dengan Rp1,1 triliun, yaitu Rp1,1 triliun.
+Ayat (3)
+Cukup jelas.
+
+Pasal 25
+Ayat (1)
+Cukup jelas.
+Ayat (2)
+Cukup jelas.
+Ayat (3)
+Cukup jelas.
+Ayat (4)
+Contoh:
+CEMA minimum untuk posisi bulan Maret 20xx sebesar Rp1,1 triliun wajib ditempatkan pada instrumen keuangan yang memenuhi persyaratan paling lambat pada tanggal 6 April 20xx.
+
+Pasal 26
+Ayat (1)
+Cukup jelas.
+Ayat (2)
+Cukup jelas.
+
+
+
+
+Ayat (3)
+Huruf a
+Contoh surat berharga yang diterbitkan oleh Pemerintah Republik Indonesia antara lain meliputi:
+1. Surat Utang Negara (SUN) sebagaimana dimaksud dalam peraturan perundang-undangan mengenai Surat Utang Negara; dan
+2. Surat Berharga Syariah Negara (SBSN) sebagaimana dimaksud dalam peraturan perundang-undangan mengenai Surat Berharga Syariah Negara.
+Surat berharga yang diterbitkan oleh Pemerintah Republik Indonesia dan yang dimaksudkan untuk dimiliki hingga jatuh tempo yaitu:
+1. surat berharga yang dikategorikan sebagai kelompok dimiliki hingga jatuh tempo; atau
+2. surat berharga yang dikategorikan sebagai kelompok tersedia untuk dijual yang didukung komitmen dari Bank untuk:
+a) memiliki surat berharga tersebut hingga jatuh tempo; dan
+b) menggunakan surat berharga tersebut hanya untuk mengantisipasi dampak permasalahan pada perekonomian dan sistem keuangan global yang mengganggu kantor cabang di Indonesia, dan/atau stabilitas sistem keuangan dan sistem perbankan di Indonesia,
+yang dituangkan dalam surat pernyataan.
+Huruf b
+Angka 1
+Yang dimaksud dengan "tidak bersifat ekuitas" adalah surat berharga yang tidak diperhitungkan sebagai komponen modal oleh Bank penerbit.
+Angka 2
+Yang dimaksud dengan "peringkat investasi" adalah sebagaimana diatur dalam ketentuan yang mengatur mengenai lembaga pemeringkat dan peringkat yang diakui Otoritas Jasa Keuangan.
+
+
+
+
+Angka 3
+Cukup jelas.
+Huruf c
+Cukup jelas.
+Ayat (4)
+Yang dimaksud dengan bebas dari klaim antara lain bebas dari gugatan, tuntutan, pengakuan, dan penguasaan, serta tidak sedang dijaminkan kepada pihak lain atau disita oleh pihak yang berwenang.
+Contoh:
+Aset keuangan yang digunakan sebagai CEMA tidak dapat dilakukan repurchase agreement (repo) kepada pihak lain. Bebas dari klaim dibuktikan antara lain dengan surat pernyataan dari kantor cabang dari bank yang berkedudukan di luar negeri.
+Ayat (5)
+Yang dimaksud dengan "nilai tercatat aset keuangan" adalah nilai aset keuangan pada laporan posisi keuangan (neraca) setelah dikurangi dengan cadangan kerugian penurunan nilai.

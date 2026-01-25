@@ -1,0 +1,314 @@
+=== ORIGINAL ===
+BAB III
+ASET TERTIMBANG MENURUT RISIKO (ATMR)
+
+Bagian Kesatu Umum
+
+Pasal 27
+ATMR yang digunakan dalam perhitungan modal minimum sebagaimana dimaksud dalam Pasal 2 ayat (3) dan perhitungan pembentukan tambahan modal sebagai penyangga sebagaimana dimaksud dalam Pasal 3 ayat (3) terdiri atas:
+
+
+
+
+a. ATMR untuk Risiko Kredit;
+b. ATMR untuk Risiko Operasional; dan
+c. ATMR untuk Risiko Pasar.
+
+Pasal 28
+(1) Setiap Bank wajib memperhitungkan ATMR untuk Risiko Kredit dan ATMR untuk Risiko Operasional.
+(2) Selain memenuhi kewajiban sebagaimana dimaksud pada ayat (1), Bank yang memenuhi kriteria tertentu wajib memperhitungkan ATMR untuk Risiko Pasar.
+
+Pasal 29
+Kriteria tertentu sebagaimana dimaksud dalam Pasal 28 ayat (2) adalah:
+a. Bank yang secara individu memenuhi salah satu kriteria:
+1. Bank dengan total aset sebesar Rp10.000.000.000.000,00 (sepuluh triliun rupiah) atau lebih;
+2. Bank yang melakukan kegiatan usaha dalam valuta asing dengan posisi instrumen keuangan berupa surat berharga dan/atau transaksi derivatif dalam Trading Book sebesar Rp20.000.000.000,00 (dua puluh miliar rupiah) atau lebih; atau
+3. Bank yang tidak melakukan kegiatan usaha dalam valuta asing dengan posisi instrumen keuangan berupa surat berharga dan/atau transaksi derivatif suku bunga dalam Trading Book sebesar Rp25.000.000.000,00 (dua puluh lima miliar rupiah) atau lebih,
+dan/atau
+b. Bank yang secara konsolidasi dengan Perusahaan Anak memenuhi salah satu kriteria:
+1. Bank yang melakukan kegiatan usaha dalam valuta asing yang secara konsolidasi dengan Perusahaan  Anak  memiliki  posisi  instrumen
+
+
+
+
+keuangan berupa surat berharga termasuk instrumen keuangan yang terekspos risiko ekuitas dan/atau transaksi derivatif dalam Trading Book dan/atau instrumen keuangan yang terekspos risiko komoditas dalam Trading Book dan Banking Book sebesar Rp20.000.000.000,00 (dua puluh miliar rupiah) atau lebih;
+2. Bank yang tidak melakukan kegiatan usaha dalam valuta asing namun secara konsolidasi dengan Perusahaan Anak memiliki posisi instrumen keuangan berupa surat berharga termasuk instrumen keuangan yang terekspos risiko ekuitas dan/atau transaksi derivatif dalam Trading Book dan/atau instrumen keuangan yang terekspos risiko komoditas dalam Trading Book dan Banking Book sebesar Rp25.000.000.000,00 (dua puluh lima miliar rupiah) atau lebih;
+c. Bank yang memiliki jaringan kantor dan/atau Perusahaan Anak di negara lain maupun kantor cabang dari bank yang berkedudukan di luar negeri.
+
+Pasal 30
+Aset keuangan yang pada saat pengakuan awal ditetapkan sebagai aset keuangan yang diukur pada nilai wajar melalui laporan laba rugi dan kredit yang diklasifikasikan dalam kelompok diperdagangkan dikecualikan dari cakupan Trading Book.
+
+Pasal 31
+Surat berharga dalam Trading Book hanya mencakup surat berharga yang diklasifikasikan dalam kelompok diperdagangkan.
+
+Pasal 32
+Bank yang setelah melakukan merger, konsolidasi atau akuisisi memenuhi kriteria tertentu sebagaimana dimaksud dalam  Pasal  29  paling  sedikit  pada  3  (tiga)  periode
+
+
+
+
+pelaporan bulanan dalam 6 (enam) bulan pertama setelah merger, konsolidasi atau akuisisi dinyatakan efektif, wajib memperhitungkan Risiko Pasar dalam perhitungan rasio KPMM sejak bulan ke-7 (tujuh) setelah merger, konsolidasi atau akuisisi dinyatakan efektif.
+
+Pasal 33
+Bank yang telah memenuhi kriteria tertentu sebagaimana dimaksud dalam Pasal 29 dan Bank yang setelah melakukan merger, konsolidasi atau akuisisi memenuhi kriteria tertentu sebagaimana dimaksud dalam Pasal 32 wajib tetap memperhitungkan Risiko Pasar dalam kewajiban penyediaan modal minimum walaupun selanjutnya Bank tidak lagi memenuhi kriteria tertentu.
+
+Bagian Kedua Risiko Kredit
+
+Pasal 34
+(1) Dalam perhitungan ATMR untuk Risiko Kredit, terdapat 2 (dua) pendekatan yang dapat digunakan, yaitu:
+a. Pendekatan Standar (Standardized Approach); dan/atau
+b. Pendekatan berdasarkan Internal Rating (Internal Rating based Approach).
+(2) Untuk  penerapan  tahap  awal,  perhitungan ATMR untuk Risiko Kredit wajib dilakukan dengan menggunakan Pendekatan Standar (Standardized Approach).
+(3) Bank wajib memperoleh persetujuan terlebih dahulu dari Otoritas Jasa Keuangan untuk dapat menggunakan pendekatan berdasarkan Internal Rating sebagaimana dimaksud pada ayat (1) huruf b.
+
+
+
+
+Bagian Ketiga Risiko Operasional
+
+Pasal 35
+(1) Dalam perhitungan ATMR untuk Risiko Operasional, terdapat 3 (tiga) pendekatan yang dapat digunakan, yaitu:
+a. Pendekatan	Indikator	Dasar	(Basic	Indicator Approach);
+b. Pendekatan	Standar	(Standardized	Approach); dan/atau
+c. Pendekatan	yang	lebih	kompleks	(Advanced Measurement Approach).
+(2) Untuk penerapan tahap awal, perhitungan ATMR untuk Risiko Operasional wajib dilakukan dengan menggunakan Pendekatan Indikator Dasar (Basic Indicator Approach).
+(3) Bank wajib memperoleh persetujuan terlebih dahulu dari Otoritas Jasa Keuangan untuk dapat menggunakan pendekatan sebagaimana dimaksud pada ayat (1) huruf b dan huruf c.
+
+Bagian Keempat Risiko Pasar
+
+Pasal 36
+(1) Risiko Pasar yang wajib diperhitungkan oleh Bank secara individu dan secara konsolidasi dengan Perusahaan Anak adalah:
+a. risiko suku bunga; dan/atau
+b. risiko nilai tukar.
+(2) Bank secara konsolidasi dengan Perusahaan Anak wajib memperhitungkan risiko ekuitas dan/atau risiko komoditas selain Risiko Pasar sebagaimana dimaksud pada ayat (1) dalam hal memenuhi kriteria:
+a. memiliki Perusahaan Anak yang terekspos risiko ekuitas dan/atau risiko komoditas; dan
+
+
+
+
+b. secara konsolidasi dengan Perusahaan Anak memenuhi kriteria sebagaimana dimaksud dalam Pasal 29 huruf b.
+
+Pasal 37
+(1) Bank wajib melakukan valuasi secara harian terhadap posisi yang diukur dengan nilai wajar dalam Trading Book dan Banking Book secara akurat.
+(2) Dalam melakukan valuasi sebagaimana dimaksud pada ayat (1), Bank wajib memiliki kebijakan dan prosedur valuasi, termasuk memiliki sistem informasi manajemen dan pengendalian proses valuasi yang memadai dan terintegrasi dengan sistem manajemen risiko.
+(3) Kebijakan dan prosedur valuasi sebagaimana dimaksud pada ayat (2) wajib berlandaskan pada prinsip kehati-hatian.
+
+Pasal 38
+(1) Proses valuasi wajib dilakukan berdasarkan nilai wajar.
+(2) Terhadap instrumen keuangan yang diperdagangkan secara aktif, proses valuasi sebagaimana dimaksud pada ayat (1) dilakukan dengan menggunakan harga transaksi yang terjadi (close-out prices) atau kuotasi harga pasar dari sumber yang independen.
+(3) Valuasi terhadap instrumen keuangan sebagaimana dimaksud pada ayat (2) menggunakan:
+a. bid price untuk aset yang dimiliki atau kewajiban yang akan diterbitkan; dan/atau
+b. ask price untuk aset yang akan diperoleh atau kewajiban yang dimiliki.
+(4) Dalam hal harga pasar sebagaimana dimaksud pada ayat (2) tidak tersedia, Bank dapat menetapkan nilai wajar dengan menggunakan suatu model atau teknik penilaian berlandaskan prinsip kehati-hatian.
+
+
+
+
+Pasal 39
+(1) Bank wajib melakukan verifikasi terhadap proses dan hasil valuasi.
+(2) Verifikasi sebagaimana dimaksud pada ayat (1) wajib dilakukan paling sedikit 1 (satu) kali dalam 1 (satu) bulan oleh pihak yang tidak ikut dalam pelaksanaan valuasi.
+(3) Bank wajib menyesuaikan hasil valuasi berdasarkan hasil verifikasi sebagaimana dimaksud pada ayat (1).
+
+Pasal 40
+Bank wajib segera melakukan penyesuaian terhadap hasil valuasi yang belum mencerminkan nilai wajar dalam hal:
+a. terjadi perubahan kondisi ekonomi yang signifikan;
+b. harga instrumen keuangan yang dijadikan acuan adalah harga yang terjadi dari transaksi yang dipaksakan, likuidasi yang dipaksakan atau penjualan akibat kesulitan keuangan;
+c. instrumen keuangan sudah mendekati jatuh tempo; dan/atau
+d. harga yang dijadikan acuan tidak wajar karena kondisi lainnya.
+
+Pasal 41
+(1) Selain penyesuaian sebagaimana dimaksud dalam Pasal 40, Bank wajib melakukan penyesuaian terhadap valuasi atas posisi yang kurang likuid dengan mempertimbangkan faktor-faktor tertentu.
+(2) Dalam hal dilakukan penyesuaian sebagaimana dimaksud pada ayat (1), Bank wajib memperhitungkan dampak penyesuaian sebagai faktor pengurang modal inti utama dalam perhitungan rasio KPMM.
+
+Pasal 42
+(1) Dalam perhitungan ATMR untuk Risiko Pasar, terdapat 2 (dua) pendekatan yang dapat digunakan, yaitu:
+
+
+
+
+a. Metode Standar (Standard Method); dan/atau
+b. Model Internal (Internal Model).
+(2) Untuk penerapan tahap awal, bagi Bank yang memenuhi kriteria tertentu sebagaimana dimaksud dalam Pasal 29, perhitungan ATMR untuk Risiko Pasar wajib dilakukan dengan menggunakan Metode Standar (Standard Method).
+(3) Bank wajib memperoleh persetujuan terlebih dahulu dari Otoritas Jasa Keuangan untuk dapat menggunakan pendekatan Model Internal (Internal Model) sebagaimana dimaksud pada ayat (1) huruf b.
+
+=== REVISION 1 ===
+15. Ketentuan dalam Pasal 41 tetap, dengan perubahan penjelasan Pasal 41 ayat (1) menjadi sebagaimana ditetapkan dalam penjelasan pasal demi pasal Peraturan Otoritas Jasa Keuangan ini.
+
+=== REVISION 2 ===
+3. Ketentuan Pasal 27 diubah sehingga berbunyi sebagai berikut:
+
+Pasal 27
+(1) Aset tertimbang menurut risiko yang digunakan dalam perhitungan modal minimum sebagaimana dimaksud dalam Pasal 2 ayat (3) dan perhitungan pembentukan tambahan modal sebagai penyangga sebagaimana dimaksud dalam Pasal 3 ayat (3) terdiri atas:
+a. aset tertimbang menurut risiko untuk Risiko Kredit;
+b. aset tertimbang menurut risiko untuk Risiko Operasional; dan
+c. aset tertimbang menurut risiko untuk Risiko Pasar.
+(2) Metode perhitungan aset tertimbang menurut risiko sebagaimana dimaksud pada ayat (1) ditetapkan oleh Otoritas Jasa Keuangan.
+
+4. Pasal 30 dihapus.
+5. Pasal 31 dihapus.
+6. Di antara Pasal 33 dan Pasal 34 disisipkan 1 (satu) pasal, yakni Pasal 33A sehingga berbunyi sebagai berikut:
+
+Pasal 33A
+(1) Pemenuhan kriteria tertentu sebagai dasar kewajiban perhitungan aset tertimbang menurut risiko untuk Risiko Pasar sebagaimana dimaksud dalam Pasal 28 ayat (2), Pasal 29, Pasal 32, dan Pasal  33  berlaku  sampai  dengan  tanggal 31 Desember 2023.
+(2) Mulai tanggal 1 Januari 2024, seluruh Bank wajib memperhitungkan aset tertimbang menurut risiko untuk Risiko Pasar.
+
+7. Pasal 34 dihapus.
+8. Pasal 35 dihapus.
+9. Pasal 36 dihapus.
+10. Pasal 42 dihapus.
+11. Di antara BAB III dan BAB IV disisipkan 1 (satu) bab, yakni BAB IIIA sehingga berbunyi sebagai berikut:
+
+BAB IIIA
+PERHITUNGAN MODAL UNTUK TRANSAKSI TERKAIT LEMBAGA CENTRAL COUNTERPARTY DAN PERSYARATAN MARGIN
+
+12. Di antara Pasal 42 dan Pasal 43 disisipkan 2 (dua) pasal, yakni Pasal 42A dan Pasal 42B sehingga berbunyi sebagai berikut:
+
+Pasal 42A
+(1) Bank wajib memperhitungkan eksposur terhadap lembaga central counterparty dalam perhitungan
+
+
+permodalan.
+(2) Metode perhitungan permodalan untuk eksposur Bank terhadap lembaga central counterparty sebagaimana dimaksud pada ayat (1) ditetapkan oleh Otoritas Jasa Keuangan.
+
+Pasal 42B
+(1) Bank wajib memenuhi persyaratan margin untuk transaksi derivatif yang tidak dikliringkan melalui lembaga central counterparty.
+(2) Metode perhitungan persyaratan margin sebagaimana dimaksud pada ayat (1) ditetapkan oleh Otoritas Jasa Keuangan.
+
+=== FOOTNOTES ===
+Pasal 27
+Cukup jelas.
+
+Pasal 28
+Cukup jelas.
+
+Pasal 29
+Cukup jelas.
+
+Pasal 30
+Perlakuan pengakuan dan pengukuran mengacu pada standar akuntansi keuangan mengenai instrumen keuangan.
+
+Pasal 31
+Cukup jelas.
+
+
+
+
+Pasal 32
+Contoh 1:
+Sebelum melakukan merger atau konsolidasi, Bank A dan Bank B tidak memenuhi kriteria untuk memperhitungkan Risiko Pasar.
+Selama 6 (enam) bulan setelah merger atau konsolidasi dinyatakan efektif, pada bulan pertama, bulan ketiga, dan bulan keempat, Bank hasil merger atau konsolidasi tersebut memenuhi kriteria untuk memperhitungkan Risiko Pasar.
+Dengan demikian, Bank hasil merger atau konsolidasi tersebut wajib memperhitungkan Risiko Pasar sejak bulan ke-7 (tujuh).
+Contoh 2:
+Bank A tidak memenuhi kriteria untuk memperhitungkan Risiko Pasar. Selanjutnya, Bank A mengakuisisi Perusahaan Keuangan X sehingga Bank A melakukan konsolidasi terhadap Perusahaan X. Selama 6 (enam) bulan setelah melakukan akuisisi perusahaan X dinyatakan efektif, pada bulan kedua, bulan keempat, dan bulan keenam, Bank secara konsolidasi dengan Perusahaan X tersebut memenuhi kriteria untuk memperhitungkan Risiko Pasar. Dengan demikian, Bank secara konsolidasi dengan Perusahaan Anak X tersebut wajib memperhitungkan Risiko Pasar sejak bulan ke-7 (tujuh).
+
+Pasal 33
+Cukup jelas.
+
+Pasal 34
+Cukup jelas.
+
+Pasal 35
+Cukup jelas.
+
+Pasal 36
+Ayat (1)
+Huruf a
+Yang dimaksud dengan "risiko suku bunga" adalah risiko kerugian akibat perubahan harga instrumen keuangan
+
+
+
+
+dari posisi Trading Book yang disebabkan oleh perubahan suku bunga.
+Huruf b
+Yang dimaksud dengan "risiko nilai tukar" adalah risiko kerugian akibat perubahan nilai posisi Trading Book dan Banking Book yang disebabkan oleh perubahan nilai tukar valuta asing termasuk perubahan harga emas.
+Ayat (2)
+Yang dimaksud dengan "risiko ekuitas" adalah risiko kerugian akibat perubahan harga instrumen keuangan dari posisi Trading Book yang disebabkan oleh perubahan harga saham. Yang	dimaksud	dengan	"risiko	komoditas"	adalah	risiko kerugian akibat perubahan harga instrumen keuangan dari posisi Trading Book dan Banking Book yang disebabkan oleh perubahan harga komoditas.
+
+Pasal 37
+Ayat (1)
+Cukup jelas.
+Ayat (2)
+Kebijakan dan prosedur valuasi tersebut meliputi antara lain penetapan tanggung jawab yang jelas dari berbagai pihak yang terlibat dalam penetapan valuasi, sumber informasi pasar, proses kaji ulang terhadap kelayakan valuasi, pedoman penggunaan data apabila data harga pasar aktual tidak tersedia (unobservable) yang mencerminkan asumsi bank bahwa data tersebut merupakan data yang akan digunakan oleh pasar dalam proses valuasi, frekuensi valuasi (secara harian), penetapan waktu untuk valuasi akhir hari (closing price), prosedur pelaksanaan, dan penyampaian hasil verifikasi baik secara berkala maupun insidental serta prosedur penyesuaian valuasi.
+Sistem informasi manajemen dan pengendalian proses valuasi paling sedikit mencakup pendokumentasian kebijakan dan prosedur valuasi yang telah ditetapkan serta alur pelaporan (reporting lines) yang jelas bagi satuan kerja yang bertanggung jawab terhadap proses valuasi dan verifikasi.
+
+
+
+
+Ayat (3)
+Kebijakan dan prosedur valuasi yang berlandaskan pada prinsip kehati-hatian antara lain melakukan valuasi dengan memperhatikan penerapan aspek-aspek manajemen risiko dan prosedur valuasi yang wajar.
+
+Pasal 38
+Ayat (1)
+Yang dimaksud dengan "nilai wajar" adalah nilai wajar sebagaimana dimaksud dalam standar akuntansi keuangan mengenai pengukuran nilai wajar.
+Ayat (2)
+Yang dimaksud dengan "instrumen keuangan yang diperdagangkan secara aktif" adalah apabila harga instrumen keuangan tersedia sewaktu-waktu dan dapat diperoleh secara rutin di bursa, pedagang efek (dealer), perantara efek (broker) atau agen lainnya serta harga tersebut merupakan harga yang terjadi dari transaksi aktual yang dilakukan secara wajar (arm's length basis).
+Harga transaksi yang terjadi atau kuotasi harga pasar dari sumber yang independen antara lain meliputi harga di bursa (exchange prices), harga pada layar dealer (screen prices) atau kuotasi yang paling konservatif yang diberikan oleh paling sedikit 2 (dua) broker dan/atau market maker yang memiliki reputasi baik, yang minimal salah satunya adalah pihak independen.
+Penggunaan sumber yang independen dilakukan secara konsisten kecuali harga yang diperoleh tidak mencerminkan nilai wajar.
+Ayat (3)
+Huruf a
+Yang dimaksud dengan "bid price" adalah harga beli yang dikuotasikan oleh sumber yang independen.
+Huruf b
+Yang dimaksud "ask price (offer price)" adalah harga jual yang dikuotasikan oleh sumber yang independen.
+
+
+
+
+Ayat (4)
+Dalam melakukan valuasi nilai wajar, bank harus memaksimalkan penggunaan data harga pasar aktual (observable input) dan meminimalkan penggunaan data yang bukan merupakan data harga pasar aktual atau yang ditetapkan dengan menggunakan suatu model/teknik penilaian (unobservable).
+Termasuk model atau teknik penilaian antara lain:
+a. penggunaan harga yang timbul dari transaksi yang terjadi dalam 10 (sepuluh) hari kerja terakhir;
+b. penggunaan harga pasar dari instrumen lain yang memiliki karakteristik (paling sedikit jangka waktu, tingkat bunga atau kupon, peringkat, dan golongan penerbit) yang serupa;
+c. analisis arus kas yang didiskonto (discounted cash flow);
+d. model penetapan harga opsi (option pricing models); atau
+e. model atau teknik penilaian yang secara umum telah digunakan oleh pelaku pasar dalam menetapkan harga instrumen.
+Penerapan prinsip kehati-hatian dalam penggunaan model atau teknik penilaian antara lain memperhatikan:
+a. pemisahan tugas dan kompetensi pihak-pihak yang terlibat dalam pengembangan dan penggunaan model;
+b. memastikan dilakukan kaji ulang akurasi model atau teknik penilaian oleh fungsi yang independen;
+c. prosedur dan dokumentasi pengembangan dan perubahan model atau teknik penilaian;
+d. Direksi Bank harus memahami valuasi posisi Trading Book maupun posisi nilai wajar lainnya yang dihitung dengan menggunakan model dan memahami ketidakpastian;
+e. data yang digunakan dalam perhitungan nilai wajar adalah data pasar aktual dan harus dilakukan kaji ulang secara berkala;
+f. metodologi penilaian yang berlaku umum untuk produk tertentu sedapat mungkin untuk digunakan;
+
+
+
+
+g. model yang dikembangkan harus menggunakan asumsi yang tepat, dan Bank harus memiliki salinan model yang akan digunakan untuk memeriksa hasil valuasi secara berkala; dan
+h. satuan kerja manajemen risiko harus mengetahui kelemahan model yang digunakan dalam valuasi nilai wajar.
+
+Pasal 39
+Ayat (1)
+Verifikasi dilakukan untuk memastikan keakuratan penyusunan laporan laba rugi.
+Verifikasi terhadap proses dan hasil valuasi paling sedikit dilakukan terhadap kewajaran harga pasar maupun informasi yang digunakan sebagai input dalam model atau teknik penilaian.
+Ayat (2)
+Cukup jelas.
+Ayat (3)
+Penyesuaian dilaksanakan terhadap nilai instrumen keuangan dalam laporan posisi keuangan (neraca) dan laporan laba rugi.
+
+Pasal 40
+Penyesuaian hasil valuasi dilakukan berdasarkan pemantauan harian maupun hasil verifikasi oleh pihak yang tidak ikut dalam pelaksanaan valuasi.
+Sebagai contoh, valuasi yang belum mencerminkan nilai wajar dapat terjadi pada valuasi dengan menggunakan model atau teknik penilaian.
+Huruf a
+Yang dimaksud dengan perubahan kondisi ekonomi yang signifikan antara lain perubahan kurva imbal hasil (yield curve) secara signifikan di luar ekspektasi pasar.
+Huruf b
+Cukup jelas.
+
+
+
+
+Huruf c
+Faktor sisa jangka waktu sampai dengan jatuh tempo diperhitungkan mengingat semakin mendekati jatuh tempo, nilai instrumen keuangan semakin mendekati nilai nominal.
+Huruf d
+Kondisi lainnya antara lain mencakup:
+1. kemungkinan kerugian potensial yang timbul karena pihak lawan tidak dapat memenuhi kewajibannya (unearned credit spreads);
+2. kemungkinan perhitungan biaya atau penalti yang timbul karena pelunasan lebih awal sebelum jatuh tempo (early termination);
+3. terjadinya mismatch arus kas yang menyebabkan harga dapat dipengaruhi oleh perhitungan biaya untuk meminjam dan menginvestasikan dana (investing and funding costs); dan
+4. terjadi kondisi tertentu yang mengakibatkan ketidakpastian dalam model valuasi, misalnya ketidakmampuan menangkap perubahan dalam kondisi tidak normal.
+
+Pasal 41
+Ayat (1)
+Faktor-faktor tertentu mencakup antara lain rata-rata dan volatilitas volume perdagangan, rata-rata volatilitas dari rentang kuotasi penawaran dan permintaan (bid atau ask spreads), serta ketersediaan kuotasi pasar.
+Ayat (2)
+Penyesuaian tidak akan mengurangi nilai instrumen keuangan pada laporan posisi keuangan (neraca) dan tidak mempengaruhi laporan laba rugi.
+
+Pasal 42
+Cukup jelas.

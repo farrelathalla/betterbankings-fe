@@ -15,6 +15,8 @@ import {
   HelpCircle,
   BookOpen,
   ArrowLeft,
+  History,
+  MessageSquare,
 } from "lucide-react";
 
 // Dynamically import RichContentRenderer to avoid SSR issues
@@ -23,7 +25,7 @@ const RichContentRenderer = dynamic(
   {
     ssr: false,
     loading: () => <span className="text-gray-400">Loading...</span>,
-  }
+  },
 );
 
 interface Footnote {
@@ -38,12 +40,21 @@ interface FAQ {
   answer: string;
 }
 
+interface Revision {
+  id: string;
+  title: string;
+  content: string;
+  revisionDate: string;
+}
+
 interface Subsection {
   id: string;
   number: string;
   content: string;
+  betterBankingNotes: string | null;
   footnotes: Footnote[];
   faqs: FAQ[];
+  revisions: Revision[];
 }
 
 interface Section {
@@ -136,18 +147,18 @@ export default function ChapterPage({
       try {
         // Get chapters filtered by standard code
         const chaptersRes = await fetch(
-          `/api/basel/chapters?standardCode=${standardCode}`
+          `/api/basel/chapters?standardCode=${standardCode}`,
         );
         const chaptersData = await chaptersRes.json();
 
         const foundChapter = chaptersData.chapters?.find(
-          (c: { code: string }) => c.code === chapterCode
+          (c: { code: string }) => c.code === chapterCode,
         );
 
         if (foundChapter) {
           // Fetch full chapter with content
           const detailRes = await fetch(
-            `/api/basel/chapters/${foundChapter.id}`
+            `/api/basel/chapters/${foundChapter.id}`,
           );
           const detailData = await detailRes.json();
           setChapter(detailData.chapter);
@@ -441,6 +452,53 @@ export default function ChapterPage({
                                         </div>
                                       </ExpandableSection>
                                     )}
+
+                                    {/* BetterBanking Notes */}
+                                    {subsection.betterBankingNotes && (
+                                      <ExpandableSection
+                                        title="BetterBanking Notes"
+                                        icon={MessageSquare}
+                                      >
+                                        <div className="text-sm text-gray-600">
+                                          {subsection.betterBankingNotes}
+                                        </div>
+                                      </ExpandableSection>
+                                    )}
+
+                                    {/* Previous Revisions */}
+                                    {subsection.revisions &&
+                                      subsection.revisions.length > 0 && (
+                                        <ExpandableSection
+                                          title="Previous Revisions"
+                                          icon={History}
+                                          count={subsection.revisions.length}
+                                        >
+                                          <div className="space-y-4">
+                                            {subsection.revisions.map((rev) => (
+                                              <div
+                                                key={rev.id}
+                                                className="border-l-2 border-purple-300 pl-3"
+                                              >
+                                                <div className="flex items-center gap-2 mb-1">
+                                                  <span className="font-semibold text-purple-700 text-sm">
+                                                    {rev.title}
+                                                  </span>
+                                                  <span className="text-xs text-gray-500">
+                                                    (
+                                                    {new Date(
+                                                      rev.revisionDate,
+                                                    ).toLocaleDateString()}
+                                                    )
+                                                  </span>
+                                                </div>
+                                                <p className="text-gray-600 text-sm whitespace-pre-wrap">
+                                                  {rev.content}
+                                                </p>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </ExpandableSection>
+                                      )}
                                   </div>
                                 </div>
                               </div>

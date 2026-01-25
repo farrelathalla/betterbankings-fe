@@ -67,18 +67,28 @@ const NAV_SECTIONS: NavSection[] = [
     title: "B-FORESIGHT",
     items: [
       {
-        label: "Banking Industry Data",
-        icon: Building2,
+        label: "Risk Indicator",
+        icon: BarChart3,
         children: [
           {
-            label: "Risk Indicator",
-            href: "/banking-data/risk-indicator",
-            icon: BarChart3,
+            label: "Capital and Solvency",
+            href: "/b-foresight/capital-solvency",
+            icon: Building2,
           },
           {
-            label: "Bank Performance",
-            href: "/banking-data/bank-performance",
+            label: "Credit and Market Risk",
+            href: "/b-foresight/credit-market-risk",
+            icon: TrendingUp,
+          },
+          {
+            label: "Funding and Liquidity",
+            href: "/b-foresight/funding-liquidity",
             icon: LineChart,
+          },
+          {
+            label: "Performance and Risk Monitoring",
+            href: "/b-foresight/performance-monitoring",
+            icon: BarChart3,
           },
         ],
       },
@@ -116,7 +126,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
       section.items.forEach((item) => {
         if (item.children) {
           const isChildActive = item.children.some((child) =>
-            pathname.startsWith(child.href)
+            pathname.startsWith(child.href),
           );
           if (isChildActive && !expandedMenus.includes(item.label)) {
             setExpandedMenus((prev) => [...prev, item.label]);
@@ -128,7 +138,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
 
   const toggleMenu = (label: string) => {
     setExpandedMenus((prev) =>
-      prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label]
+      prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label],
     );
   };
 
@@ -163,7 +173,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                 const isChildActive =
                   hasChildren &&
                   item.children?.some((child) =>
-                    pathname.startsWith(child.href)
+                    pathname.startsWith(child.href),
                   );
 
                 // If item has children, render as dropdown
@@ -176,7 +186,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                           "flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 group",
                           isChildActive
                             ? "bg-[#E0E7FF] text-[#14213D]"
-                            : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D]"
+                            : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D]",
                         )}
                       >
                         <div className="flex items-center gap-3">
@@ -185,7 +195,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                               "w-5 h-5",
                               isChildActive
                                 ? "text-[#14213D]"
-                                : "text-[#94A3B8] group-hover:text-[#14213D]"
+                                : "text-[#94A3B8] group-hover:text-[#14213D]",
                             )}
                           />
                           {item.label}
@@ -194,7 +204,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                           className={cn(
                             "w-4 h-4 transition-transform duration-200",
                             isExpanded ? "rotate-180" : "",
-                            isChildActive ? "text-[#14213D]" : "text-[#94A3B8]"
+                            isChildActive ? "text-[#14213D]" : "text-[#94A3B8]",
                           )}
                         />
                       </button>
@@ -221,7 +231,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                                       "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 group",
                                       isChildItemActive
                                         ? "bg-[#E0E7FF] text-[#14213D]"
-                                        : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D]"
+                                        : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D]",
                                     )}
                                   >
                                     <ChildIcon
@@ -229,7 +239,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                                         "w-4 h-4",
                                         isChildItemActive
                                           ? "text-[#14213D]"
-                                          : "text-[#94A3B8] group-hover:text-[#14213D]"
+                                          : "text-[#94A3B8] group-hover:text-[#14213D]",
                                       )}
                                     />
                                     {child.label}
@@ -254,7 +264,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                       "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 group",
                       isActive
                         ? "bg-[#E0E7FF] text-[#14213D]"
-                        : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D]"
+                        : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D]",
                     )}
                   >
                     <Icon
@@ -262,7 +272,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                         "w-5 h-5",
                         isActive
                           ? "text-[#14213D]"
-                          : "text-[#94A3B8] group-hover:text-[#14213D]"
+                          : "text-[#94A3B8] group-hover:text-[#14213D]",
                       )}
                     />
                     {item.label}
@@ -287,7 +297,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 group",
                   pathname === "/admin/basel"
                     ? "bg-purple-100 text-purple-700"
-                    : "text-[#64748B] hover:bg-purple-50 hover:text-purple-700"
+                    : "text-[#64748B] hover:bg-purple-50 hover:text-purple-700",
                 )}
               >
                 <Settings
@@ -295,7 +305,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                     "w-5 h-5",
                     pathname === "/admin/basel"
                       ? "text-purple-700"
-                      : "text-[#94A3B8] group-hover:text-purple-700"
+                      : "text-[#94A3B8] group-hover:text-purple-700",
                   )}
                 />
                 Basel CMS
@@ -307,7 +317,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 group",
                   pathname === "/admin/angle"
                     ? "bg-orange-100 text-orange-700"
-                    : "text-[#64748B] hover:bg-orange-50 hover:text-orange-700"
+                    : "text-[#64748B] hover:bg-orange-50 hover:text-orange-700",
                 )}
               >
                 <TrendingUp
@@ -315,7 +325,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                     "w-5 h-5",
                     pathname === "/admin/angle"
                       ? "text-orange-700"
-                      : "text-[#94A3B8] group-hover:text-orange-700"
+                      : "text-[#94A3B8] group-hover:text-orange-700",
                   )}
                 />
                 Angle CMS
@@ -327,7 +337,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 group",
                   pathname === "/admin/notifications"
                     ? "bg-blue-100 text-blue-700"
-                    : "text-[#64748B] hover:bg-blue-50 hover:text-blue-700"
+                    : "text-[#64748B] hover:bg-blue-50 hover:text-blue-700",
                 )}
               >
                 <Bell
@@ -335,7 +345,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                     "w-5 h-5",
                     pathname === "/admin/notifications"
                       ? "text-blue-700"
-                      : "text-[#94A3B8] group-hover:text-blue-700"
+                      : "text-[#94A3B8] group-hover:text-blue-700",
                   )}
                 />
                 Notifications

@@ -1,0 +1,104 @@
+=== ORIGINAL ===
+BAB V PELAPORAN
+
+Pasal 47
+(1) Bank yang memenuhi kewajiban untuk melakukan perhitungan KPMM secara konsolidasi sebagaimana dimaksud dalam Pasal 7 wajib menyampaikan laporan perhitungan KPMM secara konsolidasi.
+(2) Bank yang memenuhi kriteria tertentu sebagaimana dimaksud dalam Pasal 29 wajib menyampaikan laporan perhitungan KPMM dengan memperhitungkan Risiko Pasar.
+(3) Penyusunan dan penyampaian laporan sebagaimana dimaksud pada ayat (1) dan ayat (2) wajib mengacu kepada ketentuan yang mengatur mengenai laporan berkala bank umum.
+
+Pasal 48
+(1) Bank wajib menyampaikan laporan perhitungan KPMM sesuai profil risiko kepada Otoritas Jasa Keuangan.
+(2) Laporan sebagaimana dimaksud pada ayat (1) disampaikan bersamaan dengan penyampaian hasil self-assessment tingkat kesehatan bank.
+
+Pasal 49
+(1) Kantor cabang dari bank yang berkedudukan di luar negeri wajib menyampaikan laporan pemenuhan CEMA.
+(2) Laporan pemenuhan CEMA sebagaimana dimaksud pada ayat (1) paling sedikit memuat informasi mengenai:
+a. rata-rata total kewajiban secara mingguan sebagaimana dimaksud dalam Pasal 24 ayat (2);
+b. jumlah alokasi dana usaha dalam bentuk CEMA;
+c. jenis aset dan pemenuhan kriteria aset keuangan CEMA;
+
+
+
+
+d. nilai	tercatat	masing-masing	aset	keuangan CEMA; dan
+e. maturity date aset keuangan CEMA.
+
+Pasal 50
+(1) Laporan sebagaimana dimaksud dalam Pasal 49 ayat (1) disusun setiap bulan dan wajib disampaikan kepada Otoritas Jasa Keuangan paling lambat tanggal 8 pada bulan berikutnya.
+(2) Apabila batas akhir penyampaian laporan sebagaimana dimaksud pada ayat (1) jatuh pada hari Sabtu, hari Minggu, dan/atau hari libur, laporan pemenuhan CEMA disampaikan pada hari kerja berikutnya.
+
+Pasal 51
+(1) Bank dinyatakan terlambat menyampaikan laporan sebagaimana dimaksud dalam Pasal 48 ayat (1) dan Pasal 49 ayat (1) apabila laporan diterima oleh Otoritas Jasa Keuangan setelah batas waktu penyampaian laporan sampai dengan paling lambat 5 (lima) hari setelah batas waktu penyampaian laporan.
+(2) Bank dinyatakan tidak menyampaikan laporan sebagaimana dimaksud dalam Pasal 48 ayat (1) dan Pasal 49 ayat (1) apabila laporan belum diterima oleh Otoritas Jasa Keuangan sampai dengan batas waktu keterlambatan sebagaimana dimaksud pada ayat (1).
+(3) Bank yang dinyatakan tidak menyampaikan laporan sebagaimana dimaksud pada ayat (2) tetap wajib menyampaikan laporan sebagaimana dimaksud dalam Pasal 48 ayat (1) dan Pasal 49 ayat (1).
+
+Pasal 52
+Laporan sebagaimana dimaksud dalam Pasal 48 ayat (1) dan Pasal 49 ayat (1) disampaikan kepada:
+a. Departemen Pengawasan Bank terkait atau Kantor Regional	1	Jabodetabek,	Banten,	Lampung,	dan
+
+
+
+
+Kalimantan, bagi Bank yang berkantor pusat atau kantor cabang dari bank yang berkedudukan di luar negeri yang berada di wilayah Jakarta, Bogor, Depok, Tangerang, dan Bekasi (Jabodetabek), serta Provinsi Banten; atau
+b. Kantor Regional Otoritas Jasa Keuangan atau Kantor Otoritas Jasa Keuangan setempat bagi Bank yang berkantor pusat di luar wilayah Jakarta, Bogor, Depok, Tangerang, dan Bekasi (Jabodetabek), serta Provinsi Banten.
+
+=== REVISION 1 ===
+
+=== REVISION 2 ===
+13. Ketentuan Pasal 47 diubah sehingga berbunyi sebagai berikut:
+Pasal 47
+(1) Bank wajib menyampaikan laporan perhitungan KPMM secara individu.
+(2) Bank yang memenuhi kewajiban untuk melakukan perhitungan KPMM secara konsolidasi sebagaimana dimaksud dalam Pasal 7 juga wajib menyampaikan laporan perhitungan KPMM secara konsolidasi.
+(3) Laporan sebagaimana dimaksud pada ayat (1) dan ayat (2) disampaikan secara daring melalui sistem pelaporan Otoritas Jasa Keuangan.
+(4) Format dan tata cara penyampaian laporan sebagaimana dimaksud pada ayat (3) sesuai dengan peraturan Otoritas Jasa Keuangan mengenai pelaporan bank umum melalui sistem pelaporan Otoritas Jasa Keuangan.
+
+14. Ketentuan Pasal 52 diubah sehingga berbunyi sebagai berikut:
+Pasal 52
+Tata cara penyampaian laporan sebagaimana dimaksud dalam Pasal 48 ayat (1) dan Pasal 49 ayat (1) dilaksanakan sesuai dengan Peraturan Otoritas Jasa Keuangan mengenai pelaporan bank umum melalui sistem pelaporan Otoritas Jasa Keuangan.
+
+=== FOOTNOTES ===
+Pasal 47
+Ayat (1)
+Cukup jelas.
+Ayat (2)
+Laporan KPMM dengan memperhitungkan Risiko Pasar antara lain mencakup laporan posisi yang diperhitungkan dalam Risiko Pasar dan laporan perhitungan rasio KPMM.
+Ayat (3)
+Cukup jelas.
+
+Pasal 48
+Ayat (1)
+Profil risiko didasarkan pada hasil self-assessment Bank. Laporan perhitungan KPMM sesuai profil risiko mencakup antara lain:
+a. strategi pengelolaan modal;
+b. identifikasi dan pengukuran risiko material; dan
+     c. penilaian kecukupan modal. Ayat (2)
+Penyampaian dan batas waktu penyampaian hasil self- assessment tingkat kesehatan Bank mengacu pada ketentuan yang mengatur mengenai penilaian tingkat kesehatan Bank.
+
+
+
+
+Pasal 49
+Ayat (1)
+Cukup jelas.
+Ayat (2)
+Huruf a
+Cukup jelas.
+Huruf b
+Cukup jelas.
+Huruf c
+Cukup jelas.
+Huruf d
+Yang dimaksud dengan "nilai tercatat" adalah nilai aset keuangan pada laporan posisi keuangan (neraca) setelah dikurangi dengan cadangan kerugian penurunan nilai.
+Huruf e
+Cukup jelas.
+
+Pasal 50
+Ayat (1)
+Cukup jelas.
+Ayat (2)
+Yang dimaksud dengan "hari libur" adalah hari libur nasional yang ditetapkan oleh pemerintah pusat dan/atau hari libur lokal yang ditetapkan oleh pemerintah daerah setempat.
+
+Pasal 51
+Cukup jelas.
+
+Pasal 52
+Cukup jelas.

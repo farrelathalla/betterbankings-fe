@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     if (!sectionId) {
       return NextResponse.json(
         { error: "sectionId is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -21,6 +21,7 @@ export async function GET(request: Request) {
       include: {
         footnotes: { orderBy: { number: "asc" } },
         faqs: { orderBy: { order: "asc" } },
+        revisions: { orderBy: { order: "asc" } },
       },
     });
 
@@ -29,7 +30,7 @@ export async function GET(request: Request) {
     console.error("Error fetching subsections:", error);
     return NextResponse.json(
       { error: "Failed to fetch subsections" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -41,12 +42,12 @@ export async function POST(request: Request) {
     if (adminError) return adminError;
 
     const body = await request.json();
-    const { number, content, sectionId, order } = body;
+    const { number, content, betterBankingNotes, sectionId, order } = body;
 
     if (!number || !sectionId) {
       return NextResponse.json(
         { error: "Number and sectionId are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -62,7 +63,7 @@ export async function POST(request: Request) {
         {
           error: "A subsection with this number already exists in this section",
         },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -70,6 +71,7 @@ export async function POST(request: Request) {
       data: {
         number,
         content: content || "",
+        betterBankingNotes: betterBankingNotes || null,
         sectionId,
         order: order || 0,
       },
@@ -80,7 +82,7 @@ export async function POST(request: Request) {
     console.error("Error creating subsection:", error);
     return NextResponse.json(
       { error: "Failed to create subsection" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

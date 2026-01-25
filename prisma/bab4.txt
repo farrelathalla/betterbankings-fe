@@ -1,0 +1,73 @@
+=== ORIGINAL ===
+BAB IV
+Internal Capital Adequacy Assessment Process (ICAAP) dan Supervisory Review and Evaluation Process (SREP)
+
+Bagian Kesatu
+Internal Capital Adequacy Assessment Process (ICAAP)
+
+Pasal 43
+(1) Dalam memenuhi kewajiban penyediaan modal minimum sesuai profil risiko sebagaimana dimaksud dalam Pasal 2 baik secara individu maupun konsolidasi dengan Perusahaan Anak, Bank wajib memiliki ICAAP yang disesuaikan dengan ukuran, karakteristik, dan kompleksitas usaha Bank.
+(2) ICAAP sebagaimana ayat (1) mencakup paling sedikit:
+a. pengawasan aktif Direksi dan Dewan Komisaris;
+b. penilaian kecukupan modal;
+c. pemantauan dan pelaporan; dan
+d. pengendalian internal.
+(3) Bank wajib mendokumentasikan ICAAP.
+
+
+
+
+Bagian Kedua
+Supervisory Review and Evaluation Process (SREP)
+
+Pasal 44
+(1) Otoritas Jasa Keuangan melakukan SREP.
+(2) Berdasarkan hasil SREP, Otoritas Jasa Keuangan dapat meminta Bank untuk memperbaiki ICAAP.
+
+Pasal 45
+(1) Dalam hal terdapat perbedaan hasil perhitungan modal sesuai profil risiko antara hasil self-assessment Bank dengan hasil SREP, perhitungan modal yang berlaku adalah hasil SREP.
+(2) Dalam hal Otoritas Jasa Keuangan menilai modal yang dimiliki Bank tidak memenuhi modal minimum sesuai profil risiko sebagaimana dimaksud dalam Pasal 2 baik secara individu maupun konsolidasi dengan Perusahaan Anak, Otoritas Jasa Keuangan dapat meminta Bank untuk:
+a. menambah modal agar memenuhi KPMM sesuai profil risiko;
+b. memperbaiki kualitas proses manajemen risiko; dan/atau
+c. menurunkan eksposur risiko.
+
+Pasal 46
+Dalam hal Otoritas Jasa Keuangan menilai terdapat kecenderungan penurunan modal Bank yang berpotensi menyebabkan modal Bank berada di bawah KPMM sesuai profil risiko, Otoritas Jasa Keuangan dapat meminta Bank untuk melakukan antara lain:
+a. pembatasan kegiatan usaha tertentu;
+b. pembatasan pembukaan jaringan kantor; dan/atau
+c. pembatasan distribusi modal.
+
+=== REVISION 1 ===
+
+=== REVISION 2 ===
+
+=== FOOTNOTES ===
+Pasal 43
+Ayat (1)
+Cukup jelas.
+Ayat (2)
+Huruf a
+Pengawasan aktif Direksi dan Dewan Komisaris meliputi antara lain memahami sifat dan tingkat risiko yang dihadapi Bank, menilai kecukupan kualitas manajemen risiko, dan mengaitkan tingkat risiko dengan kecukupan modal yang dimiliki Bank.
+Huruf b
+Penilaian kecukupan modal meliputi antara lain proses yang mengkaitkan tingkat risiko dengan tingkat kecukupan modal Bank dengan mempertimbangkan strategi dan rencana bisnis Bank.
+Huruf c
+Pemantauan dan pelaporan meliputi antara lain sistem pemantauan dan pelaporan eksposur risiko serta dampak perubahan profil risiko terhadap kebutuhan modal Bank.
+Huruf d
+Pengendalian internal meliputi antara lain kecukupan pengendalian internal dan kaji ulang.
+Kaji ulang dilakukan oleh pihak internal Bank yang memiliki kompetensi memadai dan independen terhadap proses penetapan kecukupan modal.
+Ayat (3)
+Cukup jelas.
+
+Pasal 44
+Cukup jelas.
+
+Pasal 45
+Cukup jelas.
+
+Pasal 46
+Huruf a
+Cukup jelas.
+Huruf b
+Cukup jelas.
+Huruf c
+Yang dimaksud dengan pembatasan distribusi modal antara lain berupa pembatasan atau penundaan pembayaran bonus dan/atau dividen.
