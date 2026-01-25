@@ -3,6 +3,7 @@
 import Sidebar from "@/components/Sidebar";
 import AdvisoryHero from "@/components/AdvisoryHero";
 import AdvisoryServicesList from "@/components/AdvisoryServicesList";
+import AdvisoryMagazine from "@/components/AdvisoryMagazine";
 import AdvisoryProducts from "@/components/AdvisoryProducts";
 import AdvisoryCTA from "@/components/AdvisoryCTA";
 import Footer from "@/components/Footer";
@@ -27,6 +28,7 @@ export default function AdvisoryServices() {
         <div className="relative z-10 flex flex-col">
           <AdvisoryHero />
           <AdvisoryServicesList />
+          <AdvisoryMagazine />
           <AdvisoryProducts />
           <AdvisoryCTA />
           <Footer />
