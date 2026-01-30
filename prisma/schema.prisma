@@ -35,14 +35,28 @@ model RateLimit {
 
 // Standard categories (SCO, CAP, RBC, CRE, etc.)
 model BaselStandard {
-  id          String         @id @default(cuid())
-  code        String         @unique // "SCO", "CAP", "RBC"
-  name        String         // "Scope of application"
+  id          String              @id @default(cuid())
+  code        String              @unique // "SCO", "CAP", "RBC"
+  name        String              // "Scope of application"
   description String?
-  order       Int            @default(0)
+  order       Int                 @default(0)
   chapters    BaselChapter[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  pdfs        BaselStandardPDF[]  // Optional PDFs attached to standard
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}
+
+// PDFs attached to standards (optional, for downloadable documents)
+model BaselStandardPDF {
+  id         String        @id @default(cuid())
+  name       String        // Display name (e.g., "Full Standard Document")
+  url        String        // VPS URL
+  filename   String?       // Filename for VPS deletion
+  standardId String
+  standard   BaselStandard @relation(fields: [standardId], references: [id], onDelete: Cascade)
+  order      Int           @default(0)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
 }
 
 // Chapters within a standard (SCO10, SCO30, CAP10, etc.)

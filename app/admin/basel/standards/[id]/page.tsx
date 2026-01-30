@@ -15,7 +15,18 @@ import {
   ChevronLeft,
   ChevronRight,
   Save,
+  Upload,
+  X,
+  Download,
 } from "lucide-react";
+
+interface StandardPDF {
+  id: string;
+  name: string;
+  url: string;
+  publicId: string;
+  createdAt: string;
+}
 
 interface Section {
   id: string;
@@ -38,6 +49,7 @@ interface Standard {
   description: string | null;
   order: number;
   chapters: Chapter[];
+  pdfs?: StandardPDF[];
 }
 
 export default function AdminStandardPage({
@@ -69,6 +81,11 @@ export default function AdminStandardPage({
     effectiveDate: "",
   });
   const [creatingChapter, setCreatingChapter] = useState(false);
+
+  // PDF upload state
+  const [uploadingPDF, setUploadingPDF] = useState(false);
+  const [pdfName, setPdfName] = useState("");
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (!authLoading && (!user || user.role !== "admin")) {
@@ -183,6 +200,81 @@ export default function AdminStandardPage({
       console.error("Error deleting chapter:", error);
     } finally {
       setDeleting(null);
+    }
+  };
+
+  // PDF upload handler
+  const handleUploadPDF = async () => {
+    if (!pdfFile || !pdfName || !standard) return;
+    setUploadingPDF(true);
+    try {
+      // First upload to Cloudinary
+      const formData = new FormData();
+      formData.append("file", pdfFile);
+
+      const uploadRes = await fetch(getApiUrl("/upload/cloudinary"), {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
+
+      if (!uploadRes.ok) {
+        throw new Error("Failed to upload file");
+      }
+
+      const uploadData = await uploadRes.json();
+
+      // Then create PDF record
+      const pdfRes = await fetch(getApiUrl("/basel/standards/pdfs"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          name: pdfName,
+          url: uploadData.url,
+          publicId: uploadData.publicId,
+          standardId: standard.id,
+        }),
+      });
+
+      if (pdfRes.ok) {
+        setPdfName("");
+        setPdfFile(null);
+        fetchStandard();
+      } else {
+        const data = await pdfRes.json();
+        alert(data.error || "Failed to save PDF record");
+      }
+    } catch (error) {
+      console.error("Error uploading PDF:", error);
+      alert("Failed to upload PDF");
+    } finally {
+      setUploadingPDF(false);
+    }
+  };
+
+  // PDF delete handler
+  const handleDeletePDF = async (id: string, publicId: string) => {
+    if (!confirm("Delete this PDF?")) return;
+    try {
+      // Delete from database
+      const res = await fetch(getApiUrl(`/basel/standards/pdfs/${id}`), {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (res.ok) {
+        // Also delete from Cloudinary
+        await fetch(getApiUrl("/upload/cloudinary"), {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ publicId }),
+        });
+        fetchStandard();
+      }
+    } catch (error) {
+      console.error("Error deleting PDF:", error);
     }
   };
 
@@ -307,6 +399,93 @@ export default function AdminStandardPage({
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none"
                 />
               </div>
+            </div>
+          </div>
+
+          {/* PDF Documents Section */}
+          <div className="bg-white rounded-2xl border border-[#E1E7EF] p-6 mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold text-[#14213D] flex items-center gap-2">
+                <FileText className="w-5 h-5 text-[#355189]" />
+                Standard Documents (PDFs)
+              </h3>
+            </div>
+
+            {/* Existing PDFs */}
+            {standard.pdfs && standard.pdfs.length > 0 ? (
+              <div className="space-y-2 mb-4">
+                {standard.pdfs.map((pdf) => (
+                  <div
+                    key={pdf.id}
+                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                  >
+                    <a
+                      href={pdf.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-[#355189] hover:underline"
+                    >
+                      <FileText className="w-4 h-4 text-red-500" />
+                      {pdf.name}
+                      <Download className="w-3 h-3 opacity-50" />
+                    </a>
+                    <button
+                      onClick={() => handleDeletePDF(pdf.id, pdf.publicId)}
+                      className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-sm mb-4">
+                No PDFs uploaded yet.
+              </p>
+            )}
+
+            {/* Upload New PDF */}
+            <div className="border-t border-gray-200 pt-4">
+              <p className="text-sm font-semibold text-[#14213D] mb-3">
+                Upload New PDF
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1">
+                    Display Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={pdfName}
+                    onChange={(e) => setPdfName(e.target.value)}
+                    placeholder="e.g., Full Standard Document"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1">
+                    PDF File * (max 50MB)
+                  </label>
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none text-sm"
+                  />
+                </div>
+              </div>
+              <button
+                onClick={handleUploadPDF}
+                disabled={!pdfName || !pdfFile || uploadingPDF}
+                className="flex items-center gap-2 px-4 py-2 bg-[#355189] text-white rounded-lg text-sm font-semibold hover:bg-[#1B2B4B] disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {uploadingPDF ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Upload className="w-4 h-4" />
+                )}
+                Upload PDF
+              </button>
             </div>
           </div>
 

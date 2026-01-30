@@ -11,7 +11,15 @@ import {
   FileText,
   Loader2,
   Calendar,
+  Download,
 } from "lucide-react";
+
+interface StandardPDF {
+  id: string;
+  name: string;
+  url: string;
+  createdAt: string;
+}
 
 interface Chapter {
   id: string;
@@ -32,6 +40,7 @@ interface Standard {
   name: string;
   description: string | null;
   chapters: Chapter[];
+  pdfs?: StandardPDF[];
 }
 
 export default function StandardPage({
@@ -150,8 +159,7 @@ export default function StandardPage({
           >
             <ChevronLeft className="w-4 h-4" />
             Back to RegMaps
-          </Link>
-
+          </Link>{" "}
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-4">
@@ -169,8 +177,32 @@ export default function StandardPage({
                 )}
               </div>
             </div>
-          </div>
 
+            {/* PDF Documents for Standard */}
+            {standard.pdfs && standard.pdfs.length > 0 && (
+              <div className="bg-white rounded-2xl border border-[#E1E7EF] p-6 mt-4">
+                <p className="text-sm font-semibold text-[#14213D] mb-3 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-[#355189]" />
+                  Standard Documents
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {standard.pdfs.map((pdf) => (
+                    <a
+                      key={pdf.id}
+                      href={pdf.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg hover:bg-[#355189] hover:text-white hover:border-[#355189] transition-colors group"
+                    >
+                      <FileText className="w-4 h-4 text-red-500 group-hover:text-white" />
+                      <span>{pdf.name}</span>
+                      <Download className="w-3 h-3 opacity-50" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
           {/* Chapters List */}
           <div className="space-y-4">
             <h2 className="text-lg font-bold text-[#14213D]">Chapters</h2>
