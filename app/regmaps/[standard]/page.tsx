@@ -155,11 +155,11 @@ export default function StandardPage({
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-[#1B2B4B] to-[#355189] rounded-2xl flex items-center justify-center">
+              {/* <div className="w-16 h-16 bg-gradient-to-br from-[#1B2B4B] to-[#355189] rounded-2xl flex items-center justify-center">
                 <span className="text-white font-bold text-xl">
                   {standard.code}
                 </span>
-              </div>
+              </div> */}
               <div>
                 <h1 className="text-2xl lg:text-3xl font-bold text-[#14213D]">
                   {standard.code} - {standard.name}
