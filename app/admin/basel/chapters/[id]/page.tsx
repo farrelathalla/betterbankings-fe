@@ -886,13 +886,16 @@ export default function AdminChapterPage({
                                       onSave={async (content) => {
                                         try {
                                           await fetch(
-                                            `/api/basel/subsections/${sub.id}`,
+                                            getApiUrl(
+                                              `/basel/subsections/${sub.id}`
+                                            ),
                                             {
                                               method: "PUT",
                                               headers: {
                                                 "Content-Type":
                                                   "application/json",
                                               },
+                                              credentials: "include",
                                               body: JSON.stringify({ content }),
                                             }
                                           );
