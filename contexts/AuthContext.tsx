@@ -1,5 +1,8 @@
 "use client";
 import React, { createContext, useState, useEffect, useCallback } from "react";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
+
 export interface User {
   id: string;
   email: string;
@@ -36,7 +39,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const refreshUser = useCallback(async () => {
     try {
-      const response = await fetch("/api/auth/me");
+      const response = await fetch(`${API_URL}/auth/me`, {
+        credentials: "include",
+      });
       const data = await response.json();
       setUser(data.user || null);
     } catch (error) {
@@ -51,9 +56,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [refreshUser]);
   const signIn = async (email: string, password: string) => {
     try {
-      const response = await fetch("/api/auth/signin", {
+      const response = await fetch(`${API_URL}/auth/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
@@ -69,9 +75,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
   const signUp = async (signUpData: SignUpData) => {
     try {
-      const response = await fetch("/api/auth/signup", {
+      const response = await fetch(`${API_URL}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(signUpData),
       });
       const data = await response.json();
@@ -87,7 +94,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
   const signOut = async () => {
     try {
-      await fetch("/api/auth/signout", { method: "POST" });
+      await fetch(`${API_URL}/auth/signout`, {
+        method: "POST",
+        credentials: "include",
+      });
       setUser(null);
     } catch (error) {
       console.error("Sign out error:", error);
