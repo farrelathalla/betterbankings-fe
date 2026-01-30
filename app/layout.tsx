@@ -68,7 +68,8 @@ export const metadata: Metadata = {
     title: "BetterBankings - Banking Regulation Platform",
     description:
       "Expert banking regulation, Basel compliance, and risk management platform for Southeast Asia.",
-    images: ["/og-image.png"],
+    images: ["https://betterbankings.com/og-image.png"], // Twitter often prefers absolute URLs
+    creator: "@betterbankings",
   },
   manifest: "/site.webmanifest",
   icons: {

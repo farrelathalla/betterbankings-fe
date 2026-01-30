@@ -23,6 +23,7 @@ export const metadata: Metadata = {
     title: "RegMaps - Basel Framework & Regulatory Standards",
     description:
       "Explore the complete Basel Framework including Basel III and Basel IV standards for bank regulation.",
+    images: ["https://betterbankings.com/og-image.png"],
   },
 };
 

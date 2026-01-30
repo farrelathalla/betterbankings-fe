@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     title: "Advisory Products - Enterprise-Grade Risk Management Platform",
     description:
       "Integrated software platform for precision risk management in the banking sector.",
+    images: ["https://betterbankings.com/og-image.png"],
   },
 };
 
