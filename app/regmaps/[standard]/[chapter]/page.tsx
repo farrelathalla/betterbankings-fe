@@ -4,6 +4,7 @@ import { useState, useEffect, use, useRef } from "react";
 import dynamic from "next/dynamic";
 import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
+import { getApiUrl } from "@/lib/api";
 import {
   ChevronLeft,
   ChevronDown,
@@ -141,13 +142,13 @@ export default function ChapterPage({
 
   // Scroll back navigation stack
   const [scrollStack, setScrollStack] = useState<number[]>([]);
-
   useEffect(() => {
     const fetchChapter = async () => {
       try {
         // Get chapters filtered by standard code
         const chaptersRes = await fetch(
-          `/api/basel/chapters?standardCode=${standardCode}`
+          getApiUrl(`/basel/chapters?standardCode=${standardCode}`),
+          { credentials: "include" }
         );
         const chaptersData = await chaptersRes.json();
 
@@ -158,7 +159,8 @@ export default function ChapterPage({
         if (foundChapter) {
           // Fetch full chapter with content
           const detailRes = await fetch(
-            `/api/basel/chapters/${foundChapter.id}`
+            getApiUrl(`/basel/chapters/${foundChapter.id}`),
+            { credentials: "include" }
           );
           const detailData = await detailRes.json();
           setChapter(detailData.chapter);
