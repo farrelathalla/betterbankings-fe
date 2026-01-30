@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Basel Center - Basel Framework & Regulatory Standards",
+  title: "RegMaps - Basel Framework & Regulatory Standards",
   description:
     "Explore the complete Basel Framework including Basel III and Basel IV standards. Comprehensive coverage of capital requirements, credit risk, operational risk, and liquidity regulations for banks.",
   keywords: [
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "RBC",
   ],
   openGraph: {
-    title: "Basel Center - Basel Framework & Regulatory Standards",
+    title: "RegMaps - Basel Framework & Regulatory Standards",
     description:
       "Explore the complete Basel Framework including Basel III and Basel IV standards for bank regulation.",
   },

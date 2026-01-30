@@ -3,20 +3,24 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
-import HomeImage from "@/public/home.webp";
+import AdivsoryProducts from "@/public/advisory-products.webp";
+import RegsMap from "@/public/regmaps.webp";
+import Link from "next/link";
 
 const PRODUCTS = [
   {
-    title: "B-Foresight",
+    title: "Advisory Products",
     description:
       "Our comprehensive banking industry data platform providing insights from publicly available sources.",
-    image: HomeImage, // Placeholder
+    image: AdivsoryProducts, // Placeholder
+    link: "/advisory-products",
   },
   {
     title: "RegsMap",
     description:
       "Navigate complex banking regulations with our regulatory mapping and analysis tools.",
-    image: HomeImage, // Placeholder
+    image: RegsMap, // Placeholder
+    link: "/regsmap",
   },
 ];
 
@@ -60,10 +64,13 @@ export default function AdvisoryProducts() {
                   {product.description}
                 </p>
 
-                <button className="flex items-center gap-2 px-6 py-3 bg-[#1B2B4B] text-white font-semibold rounded-lg hover:bg-[#2a4069] transition-colors">
+                <Link
+                  href={product.link}
+                  className="flex items-center gap-2 px-6 py-3 bg-[#1B2B4B] text-white font-semibold rounded-lg hover:bg-[#2a4069] transition-colors"
+                >
                   Learn More
                   <ChevronRight className="w-4 h-4" />
-                </button>
+                </Link>
               </div>
             </motion.div>
           ))}

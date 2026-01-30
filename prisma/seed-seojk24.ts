@@ -1439,7 +1439,7 @@ async function main() {
   console.log("   - Scroll-back button for same-page navigation");
   console.log("   - FAQs for key subsections with detailed explanations");
   console.log("   - Footnotes with additional technical clarifications");
-  console.log("\n📌 To view: http://localhost:3000/basel-center/seojk24");
+  console.log("\n📌 To view: http://localhost:3000/regmaps/seojk24");
 }
 
 main()

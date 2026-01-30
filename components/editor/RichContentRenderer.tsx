@@ -145,7 +145,7 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
           const subsectionNumber = mark.attrs?.subsectionNumber as string;
 
           // Build URL with optional subsection anchor
-          let url = `/basel-center/${standardCode}`;
+          let url = `/regmaps/${standardCode}`;
           if (chapterCode) {
             url += `/${chapterCode}`;
             if (subsectionNumber) {

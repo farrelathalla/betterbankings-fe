@@ -19,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/basel-center`,
+      url: `${baseUrl}/regmaps`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
@@ -51,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     baselPages = standards.flatMap((standard) =>
       standard.chapters.map((chapter) => ({
-        url: `${baseUrl}/basel-center/${standard.code.toLowerCase()}/${
+        url: `${baseUrl}/regmaps/${standard.code.toLowerCase()}/${
           chapter.code
         }`,
         lastModified: chapter.updatedAt,

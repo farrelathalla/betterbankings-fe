@@ -101,21 +101,21 @@ export async function GET(request: Request) {
           id: s.id,
           code: s.code,
           title: s.name,
-          url: `/basel-center/${s.code.toLowerCase()}`,
+          url: `/regmaps/${s.code.toLowerCase()}`,
         })),
         chapters: chapters.map((c) => ({
           type: "chapter",
           id: c.id,
           code: `${c.standard.code}${c.code}`,
           title: c.title,
-          url: `/basel-center/${c.standard.code.toLowerCase()}/${c.code}`,
+          url: `/regmaps/${c.standard.code.toLowerCase()}/${c.code}`,
         })),
         sections: sections.map((s) => ({
           type: "section",
           id: s.id,
           code: `${s.chapter.standard.code}${s.chapter.code}`,
           title: s.title,
-          url: `/basel-center/${s.chapter.standard.code.toLowerCase()}/${
+          url: `/regmaps/${s.chapter.standard.code.toLowerCase()}/${
             s.chapter.code
           }#${s.id}`,
         })),
@@ -124,7 +124,7 @@ export async function GET(request: Request) {
           id: sub.id,
           code: `${sub.section.chapter.standard.code}${sub.section.chapter.code}.${sub.number}`,
           title: sub.section.title,
-          url: `/basel-center/${sub.section.chapter.standard.code.toLowerCase()}/${
+          url: `/regmaps/${sub.section.chapter.standard.code.toLowerCase()}/${
             sub.section.chapter.code
           }#${sub.id}`,
         })),

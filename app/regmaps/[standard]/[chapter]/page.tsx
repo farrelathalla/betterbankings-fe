@@ -25,7 +25,7 @@ const RichContentRenderer = dynamic(
   {
     ssr: false,
     loading: () => <span className="text-gray-400">Loading...</span>,
-  },
+  }
 );
 
 interface Footnote {
@@ -147,18 +147,18 @@ export default function ChapterPage({
       try {
         // Get chapters filtered by standard code
         const chaptersRes = await fetch(
-          `/api/basel/chapters?standardCode=${standardCode}`,
+          `/api/basel/chapters?standardCode=${standardCode}`
         );
         const chaptersData = await chaptersRes.json();
 
         const foundChapter = chaptersData.chapters?.find(
-          (c: { code: string }) => c.code === chapterCode,
+          (c: { code: string }) => c.code === chapterCode
         );
 
         if (foundChapter) {
           // Fetch full chapter with content
           const detailRes = await fetch(
-            `/api/basel/chapters/${foundChapter.id}`,
+            `/api/basel/chapters/${foundChapter.id}`
           );
           const detailData = await detailRes.json();
           setChapter(detailData.chapter);
@@ -237,7 +237,7 @@ export default function ChapterPage({
         <main className="w-full flex-1 lg:ml-[280px] relative">
           <div className="px-6 lg:px-12 py-8">
             <Link
-              href={`/basel-center/${standardCode.toLowerCase()}`}
+              href={`/regmaps/${standardCode.toLowerCase()}`}
               className="inline-flex items-center gap-2 text-[#355189] hover:underline mb-6"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -272,15 +272,12 @@ export default function ChapterPage({
         <div className="relative z-10 px-6 lg:px-12 py-8 pt-24">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm mb-6">
-            <Link
-              href="/basel-center"
-              className="text-[#355189] hover:underline"
-            >
-              Basel Center
+            <Link href="/regmaps" className="text-[#355189] hover:underline">
+              RegMaps
             </Link>
             <ChevronRight className="w-4 h-4 text-gray-400" />
             <Link
-              href={`/basel-center/${standardCode.toLowerCase()}`}
+              href={`/regmaps/${standardCode.toLowerCase()}`}
               className="text-[#355189] hover:underline"
             >
               {chapter.standard.code}
@@ -486,7 +483,7 @@ export default function ChapterPage({
                                                   <span className="text-xs text-gray-500">
                                                     (
                                                     {new Date(
-                                                      rev.revisionDate,
+                                                      rev.revisionDate
                                                     ).toLocaleDateString()}
                                                     )
                                                   </span>

@@ -45,7 +45,15 @@ interface NavSection {
 }
 
 // Define navigation items based on new design
-import { ShoppingBag } from "lucide-react";
+import {
+  ShoppingBag,
+  Database,
+  Wallet,
+  DollarSign,
+  ArrowLeftRight,
+  Percent,
+  GitCompare,
+} from "lucide-react";
 
 const NAV_SECTIONS: NavSection[] = [
   {
@@ -57,12 +65,12 @@ const NAV_SECTIONS: NavSection[] = [
         href: "/advisory-services",
         icon: Briefcase,
       },
-      {
-        label: "Advisory Products",
-        href: "/advisory-products",
-        icon: ShoppingBag,
-      },
-      { label: "Basel Center", href: "/basel-center", icon: FileText },
+      // {
+      //   label: "Advisory Products",
+      //   href: "/advisory-products",
+      //   icon: ShoppingBag,
+      // },
+      { label: "RegMaps", href: "/regmaps", icon: FileText },
       {
         label: "BetterBankings Angle",
         href: "/betterbankings-angle",
@@ -99,12 +107,43 @@ const NAV_SECTIONS: NavSection[] = [
           },
         ],
       },
+      {
+        label: "Industry Bank Data",
+        icon: Database,
+        children: [
+          {
+            label: "Deposit",
+            href: "/b-foresight/industry-bank-data/deposit",
+            icon: Wallet,
+          },
+          {
+            label: "Lending",
+            href: "/b-foresight/industry-bank-data/lending",
+            icon: DollarSign,
+          },
+          {
+            label: "Market and Exchange Rate",
+            href: "/b-foresight/industry-bank-data/market-exchange-rate",
+            icon: ArrowLeftRight,
+          },
+          {
+            label: "Rate Comparison",
+            href: "/b-foresight/industry-bank-data/rate-comparison",
+            icon: GitCompare,
+          },
+          {
+            label: "Pass Through Rate",
+            href: "/b-foresight/industry-bank-data/pass-through-rate",
+            icon: Percent,
+          },
+        ],
+      },
     ],
   },
-  {
-    title: "TOOLS",
-    items: [{ label: "Calculator", href: "/count", icon: Calculator }],
-  },
+  // {
+  //   title: "TOOLS",
+  //   items: [{ label: "Calculator", href: "/count", icon: Calculator }],
+  // },
   {
     title: "ACCOUNT",
     items: [
@@ -162,11 +201,12 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
       {/* Header / Logo */}
       <div className="p-6 border-b border-[#E1E7EF]">
         <Image src={Logo} alt="Logo" width={150} height={150} />
-      </div>
-
+      </div>{" "}
       {/* Scrollable Nav Content */}
       <div className="flex-1 overflow-y-auto py-6 px-4 space-y-8">
-        {NAV_SECTIONS.map((section) => (
+        {NAV_SECTIONS.filter(
+          (section) => section.title !== "ACCOUNT" || user
+        ).map((section) => (
           <div key={section.title}>
             <h3 className="text-xs font-bold text-[#64748B] mb-4 uppercase tracking-wider px-3">
               {section.title}
@@ -361,7 +401,6 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
           </div>
         )}
       </div>
-
       {/* Footer / Logout or Sign In */}
       <div className="p-4 border-t border-[#E1E7EF]">
         {loading ? (

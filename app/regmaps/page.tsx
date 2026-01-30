@@ -138,7 +138,7 @@ export default function BaselCenterPage() {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl lg:text-4xl font-bold text-[#14213D] mb-2">
-              Basel <span className="text-[#F48C25]">Framework</span>
+              <span className="text-[#F48C25]">RegMaps</span>
             </h1>
             <p className="text-gray-500">
               The full set of standards for the prudential regulation of banks
@@ -153,7 +153,7 @@ export default function BaselCenterPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
-                placeholder="Search the Basel Framework..."
+                placeholder="Search the RegMaps..."
                 className="w-full pl-12 pr-4 py-3 rounded-xl border border-[#E1E7EF] bg-white focus:ring-2 focus:ring-[#355189] focus:border-transparent outline-none transition-all"
               />
               {isSearching && (
@@ -216,16 +216,11 @@ export default function BaselCenterPage() {
                     className="bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden"
                   >
                     {/* Standard Header */}
-                    <button
-                      onClick={() => toggleStandard(standard.id)}
-                      className="w-full flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-[#1B2B4B] to-[#355189] rounded-xl flex items-center justify-center">
-                          <span className="text-white font-bold text-sm">
-                            {standard.code}
-                          </span>
-                        </div>
+                    <div className="flex items-center">
+                      <Link
+                        href={`/regmaps/${standard.code.toLowerCase()}`}
+                        className="flex-1 flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors"
+                      >
                         <div className="text-left">
                           <h3 className="font-bold text-[#14213D]">
                             {standard.code} - {standard.name}
@@ -236,13 +231,18 @@ export default function BaselCenterPage() {
                             </p>
                           )}
                         </div>
-                      </div>
-                      {expandedStandards.has(standard.id) ? (
-                        <ChevronDown className="w-5 h-5 text-gray-400" />
-                      ) : (
-                        <ChevronRight className="w-5 h-5 text-gray-400" />
-                      )}
-                    </button>
+                      </Link>
+                      <button
+                        onClick={() => toggleStandard(standard.id)}
+                        className="px-4 py-4 hover:bg-gray-50 transition-colors border-l border-[#E1E7EF]"
+                      >
+                        {expandedStandards.has(standard.id) ? (
+                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                        ) : (
+                          <ChevronRight className="w-5 h-5 text-gray-400" />
+                        )}
+                      </button>
+                    </div>
 
                     {/* Chapters List */}
                     {expandedStandards.has(standard.id) && (
@@ -255,7 +255,7 @@ export default function BaselCenterPage() {
                           standard.chapters.map((chapter) => (
                             <Link
                               key={chapter.id}
-                              href={`/basel-center/${standard.code.toLowerCase()}/${
+                              href={`/regmaps/${standard.code.toLowerCase()}/${
                                 chapter.code
                               }`}
                               className="flex items-center gap-3 px-6 py-3 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
@@ -345,9 +345,9 @@ export default function BaselCenterPage() {
 
               {/* Info Card */}
               <div className="p-6 rounded-2xl bg-gradient-to-br from-[#1B2B4B] to-[#355189] text-white">
-                <h3 className="font-bold mb-3">About Basel Framework</h3>
+                <h3 className="font-bold mb-3">About RegMaps</h3>
                 <p className="text-sm text-white/80 leading-relaxed">
-                  The Basel Framework is the full set of standards of the Basel
+                  The RegMaps is the full set of standards of the Basel
                   Committee on Banking Supervision (BCBS), which is the primary
                   global standard setter for the prudential regulation of banks.
                 </p>

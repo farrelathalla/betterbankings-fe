@@ -111,11 +111,11 @@ export default function StandardPage({
         <main className="w-full flex-1 lg:ml-[280px] relative">
           <div className="px-6 lg:px-12 py-8">
             <Link
-              href="/basel-center"
+              href="/regmaps"
               className="inline-flex items-center gap-2 text-[#355189] hover:underline mb-6"
             >
               <ChevronLeft className="w-4 h-4" />
-              Back to Basel Center
+              Back to RegMaps
             </Link>
             <div className="bg-white rounded-2xl border border-[#E1E7EF] p-8 text-center">
               <h2 className="text-xl font-bold text-[#14213D] mb-2">
@@ -145,11 +145,11 @@ export default function StandardPage({
         <div className="relative z-10 px-6 lg:px-12 py-8 pt-24">
           {/* Breadcrumb */}
           <Link
-            href="/basel-center"
+            href="/regmaps"
             className="inline-flex items-center gap-2 text-[#355189] hover:underline mb-6"
           >
             <ChevronLeft className="w-4 h-4" />
-            Back to Basel Center
+            Back to RegMaps
           </Link>
 
           {/* Header */}
@@ -191,7 +191,7 @@ export default function StandardPage({
                   {/* Chapter Header */}
                   <div className="flex items-center">
                     <Link
-                      href={`/basel-center/${standard.code.toLowerCase()}/${
+                      href={`/regmaps/${standard.code.toLowerCase()}/${
                         chapter.code
                       }`}
                       className="flex-1 flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors"
@@ -244,7 +244,7 @@ export default function StandardPage({
                           {chapter.sections.map((section) => (
                             <Link
                               key={section.id}
-                              href={`/basel-center/${standard.code.toLowerCase()}/${
+                              href={`/regmaps/${standard.code.toLowerCase()}/${
                                 chapter.code
                               }#${section.id}`}
                               className="text-sm text-[#355189] hover:underline"

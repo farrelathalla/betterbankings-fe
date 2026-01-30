@@ -1616,21 +1616,21 @@ async function main() {
         title: "POJK 27/2022 - Perubahan Kedua KPMM Bank Umum",
         description:
           "Perubahan kedua atas POJK 11/POJK.03/2016 tentang KPMM Bank Umum, mencakup ketentuan CCP dan margin requirements untuk derivatif non-cleared",
-        link: "/basel-center/pojk27",
+        link: "/regmaps/pojk27",
         date: new Date("2022-10-20"),
       },
       {
         title: "Kewajiban ATMR Risiko Pasar untuk Seluruh Bank",
         description:
           "Mulai 1 Januari 2024, seluruh bank wajib memperhitungkan ATMR untuk Risiko Pasar (Pasal 33A POJK 27/2022)",
-        link: "/basel-center/pojk27/02",
+        link: "/regmaps/pojk27/02",
         date: new Date("2024-01-01"),
       },
       {
         title: "POJK 34/2016 - Terminologi Bank Sistemik",
         description:
           "Perubahan terminologi dari D-SIB menjadi Bank Sistemik sesuai UU 9/2016 tentang PPKSK",
-        link: "/basel-center/pojk34",
+        link: "/regmaps/pojk34",
         date: new Date("2016-09-08"),
       },
     ],
@@ -1647,9 +1647,9 @@ async function main() {
   console.log("   - Revision articles reference original provisions");
   console.log("   - Deleted articles marked with notice");
   console.log("\n📌 URLs:");
-  console.log("   - http://localhost:3000/basel-center/pojk11 (Original)");
-  console.log("   - http://localhost:3000/basel-center/pojk34 (Revisi 1)");
-  console.log("   - http://localhost:3000/basel-center/pojk27 (Revisi 2)");
+  console.log("   - http://localhost:3000/regmaps/pojk11 (Original)");
+  console.log("   - http://localhost:3000/regmaps/pojk34 (Revisi 1)");
+  console.log("   - http://localhost:3000/regmaps/pojk27 (Revisi 2)");
 }
 
 main()

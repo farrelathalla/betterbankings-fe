@@ -22,16 +22,26 @@ export default function ServicesSection() {
           >
             <div>
               <h3 className="text-3xl font-bold text-[#14213D] mb-4">
-                Advisory Services
+                RegMaps
               </h3>
               <p className="text-[#535769] mb-8 leading-relaxed">
-                ICAAP, ILAAP, Funds Transfer Pricing, Counterparty Credit Risk
-                (Standardized Approach, SACCR)
+                RegMaps is the brandname representing Betterbankings' initiative
+                to provide an efficient and effective way to navigate through
+                complex banking regulations. Regmaps is also supported by our
+                Betterbankings advisory team with a focus on tracking,
+                interpreting and analysing the Indonesian financial sector
+                regulations.
+                <br></br> <br></br>
+                Development of reliable RegMaps is taking time. In the interim
+                we have started with a special section in this website called
+                "Basel Center" with the purpose to provide readers with key
+                transposition of the Basel Framework into Indonesian regulatory
+                framework
               </p>
             </div>
 
             <div className="flex items-end justify-between">
-              <Link href="/advisory-services">
+              <Link href="/regmaps">
                 <button className="flex items-center gap-2 bg-gradient-to-r from-[#1B2B4B] to-[#355189] text-white px-6 py-3 rounded-lg font-semibold text-normal hover:bg-[#2a3c5e] transition-colors">
                   Learn More
                   <ChevronRight className="w-4 h-4" />
@@ -51,8 +61,13 @@ export default function ServicesSection() {
                 B-Foresight
               </h3>
               <p className="text-[#535769] mb-8 leading-relaxed">
-                Banking industry data and analytics platform for informed
-                decision-making
+                B-foresight is the brand name representing BetterBankings'
+                initiative to collect and curate accounting, prudential and
+                financial industry data diligently. We will make some of our
+                data and reports publicly available to enhance quality of banks'
+                disclosure to stakeholders and bolster market discipline. The
+                vastness and uniqueness of our data also enable customised
+                analysis of individual bank counterparties
               </p>
             </div>
 
