@@ -106,6 +106,8 @@ interface ChapterPDF {
   id: string;
   name: string;
   url: string;
+  publicId?: string; // Legacy: for old Cloudinary files
+  filename?: string; // For VPS files
   createdAt: string;
 }
 

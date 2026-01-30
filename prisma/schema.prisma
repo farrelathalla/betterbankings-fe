@@ -82,8 +82,9 @@ model BaselChapter {
 model BaselChapterPDF {
   id        String       @id @default(cuid())
   name      String       // Display name (e.g., "Basel III Framework")
-  url       String       // Cloudinary URL
-  publicId  String       // Cloudinary public_id for deletion
+  url       String       // VPS URL
+  publicId  String?      // Legacy: Cloudinary public_id for old files
+  filename  String?      // Filename for VPS deletion
   chapterId String
   chapter   BaselChapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   order     Int          @default(0)

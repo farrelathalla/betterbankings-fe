@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
-import { uploadPDF } from "@/lib/cloudinary";
+
+// API Base URL for backend
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 // Increase body size limit for file uploads (50MB)
 export const config = {
@@ -14,7 +15,7 @@ export const config = {
 export const maxDuration = 60; // Allow up to 60 seconds for upload
 export const dynamic = "force-dynamic";
 
-// GET /api/basel/pdfs - List PDFs for a chapter
+// GET /api/basel/pdfs - List PDFs for a chapter (proxy to backend)
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -27,12 +28,22 @@ export async function GET(request: Request) {
       );
     }
 
-    const pdfs = await prisma.baselChapterPDF.findMany({
-      where: { chapterId },
-      orderBy: { order: "asc" },
+    // Proxy to backend
+    const res = await fetch(`${API_URL}/basel/chapters/${chapterId}`, {
+      headers: {
+        Cookie: request.headers.get("cookie") || "",
+      },
     });
 
-    return NextResponse.json({ pdfs });
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: "Failed to fetch chapter" },
+        { status: res.status }
+      );
+    }
+
+    const data = await res.json();
+    return NextResponse.json({ pdfs: data.chapter?.pdfs || [] });
   } catch (error) {
     console.error("Error fetching PDFs:", error);
     return NextResponse.json(
@@ -42,7 +53,7 @@ export async function GET(request: Request) {
   }
 }
 
-// POST /api/basel/pdfs - Upload PDF (admin only)
+// POST /api/basel/pdfs - Upload PDF to VPS (admin only)
 export async function POST(request: Request) {
   try {
     const adminError = await requireAdmin();
@@ -68,38 +79,54 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate chapter exists
-    const chapter = await prisma.baselChapter.findUnique({
-      where: { id: chapterId },
+    // Step 1: Upload file to VPS via backend
+    const uploadFormData = new FormData();
+    uploadFormData.append("file", file);
+    uploadFormData.append("folder", "basel-pdfs");
+
+    const uploadRes = await fetch(`${API_URL}/upload/vps`, {
+      method: "POST",
+      headers: {
+        Cookie: request.headers.get("cookie") || "",
+      },
+      body: uploadFormData,
     });
 
-    if (!chapter) {
-      return NextResponse.json({ error: "Chapter not found" }, { status: 404 });
+    if (!uploadRes.ok) {
+      const error = await uploadRes.json().catch(() => ({}));
+      return NextResponse.json(
+        { error: error.error || "Failed to upload file to VPS" },
+        { status: uploadRes.status }
+      );
     }
 
-    // Get current max order for this chapter
-    const maxOrder = await prisma.baselChapterPDF.aggregate({
-      where: { chapterId },
-      _max: { order: true },
-    });
+    const uploadData = await uploadRes.json();
 
-    // Convert File to Buffer and upload to Cloudinary
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const { url, publicId } = await uploadPDF(buffer, file.name);
-
-    // Save to database
-    const pdf = await prisma.baselChapterPDF.create({
-      data: {
-        name,
-        url,
-        publicId,
-        chapterId,
-        order: (maxOrder._max.order ?? -1) + 1,
+    // Step 2: Create PDF record in backend
+    const pdfRes = await fetch(`${API_URL}/basel/chapters/pdfs`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: request.headers.get("cookie") || "",
       },
+      body: JSON.stringify({
+        name,
+        url: uploadData.url,
+        filename: uploadData.filename,
+        chapterId,
+      }),
     });
 
-    return NextResponse.json({ pdf }, { status: 201 });
+    if (!pdfRes.ok) {
+      const error = await pdfRes.json().catch(() => ({}));
+      return NextResponse.json(
+        { error: error.error || "Failed to create PDF record" },
+        { status: pdfRes.status }
+      );
+    }
+
+    const pdf = await pdfRes.json();
+    return NextResponse.json(pdf, { status: 201 });
   } catch (error) {
     console.error("Error uploading PDF:", error);
     return NextResponse.json(

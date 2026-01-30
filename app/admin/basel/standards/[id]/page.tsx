@@ -24,7 +24,8 @@ interface StandardPDF {
   id: string;
   name: string;
   url: string;
-  publicId: string;
+  publicId?: string; // Legacy: for old Cloudinary files
+  filename?: string; // For VPS files
   createdAt: string;
 }
 
@@ -208,11 +209,12 @@ export default function AdminStandardPage({
     if (!pdfFile || !pdfName || !standard) return;
     setUploadingPDF(true);
     try {
-      // First upload to Cloudinary
+      // First upload to VPS
       const formData = new FormData();
       formData.append("file", pdfFile);
+      formData.append("folder", "basel-pdfs");
 
-      const uploadRes = await fetch(getApiUrl("/upload/cloudinary"), {
+      const uploadRes = await fetch(getApiUrl("/upload/vps"), {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -232,7 +234,7 @@ export default function AdminStandardPage({
         body: JSON.stringify({
           name: pdfName,
           url: uploadData.url,
-          publicId: uploadData.publicId,
+          filename: uploadData.filename,
           standardId: standard.id,
         }),
       });
@@ -254,7 +256,7 @@ export default function AdminStandardPage({
   };
 
   // PDF delete handler
-  const handleDeletePDF = async (id: string, publicId: string) => {
+  const handleDeletePDF = async (id: string, filename?: string) => {
     if (!confirm("Delete this PDF?")) return;
     try {
       // Delete from database
@@ -264,13 +266,15 @@ export default function AdminStandardPage({
       });
 
       if (res.ok) {
-        // Also delete from Cloudinary
-        await fetch(getApiUrl("/upload/cloudinary"), {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ publicId }),
-        });
+        // Also delete from VPS if filename exists (new VPS files)
+        if (filename) {
+          await fetch(getApiUrl("/upload/vps"), {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ filepath: `basel-pdfs/${filename}` }),
+          });
+        }
         fetchStandard();
       }
     } catch (error) {
@@ -430,7 +434,7 @@ export default function AdminStandardPage({
                       <Download className="w-3 h-3 opacity-50" />
                     </a>
                     <button
-                      onClick={() => handleDeletePDF(pdf.id, pdf.publicId)}
+                      onClick={() => handleDeletePDF(pdf.id, pdf.filename)}
                       className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
