@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiUrl } from "@/lib/api";
 import { Filter, ExternalLink, Loader2, Bell, CheckCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -45,8 +46,12 @@ export default function NotificationsPage() {
       } else if (activeFilter !== "All") {
         params.set("category", activeFilter);
       }
-
-      const res = await fetch(`/api/notifications?${params.toString()}`);
+      const res = await fetch(
+        getApiUrl(`/notifications?${params.toString()}`),
+        {
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       setNotifications(data.notifications || []);
       setUnreadCount(data.unreadCount || 0);
@@ -62,10 +67,12 @@ export default function NotificationsPage() {
       fetchNotifications();
     }
   }, [user, fetchNotifications]);
-
   const handleMarkAsRead = async (id: string) => {
     try {
-      await fetch(`/api/notifications/${id}`, { method: "PUT" });
+      await fetch(getApiUrl(`/notifications/${id}/read`), {
+        method: "POST",
+        credentials: "include",
+      });
       setNotifications((prev) =>
         prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))
       );
@@ -74,11 +81,13 @@ export default function NotificationsPage() {
       console.error("Error marking as read:", error);
     }
   };
-
   const handleMarkAllAsRead = async () => {
     setMarkingAllRead(true);
     try {
-      await fetch("/api/notifications/read-all", { method: "POST" });
+      await fetch(getApiUrl("/notifications/read-all"), {
+        method: "POST",
+        credentials: "include",
+      });
       setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
       setUnreadCount(0);
     } catch (error) {

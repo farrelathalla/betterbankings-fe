@@ -1,7 +1,20 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
+// In production, this should be set via NEXT_PUBLIC_API_URL environment variable
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (typeof window !== "undefined" && window.location.hostname !== "localhost"
+    ? "https://api.betterbankings.com/api"
+    : "http://localhost:8080/api");
+
+// Export API_URL for use in other files
+export { API_URL };
+
+// Helper function to get the full API URL
+export function getApiUrl(endpoint: string): string {
+  return `${API_URL}${endpoint}`;
+}
 
 export async function apiRequest(endpoint: string, options: RequestInit = {}) {
-  const url = `${API_URL}${endpoint}`;
+  const url = getApiUrl(endpoint);
 
   const defaultOptions: RequestInit = {
     credentials: "include", // Important for cookies

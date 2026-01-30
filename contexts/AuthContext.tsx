@@ -1,7 +1,12 @@
 "use client";
 import React, { createContext, useState, useEffect, useCallback } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
+// In production, this should be set via NEXT_PUBLIC_API_URL environment variable
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (typeof window !== "undefined" && window.location.hostname !== "localhost"
+    ? "https://api.betterbankings.com/api"
+    : "http://localhost:8080/api");
 
 export interface User {
   id: string;

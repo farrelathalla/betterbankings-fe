@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiUrl } from "@/lib/api";
 import {
   Plus,
   Edit,
@@ -72,12 +73,11 @@ export default function AdminBaselPage() {
       fetchData();
     }
   }, [user]);
-
   const fetchData = async () => {
     try {
       const [standardsRes, updatesRes] = await Promise.all([
-        fetch("/api/basel/standards"),
-        fetch("/api/basel/updates?limit=10"),
+        fetch(getApiUrl("/basel/standards"), { credentials: "include" }),
+        fetch(getApiUrl("/basel/updates?limit=10"), { credentials: "include" }),
       ]);
       const standardsData = await standardsRes.json();
       const updatesData = await updatesRes.json();
@@ -95,9 +95,10 @@ export default function AdminBaselPage() {
     setCreating(true);
 
     try {
-      const res = await fetch("/api/basel/standards", {
+      const res = await fetch(getApiUrl("/basel/standards"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(newStandard),
       });
 
@@ -115,7 +116,6 @@ export default function AdminBaselPage() {
       setCreating(false);
     }
   };
-
   const handleDeleteStandard = async (id: string) => {
     if (
       !confirm(
@@ -127,8 +127,9 @@ export default function AdminBaselPage() {
 
     setDeleting(id);
     try {
-      const res = await fetch(`/api/basel/standards/${id}`, {
+      const res = await fetch(getApiUrl(`/basel/standards/${id}`), {
         method: "DELETE",
+        credentials: "include",
       });
       if (res.ok) {
         fetchData();
@@ -147,9 +148,10 @@ export default function AdminBaselPage() {
     setCreatingUpdate(true);
 
     try {
-      const res = await fetch("/api/basel/updates", {
+      const res = await fetch(getApiUrl("/basel/updates"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(newUpdate),
       });
 
@@ -170,7 +172,10 @@ export default function AdminBaselPage() {
 
   const handleDeleteUpdate = async (id: string) => {
     try {
-      await fetch(`/api/basel/updates/${id}`, { method: "DELETE" });
+      await fetch(getApiUrl(`/basel/updates/${id}`), {
+        method: "DELETE",
+        credentials: "include",
+      });
       fetchData();
     } catch (error) {
       console.error("Error deleting update:", error);

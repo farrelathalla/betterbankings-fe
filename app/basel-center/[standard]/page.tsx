@@ -3,6 +3,7 @@
 import { useState, useEffect, use } from "react";
 import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
+import { getApiUrl } from "@/lib/api";
 import {
   ChevronLeft,
   ChevronDown,
@@ -46,12 +47,13 @@ export default function StandardPage({
   const [expandedChapters, setExpandedChapters] = useState<Set<string>>(
     new Set()
   );
-
   useEffect(() => {
     const fetchStandard = async () => {
       try {
         // First get all standards to find by code
-        const res = await fetch("/api/basel/standards");
+        const res = await fetch(getApiUrl("/basel/standards"), {
+          credentials: "include",
+        });
         const data = await res.json();
 
         const found = data.standards?.find(
@@ -60,7 +62,12 @@ export default function StandardPage({
 
         if (found) {
           // Fetch full standard with chapters
-          const detailRes = await fetch(`/api/basel/standards/${found.id}`);
+          const detailRes = await fetch(
+            getApiUrl(`/basel/standards/${found.id}`),
+            {
+              credentials: "include",
+            }
+          );
           const detailData = await detailRes.json();
           setStandard(detailData.standard);
         }

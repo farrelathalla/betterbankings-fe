@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
+import { getApiUrl } from "@/lib/api";
 
 // Dynamically import the RichTextEditor to avoid SSR issues
 const RichTextEditor = dynamic(
@@ -56,7 +57,9 @@ export default function SubsectionEditor({
   useEffect(() => {
     const fetchStandards = async () => {
       try {
-        const res = await fetch("/api/basel/standards");
+        const res = await fetch(getApiUrl("/basel/standards"), {
+          credentials: "include",
+        });
         const data = await res.json();
         setStandards(data.standards || []);
       } catch (error) {
@@ -150,7 +153,9 @@ export function NewSubsectionEditor({
   useEffect(() => {
     const fetchStandards = async () => {
       try {
-        const res = await fetch("/api/basel/standards");
+        const res = await fetch(getApiUrl("/basel/standards"), {
+          credentials: "include",
+        });
         const data = await res.json();
         setStandards(data.standards || []);
       } catch (error) {

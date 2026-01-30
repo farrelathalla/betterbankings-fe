@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiUrl } from "@/lib/api";
 import {
   Plus,
   Edit,
@@ -86,11 +87,12 @@ export default function AdminAnglePage() {
       router.push("/");
     }
   }, [user, authLoading, router]);
-
   // Fetch data
   const fetchCategories = useCallback(async () => {
     try {
-      const res = await fetch("/api/angle/categories");
+      const res = await fetch(getApiUrl("/angle/categories"), {
+        credentials: "include",
+      });
       const data = await res.json();
       setCategories(data.categories || []);
     } catch (error) {
@@ -102,7 +104,9 @@ export default function AdminAnglePage() {
 
   const fetchPodcasts = useCallback(async () => {
     try {
-      const res = await fetch("/api/angle/podcasts");
+      const res = await fetch(getApiUrl("/angle/podcasts"), {
+        credentials: "include",
+      });
       const data = await res.json();
       setPodcasts(data.podcasts || []);
     } catch (error) {
@@ -126,9 +130,10 @@ export default function AdminAnglePage() {
 
     setCreatingCategory(true);
     try {
-      const res = await fetch("/api/angle/categories", {
+      const res = await fetch(getApiUrl("/angle/categories"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ name: newCategoryName.trim() }),
       });
 
@@ -152,11 +157,15 @@ export default function AdminAnglePage() {
     if (!editingCategory) return;
 
     try {
-      const res = await fetch(`/api/angle/categories/${editingCategory.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: editingCategory.name }),
-      });
+      const res = await fetch(
+        getApiUrl(`/angle/categories/${editingCategory.id}`),
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ name: editingCategory.name }),
+        }
+      );
 
       if (res.ok) {
         setEditingCategory(null);
@@ -181,8 +190,9 @@ export default function AdminAnglePage() {
 
     setDeletingCategory(id);
     try {
-      const res = await fetch(`/api/angle/categories/${id}`, {
+      const res = await fetch(getApiUrl(`/angle/categories/${id}`), {
         method: "DELETE",
+        credentials: "include",
       });
 
       if (res.ok) {
@@ -238,7 +248,6 @@ export default function AdminAnglePage() {
     });
     setShowPodcastForm(true);
   };
-
   const handleSavePodcast = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingPodcast(true);
@@ -251,12 +260,13 @@ export default function AdminAnglePage() {
       };
 
       const url = editingPodcast
-        ? `/api/angle/podcasts/${editingPodcast.id}`
-        : "/api/angle/podcasts";
+        ? getApiUrl(`/angle/podcasts/${editingPodcast.id}`)
+        : getApiUrl("/angle/podcasts");
 
       const res = await fetch(url, {
         method: editingPodcast ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(payload),
       });
 
@@ -282,8 +292,9 @@ export default function AdminAnglePage() {
 
     setDeletingPodcast(id);
     try {
-      const res = await fetch(`/api/angle/podcasts/${id}`, {
+      const res = await fetch(getApiUrl(`/angle/podcasts/${id}`), {
         method: "DELETE",
+        credentials: "include",
       });
 
       if (res.ok) {

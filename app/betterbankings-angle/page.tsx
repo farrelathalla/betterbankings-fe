@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
+import { getApiUrl } from "@/lib/api";
 import { Search, Calendar, Clock, Play, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -50,10 +51,11 @@ export default function BetterBankingsAnglePage() {
   useEffect(() => {
     fetchPodcasts();
   }, [selectedCategory, searchQuery]);
-
   const fetchData = async () => {
     try {
-      const categoriesRes = await fetch("/api/angle/categories");
+      const categoriesRes = await fetch(getApiUrl("/angle/categories"), {
+        credentials: "include",
+      });
       const categoriesData = await categoriesRes.json();
       setCategories(categoriesData.categories || []);
     } catch (error) {
@@ -68,7 +70,12 @@ export default function BetterBankingsAnglePage() {
       if (selectedCategory) params.set("categoryId", selectedCategory);
       if (searchQuery) params.set("search", searchQuery);
 
-      const res = await fetch(`/api/angle/podcasts?${params.toString()}`);
+      const res = await fetch(
+        getApiUrl(`/angle/podcasts?${params.toString()}`),
+        {
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       setPodcasts(data.podcasts || []);
     } catch (error) {

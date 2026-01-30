@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiUrl } from "@/lib/api";
 import {
   Loader2,
   User,
@@ -65,10 +66,11 @@ export default function SettingsPage() {
       formData.organization !== originalData.organization;
     setHasChanges(changed);
   }, [formData, originalData]);
-
   const fetchAccountData = async () => {
     try {
-      const res = await fetch("/api/settings/account");
+      const res = await fetch(getApiUrl("/settings/account"), {
+        credentials: "include",
+      });
       const data = await res.json();
       if (data.user) {
         const userData = {
@@ -92,15 +94,15 @@ export default function SettingsPage() {
       setLoading(false);
     }
   };
-
   const handleSave = async () => {
     setSaving(true);
     setMessage(null);
 
     try {
-      const res = await fetch("/api/settings/account", {
+      const res = await fetch(getApiUrl("/settings/account"), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(formData),
       });
 

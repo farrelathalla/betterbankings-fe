@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiUrl } from "@/lib/api";
 import {
   Plus,
   Edit,
@@ -80,10 +81,14 @@ export default function AdminStandardPage({
       fetchStandard();
     }
   }, [user, resolvedParams.id]);
-
   const fetchStandard = async () => {
     try {
-      const res = await fetch(`/api/basel/standards/${resolvedParams.id}`);
+      const res = await fetch(
+        getApiUrl(`/basel/standards/${resolvedParams.id}`),
+        {
+          credentials: "include",
+        }
+      );
       if (res.ok) {
         const data = await res.json();
         setStandard(data.standard);
@@ -104,11 +109,15 @@ export default function AdminStandardPage({
   const handleSaveStandard = async () => {
     setSaving(true);
     try {
-      const res = await fetch(`/api/basel/standards/${resolvedParams.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editForm),
-      });
+      const res = await fetch(
+        getApiUrl(`/basel/standards/${resolvedParams.id}`),
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(editForm),
+        }
+      );
 
       if (res.ok) {
         fetchStandard();
@@ -127,9 +136,10 @@ export default function AdminStandardPage({
     setCreatingChapter(true);
 
     try {
-      const res = await fetch("/api/basel/chapters", {
+      const res = await fetch(getApiUrl("/basel/chapters"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           ...newChapter,
           standardId: resolvedParams.id,
@@ -162,8 +172,9 @@ export default function AdminStandardPage({
 
     setDeleting(id);
     try {
-      const res = await fetch(`/api/basel/chapters/${id}`, {
+      const res = await fetch(getApiUrl(`/basel/chapters/${id}`), {
         method: "DELETE",
+        credentials: "include",
       });
       if (res.ok) {
         fetchStandard();

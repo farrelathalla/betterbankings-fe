@@ -7,6 +7,7 @@ import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import { TooltipMark, ReferenceMark } from "./extensions";
 import { useState, useCallback, useEffect } from "react";
+import { getApiUrl } from "@/lib/api";
 import {
   Bold,
   Italic,
@@ -203,9 +204,7 @@ export default function RichTextEditor({
         >
           <UnderlineIcon className="w-4 h-4" />
         </ToolbarButton>
-
         <div className="w-px h-6 bg-gray-300 mx-1" />
-
         {/* Lists */}
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -228,9 +227,7 @@ export default function RichTextEditor({
         >
           <Quote className="w-4 h-4" />
         </ToolbarButton>
-
         <div className="w-px h-6 bg-gray-300 mx-1" />
-
         {/* Custom marks */}
         <ToolbarButton
           onClick={() => setShowTooltipModal(true)}
@@ -239,8 +236,7 @@ export default function RichTextEditor({
           className="text-purple-600"
         >
           <MessageSquare className="w-4 h-4" />
-        </ToolbarButton>
-
+        </ToolbarButton>{" "}
         <ToolbarButton
           onClick={async () => {
             setShowReferenceModal(true);
@@ -248,7 +244,9 @@ export default function RichTextEditor({
             if (fullStandards.length === 0) {
               setLoadingRefs(true);
               try {
-                const res = await fetch("/api/basel/references");
+                const res = await fetch(getApiUrl("/basel/references"), {
+                  credentials: "include",
+                });
                 const data = await res.json();
                 setFullStandards(data.standards || []);
               } catch (error) {
@@ -264,7 +262,6 @@ export default function RichTextEditor({
         >
           <Bookmark className="w-4 h-4" />
         </ToolbarButton>
-
         {/* Remove marks */}
         {editor.isActive("tooltip") && (
           <ToolbarButton
@@ -275,7 +272,6 @@ export default function RichTextEditor({
             <X className="w-4 h-4" />
           </ToolbarButton>
         )}
-
         {editor.isActive("reference") && (
           <ToolbarButton
             onClick={removeReference}

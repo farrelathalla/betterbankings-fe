@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import { getApiUrl } from "@/lib/api";
 import {
   Search,
   ChevronDown,
@@ -54,13 +55,14 @@ export default function BaselCenterPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [standardsRes, updatesRes] = await Promise.all([
-          fetch("/api/basel/standards"),
-          fetch("/api/basel/updates?limit=5"),
+          fetch(getApiUrl("/basel/standards"), { credentials: "include" }),
+          fetch(getApiUrl("/basel/updates?limit=5"), {
+            credentials: "include",
+          }),
         ]);
 
         const standardsData = await standardsRes.json();
@@ -101,7 +103,8 @@ export default function BaselCenterPage() {
     setIsSearching(true);
     try {
       const res = await fetch(
-        `/api/basel/search?q=${encodeURIComponent(query)}`
+        getApiUrl(`/basel/search?q=${encodeURIComponent(query)}`),
+        { credentials: "include" }
       );
       const data = await res.json();
 

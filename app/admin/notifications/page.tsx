@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiUrl } from "@/lib/api";
 import {
   Plus,
   Trash2,
@@ -48,10 +49,11 @@ export default function AdminNotificationsPage() {
       router.push("/");
     }
   }, [user, authLoading, router]);
-
   const fetchNotifications = useCallback(async () => {
     try {
-      const res = await fetch("/api/notifications");
+      const res = await fetch(getApiUrl("/notifications"), {
+        credentials: "include",
+      });
       const data = await res.json();
       setNotifications(data.notifications || []);
     } catch (error) {
@@ -66,15 +68,15 @@ export default function AdminNotificationsPage() {
       fetchNotifications();
     }
   }, [user, fetchNotifications]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
 
     try {
-      const res = await fetch("/api/notifications", {
+      const res = await fetch(getApiUrl("/notifications"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           ...formData,
           link: formData.link || null,
@@ -100,7 +102,6 @@ export default function AdminNotificationsPage() {
       setSaving(false);
     }
   };
-
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this notification? This cannot be undone.")) {
       return;
@@ -108,8 +109,9 @@ export default function AdminNotificationsPage() {
 
     setDeleting(id);
     try {
-      const res = await fetch(`/api/notifications/${id}`, {
+      const res = await fetch(getApiUrl(`/notifications/${id}`), {
         method: "DELETE",
+        credentials: "include",
       });
 
       if (res.ok) {

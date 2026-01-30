@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiUrl } from "@/lib/api";
 import {
   Plus,
   Trash2,
@@ -34,7 +35,7 @@ const SubsectionEditor = dynamic(
         <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
       </div>
     ),
-  },
+  }
 );
 
 // Dynamically import NewSubsectionEditor for creating new subsections
@@ -50,7 +51,7 @@ const NewSubsectionEditor = dynamic(
         <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
       </div>
     ),
-  },
+  }
 );
 
 // Dynamically import RichContentRenderer for displaying content
@@ -59,7 +60,7 @@ const RichContentRenderer = dynamic(
   {
     ssr: false,
     loading: () => <span className="text-gray-400">Loading...</span>,
-  },
+  }
 );
 
 interface Footnote {
@@ -135,10 +136,10 @@ export default function AdminChapterPage({
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
-    new Set(),
+    new Set()
   );
   const [expandedSubsections, setExpandedSubsections] = useState<Set<string>>(
-    new Set(),
+    new Set()
   );
 
   // Edit chapter form
@@ -162,7 +163,7 @@ export default function AdminChapterPage({
 
   // Edit states
   const [editingSubsection, setEditingSubsection] = useState<string | null>(
-    null,
+    null
   );
   const [subsectionContent, setSubsectionContent] = useState("");
 
@@ -198,10 +199,14 @@ export default function AdminChapterPage({
       fetchChapter();
     }
   }, [user, resolvedParams.id]);
-
   const fetchChapter = async () => {
     try {
-      const res = await fetch(`/api/basel/chapters/${resolvedParams.id}`);
+      const res = await fetch(
+        getApiUrl(`/basel/chapters/${resolvedParams.id}`),
+        {
+          credentials: "include",
+        }
+      );
       if (res.ok) {
         const data = await res.json();
         setChapter(data.chapter);
@@ -222,9 +227,10 @@ export default function AdminChapterPage({
   const handleSaveChapter = async () => {
     setSaving(true);
     try {
-      await fetch(`/api/basel/chapters/${resolvedParams.id}`, {
+      await fetch(getApiUrl(`/basel/chapters/${resolvedParams.id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(chapterForm),
       });
       fetchChapter();
@@ -234,14 +240,14 @@ export default function AdminChapterPage({
       setSaving(false);
     }
   };
-
   // Section CRUD
   const handleCreateSection = async () => {
     if (!newSection.title) return;
     try {
-      await fetch("/api/basel/sections", {
+      await fetch(getApiUrl("/basel/sections"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           title: newSection.title,
           chapterId: chapter?.id,
@@ -259,7 +265,10 @@ export default function AdminChapterPage({
   const handleDeleteSection = async (id: string) => {
     if (!confirm("Delete this section and all its content?")) return;
     try {
-      await fetch(`/api/basel/sections/${id}`, { method: "DELETE" });
+      await fetch(getApiUrl(`/basel/sections/${id}`), {
+        method: "DELETE",
+        credentials: "include",
+      });
       fetchChapter();
     } catch (error) {
       console.error("Error deleting section:", error);
@@ -270,9 +279,10 @@ export default function AdminChapterPage({
   const handleCreateSubsection = async (sectionId: string) => {
     if (!newSubsection.number) return;
     try {
-      await fetch("/api/basel/subsections", {
+      await fetch(getApiUrl("/basel/subsections"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           number: newSubsection.number,
           content: newSubsection.content || "",
@@ -289,9 +299,10 @@ export default function AdminChapterPage({
 
   const handleSaveSubsection = async (id: string) => {
     try {
-      await fetch(`/api/basel/subsections/${id}`, {
+      await fetch(getApiUrl(`/basel/subsections/${id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ content: subsectionContent }),
       });
       setEditingSubsection(null);
@@ -300,11 +311,13 @@ export default function AdminChapterPage({
       console.error("Error saving subsection:", error);
     }
   };
-
   const handleDeleteSubsection = async (id: string) => {
     if (!confirm("Delete this subsection?")) return;
     try {
-      await fetch(`/api/basel/subsections/${id}`, { method: "DELETE" });
+      await fetch(getApiUrl(`/basel/subsections/${id}`), {
+        method: "DELETE",
+        credentials: "include",
+      });
       fetchChapter();
     } catch (error) {
       console.error("Error deleting subsection:", error);
@@ -315,9 +328,10 @@ export default function AdminChapterPage({
   const handleAddFootnote = async (subsectionId: string) => {
     if (!newFootnote.content) return;
     try {
-      await fetch("/api/basel/footnotes", {
+      await fetch(getApiUrl("/basel/footnotes"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ ...newFootnote, subsectionId }),
       });
       setNewFootnote({ number: 1, content: "" });
@@ -330,7 +344,10 @@ export default function AdminChapterPage({
 
   const handleDeleteFootnote = async (id: string) => {
     try {
-      await fetch(`/api/basel/footnotes/${id}`, { method: "DELETE" });
+      await fetch(getApiUrl(`/basel/footnotes/${id}`), {
+        method: "DELETE",
+        credentials: "include",
+      });
       fetchChapter();
     } catch (error) {
       console.error("Error deleting footnote:", error);
@@ -341,9 +358,10 @@ export default function AdminChapterPage({
   const handleAddFAQ = async (subsectionId: string) => {
     if (!newFAQ.question || !newFAQ.answer) return;
     try {
-      await fetch("/api/basel/faqs", {
+      await fetch(getApiUrl("/basel/faqs"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ ...newFAQ, subsectionId }),
       });
       setNewFAQ({ question: "", answer: "" });
@@ -356,7 +374,10 @@ export default function AdminChapterPage({
 
   const handleDeleteFAQ = async (id: string) => {
     try {
-      await fetch(`/api/basel/faqs/${id}`, { method: "DELETE" });
+      await fetch(getApiUrl(`/basel/faqs/${id}`), {
+        method: "DELETE",
+        credentials: "include",
+      });
       fetchChapter();
     } catch (error) {
       console.error("Error deleting FAQ:", error);
@@ -373,8 +394,9 @@ export default function AdminChapterPage({
       formData.append("name", pdfName);
       formData.append("chapterId", chapter.id);
 
-      await fetch("/api/basel/pdfs", {
+      await fetch(getApiUrl("/basel/pdfs"), {
         method: "POST",
+        credentials: "include",
         body: formData,
       });
       setPdfFile(null);
@@ -390,7 +412,10 @@ export default function AdminChapterPage({
   const handleDeletePDF = async (id: string) => {
     if (!confirm("Delete this PDF?")) return;
     try {
-      await fetch(`/api/basel/pdfs/${id}`, { method: "DELETE" });
+      await fetch(getApiUrl(`/basel/pdfs/${id}`), {
+        method: "DELETE",
+        credentials: "include",
+      });
       fetchChapter();
     } catch (error) {
       console.error("Error deleting PDF:", error);
@@ -402,9 +427,10 @@ export default function AdminChapterPage({
     if (!newRevision.title || !newRevision.content || !newRevision.revisionDate)
       return;
     try {
-      await fetch("/api/basel/revisions", {
+      await fetch(getApiUrl("/basel/revisions"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ ...newRevision, subsectionId }),
       });
       setNewRevision({ title: "", content: "", revisionDate: "" });
@@ -418,19 +444,22 @@ export default function AdminChapterPage({
   const handleDeleteRevision = async (id: string) => {
     if (!confirm("Delete this revision?")) return;
     try {
-      await fetch(`/api/basel/revisions/${id}`, { method: "DELETE" });
+      await fetch(getApiUrl(`/basel/revisions/${id}`), {
+        method: "DELETE",
+        credentials: "include",
+      });
       fetchChapter();
     } catch (error) {
       console.error("Error deleting revision:", error);
     }
   };
-
   // BetterBanking Notes CRUD
   const handleSaveNotes = async (subsectionId: string) => {
     try {
-      await fetch(`/api/basel/subsections/${subsectionId}`, {
+      await fetch(getApiUrl(`/basel/subsections/${subsectionId}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ betterBankingNotes: notesContent }),
       });
       setEditingNotes(null);
@@ -743,9 +772,10 @@ export default function AdminChapterPage({
                         <NewSubsectionEditor
                           onSave={async (number, content) => {
                             try {
-                              await fetch("/api/basel/subsections", {
+                              await fetch(getApiUrl("/basel/subsections"), {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
+                                credentials: "include",
                                 body: JSON.stringify({
                                   number,
                                   content,
@@ -757,7 +787,7 @@ export default function AdminChapterPage({
                             } catch (error) {
                               console.error(
                                 "Error creating subsection:",
-                                error,
+                                error
                               );
                             }
                           }}
@@ -821,7 +851,7 @@ export default function AdminChapterPage({
                                     onClick={() => {
                                       setEditingNotes(sub.id);
                                       setNotesContent(
-                                        sub.betterBankingNotes || "",
+                                        sub.betterBankingNotes || ""
                                       );
                                     }}
                                     className="text-xs px-2 py-1 text-gray-600 hover:text-green-600 flex items-center gap-1"
@@ -864,14 +894,14 @@ export default function AdminChapterPage({
                                                   "application/json",
                                               },
                                               body: JSON.stringify({ content }),
-                                            },
+                                            }
                                           );
                                           setEditingSubsection(null);
                                           fetchChapter();
                                         } catch (error) {
                                           console.error(
                                             "Error saving subsection:",
-                                            error,
+                                            error
                                           );
                                         }
                                       }}
@@ -1123,7 +1153,7 @@ export default function AdminChapterPage({
                                                 </p>
                                                 <p className="text-gray-500">
                                                   {new Date(
-                                                    rev.revisionDate,
+                                                    rev.revisionDate
                                                   ).toLocaleDateString()}
                                                 </p>
                                               </div>

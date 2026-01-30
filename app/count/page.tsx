@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiUrl } from "@/lib/api";
 import {
   Calculator,
   Loader2,
@@ -23,7 +24,9 @@ export default function CountPage() {
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const response = await fetch("/api/count/status");
+        const response = await fetch(getApiUrl("/count/status"), {
+          credentials: "include",
+        });
         const data = await response.json();
         setUnlimited(data.unlimited);
         setRemainingClicks(data.remainingClicks);
@@ -47,9 +50,10 @@ export default function CountPage() {
     setError(null);
     setResult(null);
     try {
-      const response = await fetch("/api/count", {
+      const response = await fetch(getApiUrl("/count"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ a: numA, b: numB }),
       });
       const data = await response.json();
