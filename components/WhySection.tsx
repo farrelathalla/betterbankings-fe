@@ -20,11 +20,11 @@ const FEATURES = [
     title: "Regulatory Compliance",
     description: "Basel framework implementation and regulatory guidance",
   },
-  {
-    icon: Globe,
-    title: "Market Insights",
-    description: "Real-time market and exchange rate analysis",
-  },
+  // {
+  //   icon: Globe,
+  //   title: "Market Insights",
+  //   description: "Real-time market and exchange rate analysis",
+  // },
 ];
 
 export default function WhySection() {
@@ -40,7 +40,7 @@ export default function WhySection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {FEATURES.map((feature, index) => {
             const Icon = feature.icon;
             return (

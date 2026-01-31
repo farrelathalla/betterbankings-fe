@@ -17,9 +17,9 @@ export const metadata: Metadata = {
     "banking industry trends",
   ],
   openGraph: {
-    title: "Banking Industry Data - Financial Analytics Dashboard",
-    description:
-      "Interactive banking industry data and analytics dashboard for Indonesia and Southeast Asia.",
+    title: "Capital & Solvency - B-Foresight",
+    description: "Deep dive into capital requirements and solvency analysis.",
+    images: ["https://betterbankings.com/og-image.png"],
   },
 };
 

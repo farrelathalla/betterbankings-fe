@@ -39,7 +39,7 @@ export default function Home() {
         />
         <div className="flex flex-col">
           <Hero />
-          <StatsSection />
+          {/* <StatsSection /> */}
           <MissionSection />
           <ServicesSection />
           <WhySection />

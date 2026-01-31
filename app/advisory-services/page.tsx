@@ -29,7 +29,7 @@ export default function AdvisoryServices() {
           <AdvisoryHero />
           <AdvisoryServicesList />
           <AdvisoryMagazine />
-          <AdvisoryProducts />
+          {/* <AdvisoryProducts /> */}
           <AdvisoryCTA />
           <Footer />
         </div>

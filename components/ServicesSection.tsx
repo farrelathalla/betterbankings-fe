@@ -1,7 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Share2, Database, ChevronRight } from "lucide-react";
+import {
+  Share2,
+  Database,
+  ChevronRight,
+  Briefcase,
+  ShoppingBag,
+} from "lucide-react";
 import Link from "next/link";
 
 export default function ServicesSection() {
@@ -15,7 +21,7 @@ export default function ServicesSection() {
         </div>
 
         <div className="z-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Advisory Services Card */}
+          {/* RegMaps Card */}
           <motion.div
             whileHover={{ y: -10 }}
             className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col justify-between"
@@ -79,6 +85,64 @@ export default function ServicesSection() {
                 </button>
               </Link>
               <Database className="w-24 h-24 text-[#F48C25] opacity-80" />
+            </div>
+          </motion.div>
+
+          {/* Advisory Services Card */}
+          <motion.div
+            whileHover={{ y: -10 }}
+            className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col justify-between"
+          >
+            <div>
+              <h3 className="text-3xl font-bold text-[#14213D] mb-4">
+                Advisory Services
+              </h3>
+              <p className="text-[#535769] mb-8 leading-relaxed">
+                Expert guidance on Basel Framework implementation, risk
+                management, and regulatory compliance. Our specialist team
+                provides deep insights into ICAAP, ILAAP, SA-CCR, and FTP,
+                helping financial institutions navigate complex regulatory
+                landscapes with confidence and precision.
+              </p>
+            </div>
+
+            <div className="flex items-end justify-between">
+              <Link href="/advisory-services">
+                <button className="flex items-center gap-2 bg-gradient-to-r from-[#1B2B4B] to-[#355189] text-white px-6 py-3 rounded-lg font-semibold text-normal hover:bg-[#2a3c5e] transition-colors">
+                  Learn More
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </Link>
+              <Briefcase className="w-24 h-24 text-[#F48C25] opacity-80" />
+            </div>
+          </motion.div>
+
+          {/* Software Products Card */}
+          <motion.div
+            whileHover={{ y: -10 }}
+            className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col justify-between"
+          >
+            <div>
+              <h3 className="text-3xl font-bold text-[#14213D] mb-4">
+                Software Products
+              </h3>
+              <p className="text-[#535769] mb-8 leading-relaxed">
+                Enterprise-grade risk management software engineered to elevate
+                banking operations. From credit risk to market analysis, our
+                integrated platform provides precision tools for financial
+                institutions to manage risk effectively and meet modern
+                regulatory standards.
+              </p>
+            </div>
+
+            <div className="flex items-end justify-between">
+              <Link href="/advisory-products">
+                <button className="flex items-center gap-2 bg-gradient-to-r from-[#1B2B4B] to-[#355189] text-white px-6 py-3 rounded-lg font-semibold text-normal hover:bg-[#2a3c5e] transition-colors">
+                  Learn More
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </Link>
+              <ShoppingBag className="w-24 h-24 text-[#F48C25] opacity-80" />
             </div>
           </motion.div>
         </div>

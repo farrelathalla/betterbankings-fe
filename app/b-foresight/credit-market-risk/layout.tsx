@@ -17,9 +17,10 @@ export const metadata: Metadata = {
     "banking industry trends",
   ],
   openGraph: {
-    title: "Banking Industry Data - Financial Analytics Dashboard",
+    title: "Credit & Market Risk - B-Foresight",
     description:
-      "Interactive banking industry data and analytics dashboard for Indonesia and Southeast Asia.",
+      "Analysis of credit and market risk across the banking sector.",
+    images: ["https://betterbankings.com/og-image.png"],
   },
 };
 

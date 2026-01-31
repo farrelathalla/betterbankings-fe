@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     title: "Advisory Services - Banking Consulting & Regulatory Support",
     description:
       "Expert banking advisory services including regulatory compliance and risk management consulting.",
+    images: ["https://betterbankings.com/og-image.png"],
   },
 };
 

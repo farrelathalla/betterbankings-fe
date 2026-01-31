@@ -13,8 +13,7 @@ export default function AdvisoryHero() {
           transition={{ duration: 0.6 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#14213D] mb-6 tracking-tight"
         >
-          Our <span className="text-[#F48C25]">Services</span> and{" "}
-          <span className="text-[#F48C25]">Products</span>
+          Our <span className="text-[#F48C25]">Services</span>
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}

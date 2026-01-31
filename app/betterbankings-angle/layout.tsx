@@ -16,9 +16,9 @@ export const metadata: Metadata = {
     "banking industry insights",
   ],
   openGraph: {
-    title: "BetterBankings Angle - Banking & Finance Podcast",
-    description:
-      "Conversations with industry leaders about banking regulation and risk management in Southeast Asia.",
+    title: "BetterBankings Angle - Expert Insights",
+    description: "Deep analysis and expert opinions on banking regulations.",
+    images: ["https://betterbankings.com/og-image.png"],
   },
 };
 
