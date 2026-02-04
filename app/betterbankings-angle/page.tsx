@@ -74,7 +74,7 @@ export default function BetterBankingsAnglePage() {
         getApiUrl(`/angle/podcasts?${params.toString()}`),
         {
           credentials: "include",
-        }
+        },
       );
       const data = await res.json();
       setPodcasts(data.podcasts || []);
@@ -155,7 +155,7 @@ export default function BetterBankingsAnglePage() {
                     "w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all",
                     selectedCategory === null
                       ? "bg-[#F48C25] text-white"
-                      : "text-gray-600 hover:bg-gray-100"
+                      : "text-gray-600 hover:bg-gray-100",
                   )}
                 >
                   All Episodes
@@ -168,7 +168,7 @@ export default function BetterBankingsAnglePage() {
                       "w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all",
                       selectedCategory === category.id
                         ? "bg-[#F48C25] text-white"
-                        : "text-gray-600 hover:bg-gray-100"
+                        : "text-gray-600 hover:bg-gray-100",
                     )}
                   >
                     {category.name}
@@ -212,7 +212,7 @@ export default function BetterBankingsAnglePage() {
                         <div
                           className={cn(
                             "w-full md:w-40 h-40 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br",
-                            gradientColors[index % gradientColors.length]
+                            gradientColors[index % gradientColors.length],
                           )}
                         >
                           <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">

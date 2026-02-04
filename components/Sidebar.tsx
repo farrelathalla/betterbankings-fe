@@ -73,7 +73,7 @@ const NAV_SECTIONS: NavSection[] = [
       { label: "RegMaps", href: "/regmaps", icon: FileText },
       {
         label: "BetterBankings Angle",
-        href: "/betterbankings-angle",
+        href: "/coming-soon",
         icon: TrendingUp,
       },
     ],
