@@ -46,7 +46,7 @@ export default function PassThroughRatePage() {
   // TODO: Replace with actual Tableau URLs for Pass Through Rate data
   const tableauUrls: Record<string, string> = {
     PassThroughRate:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/PassThroughRate",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/PassThroughRate",
   };
 
   const tabLabels: Record<string, string> = {

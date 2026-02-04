@@ -46,15 +46,15 @@ export default function LendingPage() {
   // TODO: Replace with actual Tableau URLs for Lending data
   const tableauUrls: Record<string, string> = {
     LendingOutstandingSector:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LendingOutstandingSector",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/LendingOutstandingSector",
     LendingOutstandingBank:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LendingOutstandingBank",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/LendingOutstandingBank",
     LendingOutstandingNPL:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LendingOutstandingNPL",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/LendingOutstandingNPL",
     LendingRateIDR:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LendingRateIDR",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/LendingRateIDR",
     LendingRateUSD:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LendingRateUSD",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/LendingRateUSD",
   };
 
   const tabLabels: Record<string, string> = {

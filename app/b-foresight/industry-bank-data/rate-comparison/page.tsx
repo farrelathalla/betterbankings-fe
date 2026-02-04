@@ -46,13 +46,13 @@ export default function RateComparisonPage() {
   // TODO: Replace with actual Tableau URLs for Rate Comparison data
   const tableauUrls: Record<string, string> = {
     RateComparisonIDR:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/RateComparisonIDR",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/RateComparisonIDR",
     RateComparisonUSD:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/RateComparisonUSD",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/RateComparisonUSD",
     RateComparisonIDRKBMI:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/RateComparisonIDRKBMI",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/RateComparisonIDRKBMI",
     RateComparisonUSDKBMI:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/RateComparisonUSDKBMI",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/RateComparisonUSDKBMI",
   };
 
   const tabLabels: Record<string, string> = {

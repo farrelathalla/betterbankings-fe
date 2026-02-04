@@ -82,27 +82,27 @@ const NAV_SECTIONS: NavSection[] = [
     title: "B-FORESIGHT",
     items: [
       {
-        label: "Risk Indicator",
+        label: "Individual Bank Data",
         icon: BarChart3,
         children: [
           {
             label: "Capital and Solvency",
-            href: "/b-foresight/risk-indicator/capital-solvency",
+            href: "/b-foresight/individual-bank-data/capital-solvency",
             icon: Building2,
           },
           {
             label: "Credit and Market Risk",
-            href: "/b-foresight/risk-indicator/credit-market-risk",
+            href: "/b-foresight/individual-bank-data/credit-market-risk",
             icon: TrendingUp,
           },
           {
             label: "Funding and Liquidity",
-            href: "/b-foresight/risk-indicator/funding-liquidity",
+            href: "/b-foresight/individual-bank-data/funding-liquidity",
             icon: LineChart,
           },
           {
             label: "Performance and Risk Monitoring",
-            href: "/b-foresight/risk-indicator/performance-monitoring",
+            href: "/b-foresight/individual-bank-data/performance-monitoring",
             icon: BarChart3,
           },
         ],

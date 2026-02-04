@@ -46,17 +46,17 @@ export default function DepositPage() {
   // TODO: Replace with actual Tableau URLs for Deposit data
   const tableauUrls: Record<string, string> = {
     DepositOutstandingBanks:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositOutstandingBanks",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/DepositOutstandingBanks",
     DepositOutstandingOwnership:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositOutstandingOwnership",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/DepositOutstandingOwnership",
     DepositOutstandingMaturity:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositOutstandingMaturity",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/DepositOutstandingMaturity",
     DepositOutstandingGeographic:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositOutstandingGeographic",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/DepositOutstandingGeographic",
     DepositRateIDR:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositRateIDR",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/DepositRateIDR",
     DepositRateUSD:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositRateUSD",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/DepositRateUSD",
   };
 
   const tabLabels: Record<string, string> = {

@@ -46,9 +46,9 @@ export default function MarketExchangeRatePage() {
   // TODO: Replace with actual Tableau URLs for Market and Exchange Rate data
   const tableauUrls: Record<string, string> = {
     MarketRate:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/MarketRate",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/MarketRate",
     ExchangeRate:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/ExchangeRate",
+      "https://public.tableau.com/views/BankingIndustryData-Separated/ExchangeRate",
   };
 
   const tabLabels: Record<string, string> = {
