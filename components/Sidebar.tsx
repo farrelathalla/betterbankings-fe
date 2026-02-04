@@ -87,22 +87,22 @@ const NAV_SECTIONS: NavSection[] = [
         children: [
           {
             label: "Capital and Solvency",
-            href: "/b-foresight/capital-solvency",
+            href: "/b-foresight/risk-indicator/capital-solvency",
             icon: Building2,
           },
           {
             label: "Credit and Market Risk",
-            href: "/b-foresight/credit-market-risk",
+            href: "/b-foresight/risk-indicator/credit-market-risk",
             icon: TrendingUp,
           },
           {
             label: "Funding and Liquidity",
-            href: "/b-foresight/funding-liquidity",
+            href: "/b-foresight/risk-indicator/funding-liquidity",
             icon: LineChart,
           },
           {
             label: "Performance and Risk Monitoring",
-            href: "/b-foresight/performance-monitoring",
+            href: "/b-foresight/risk-indicator/performance-monitoring",
             icon: BarChart3,
           },
         ],

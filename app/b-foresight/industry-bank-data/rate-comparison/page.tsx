@@ -34,7 +34,7 @@ interface TableauDataTable {
 
 export default function RateComparisonPage() {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState("rateComparison");
+  const [activeTab, setActiveTab] = useState("RateComparisonIDR");
   const [isDownloading, setIsDownloading] = useState(false);
   const [vizLoaded, setVizLoaded] = useState(false);
   const [vizReady, setVizReady] = useState(false);
@@ -45,18 +45,27 @@ export default function RateComparisonPage() {
 
   // TODO: Replace with actual Tableau URLs for Rate Comparison data
   const tableauUrls: Record<string, string> = {
-    rateComparison:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/Solvency",
+    RateComparisonIDR:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/RateComparisonIDR",
+    RateComparisonUSD:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/RateComparisonUSD",
+    RateComparisonIDRKBMI:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/RateComparisonIDRKBMI",
+    RateComparisonUSDKBMI:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/RateComparisonUSDKBMI",
   };
 
   const tabLabels: Record<string, string> = {
-    rateComparison: "Rate Comparison",
+    RateComparisonIDR: "IDR",
+    RateComparisonUSD: "USD",
+    RateComparisonIDRKBMI: "IDR KBMI",
+    RateComparisonUSDKBMI: "USD KBMI",
   };
 
   // Load Tableau JS API once on mount
   useEffect(() => {
     const existingScript = document.querySelector(
-      'script[src*="tableau.embedding"]'
+      'script[src*="tableau.embedding"]',
     );
 
     if (existingScript) {
@@ -95,7 +104,7 @@ export default function RateComparisonPage() {
       if (!containerRef.current) return;
 
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);
@@ -194,7 +203,7 @@ export default function RateComparisonPage() {
     } catch (error) {
       console.error("Error downloading data:", error);
       alert(
-        "Error downloading data. This may be due to permissions on the Tableau dashboard."
+        "Error downloading data. This may be due to permissions on the Tableau dashboard.",
       );
     } finally {
       setIsDownloading(false);
@@ -213,7 +222,7 @@ export default function RateComparisonPage() {
     setTimeout(() => {
       if (!containerRef.current) return;
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);

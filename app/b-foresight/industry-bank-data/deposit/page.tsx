@@ -34,7 +34,7 @@ interface TableauDataTable {
 
 export default function DepositPage() {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState("deposit");
+  const [activeTab, setActiveTab] = useState("DepositOutstandingBanks");
   const [isDownloading, setIsDownloading] = useState(false);
   const [vizLoaded, setVizLoaded] = useState(false);
   const [vizReady, setVizReady] = useState(false);
@@ -45,18 +45,33 @@ export default function DepositPage() {
 
   // TODO: Replace with actual Tableau URLs for Deposit data
   const tableauUrls: Record<string, string> = {
-    deposit:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/Solvency",
+    DepositOutstandingBanks:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositOutstandingBanks",
+    DepositOutstandingOwnership:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositOutstandingOwnership",
+    DepositOutstandingMaturity:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositOutstandingMaturity",
+    DepositOutstandingGeographic:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositOutstandingGeographic",
+    DepositRateIDR:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositRateIDR",
+    DepositRateUSD:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/DepositRateUSD",
   };
 
   const tabLabels: Record<string, string> = {
-    deposit: "Deposit",
+    DepositOutstandingBanks: "Outstanding - Group of Banks",
+    DepositOutstandingOwnership: "Outstanding - Ownership",
+    DepositOutstandingMaturity: "Outstanding - Maturity",
+    DepositOutstandingGeographic: "Outstanding - Geographic",
+    DepositRateIDR: "Rate - IDR",
+    DepositRateUSD: "Rate - USD",
   };
 
   // Load Tableau JS API once on mount
   useEffect(() => {
     const existingScript = document.querySelector(
-      'script[src*="tableau.embedding"]'
+      'script[src*="tableau.embedding"]',
     );
 
     if (existingScript) {
@@ -95,7 +110,7 @@ export default function DepositPage() {
       if (!containerRef.current) return;
 
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);
@@ -194,7 +209,7 @@ export default function DepositPage() {
     } catch (error) {
       console.error("Error downloading data:", error);
       alert(
-        "Error downloading data. This may be due to permissions on the Tableau dashboard."
+        "Error downloading data. This may be due to permissions on the Tableau dashboard.",
       );
     } finally {
       setIsDownloading(false);
@@ -213,7 +228,7 @@ export default function DepositPage() {
     setTimeout(() => {
       if (!containerRef.current) return;
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);

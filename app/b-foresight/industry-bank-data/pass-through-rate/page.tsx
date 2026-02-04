@@ -34,7 +34,7 @@ interface TableauDataTable {
 
 export default function PassThroughRatePage() {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState("passThrough");
+  const [activeTab, setActiveTab] = useState("PassThroughRate");
   const [isDownloading, setIsDownloading] = useState(false);
   const [vizLoaded, setVizLoaded] = useState(false);
   const [vizReady, setVizReady] = useState(false);
@@ -45,18 +45,18 @@ export default function PassThroughRatePage() {
 
   // TODO: Replace with actual Tableau URLs for Pass Through Rate data
   const tableauUrls: Record<string, string> = {
-    passThrough:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/Solvency",
+    PassThroughRate:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/PassThroughRate",
   };
 
   const tabLabels: Record<string, string> = {
-    passThrough: "Pass Through Rate",
+    PassThroughRate: "Pass Through Rate",
   };
 
   // Load Tableau JS API once on mount
   useEffect(() => {
     const existingScript = document.querySelector(
-      'script[src*="tableau.embedding"]'
+      'script[src*="tableau.embedding"]',
     );
 
     if (existingScript) {
@@ -95,7 +95,7 @@ export default function PassThroughRatePage() {
       if (!containerRef.current) return;
 
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);
@@ -194,7 +194,7 @@ export default function PassThroughRatePage() {
     } catch (error) {
       console.error("Error downloading data:", error);
       alert(
-        "Error downloading data. This may be due to permissions on the Tableau dashboard."
+        "Error downloading data. This may be due to permissions on the Tableau dashboard.",
       );
     } finally {
       setIsDownloading(false);
@@ -213,7 +213,7 @@ export default function PassThroughRatePage() {
     setTimeout(() => {
       if (!containerRef.current) return;
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);

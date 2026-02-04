@@ -34,7 +34,7 @@ interface TableauDataTable {
 
 export default function LendingPage() {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState("lending");
+  const [activeTab, setActiveTab] = useState("LendingOutstandingSector");
   const [isDownloading, setIsDownloading] = useState(false);
   const [vizLoaded, setVizLoaded] = useState(false);
   const [vizReady, setVizReady] = useState(false);
@@ -45,18 +45,30 @@ export default function LendingPage() {
 
   // TODO: Replace with actual Tableau URLs for Lending data
   const tableauUrls: Record<string, string> = {
-    lending:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/Solvency",
+    LendingOutstandingSector:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LendingOutstandingSector",
+    LendingOutstandingBank:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LendingOutstandingBank",
+    LendingOutstandingNPL:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LendingOutstandingNPL",
+    LendingRateIDR:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LendingRateIDR",
+    LendingRateUSD:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/LendingRateUSD",
   };
 
   const tabLabels: Record<string, string> = {
-    lending: "Lending",
+    LendingOutstandingSector: "Outstanding - Sector",
+    LendingOutstandingBank: "Outstanding - Bank Breakdown",
+    LendingOutstandingNPL: "NPL Outstanding",
+    LendingRateIDR: "Rate - IDR",
+    LendingRateUSD: "Rate - USD",
   };
 
   // Load Tableau JS API once on mount
   useEffect(() => {
     const existingScript = document.querySelector(
-      'script[src*="tableau.embedding"]'
+      'script[src*="tableau.embedding"]',
     );
 
     if (existingScript) {
@@ -95,7 +107,7 @@ export default function LendingPage() {
       if (!containerRef.current) return;
 
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);
@@ -194,7 +206,7 @@ export default function LendingPage() {
     } catch (error) {
       console.error("Error downloading data:", error);
       alert(
-        "Error downloading data. This may be due to permissions on the Tableau dashboard."
+        "Error downloading data. This may be due to permissions on the Tableau dashboard.",
       );
     } finally {
       setIsDownloading(false);
@@ -213,7 +225,7 @@ export default function LendingPage() {
     setTimeout(() => {
       if (!containerRef.current) return;
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);

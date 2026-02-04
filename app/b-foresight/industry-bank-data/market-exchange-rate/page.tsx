@@ -34,7 +34,7 @@ interface TableauDataTable {
 
 export default function MarketExchangeRatePage() {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState("marketExchange");
+  const [activeTab, setActiveTab] = useState("MarketRate");
   const [isDownloading, setIsDownloading] = useState(false);
   const [vizLoaded, setVizLoaded] = useState(false);
   const [vizReady, setVizReady] = useState(false);
@@ -45,18 +45,21 @@ export default function MarketExchangeRatePage() {
 
   // TODO: Replace with actual Tableau URLs for Market and Exchange Rate data
   const tableauUrls: Record<string, string> = {
-    marketExchange:
-      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/Solvency",
+    MarketRate:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/MarketRate",
+    ExchangeRate:
+      "https://public.tableau.com/views/GroupingRiskIndicator-Separated/ExchangeRate",
   };
 
   const tabLabels: Record<string, string> = {
-    marketExchange: "Market and Exchange Rate",
+    MarketRate: "Market Rate",
+    ExchangeRate: "Exchange Rate",
   };
 
   // Load Tableau JS API once on mount
   useEffect(() => {
     const existingScript = document.querySelector(
-      'script[src*="tableau.embedding"]'
+      'script[src*="tableau.embedding"]',
     );
 
     if (existingScript) {
@@ -95,7 +98,7 @@ export default function MarketExchangeRatePage() {
       if (!containerRef.current) return;
 
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);
@@ -194,7 +197,7 @@ export default function MarketExchangeRatePage() {
     } catch (error) {
       console.error("Error downloading data:", error);
       alert(
-        "Error downloading data. This may be due to permissions on the Tableau dashboard."
+        "Error downloading data. This may be due to permissions on the Tableau dashboard.",
       );
     } finally {
       setIsDownloading(false);
@@ -213,7 +216,7 @@ export default function MarketExchangeRatePage() {
     setTimeout(() => {
       if (!containerRef.current) return;
       const vizElement = document.createElement(
-        "tableau-viz"
+        "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
       vizElement.setAttribute("src", tableauUrls[activeTab]);
