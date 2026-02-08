@@ -83,6 +83,7 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       {
         label: "Individual Bank Data",
+        href: "/b-foresight/individual-bank-data",
         icon: BarChart3,
         children: [
           {
@@ -109,6 +110,7 @@ const NAV_SECTIONS: NavSection[] = [
       },
       {
         label: "Industry Bank Data",
+        href: "/b-foresight/industry-bank-data",
         icon: Database,
         children: [
           {
@@ -227,34 +229,47 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                 if (hasChildren) {
                   return (
                     <div key={item.label}>
-                      <button
-                        onClick={() => toggleMenu(item.label)}
-                        className={cn(
-                          "flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 group",
-                          isChildActive
-                            ? "bg-[#E0E7FF] text-[#14213D]"
-                            : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D]",
-                        )}
-                      >
-                        <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1 group/item">
+                        <Link
+                          href={item.href!}
+                          onClick={() => isMobile && setIsOpen(false)}
+                          className={cn(
+                            "flex items-center gap-3 flex-1 px-3 py-2.5 rounded-l-lg text-sm font-semibold transition-all duration-200",
+                            isChildActive || isActive
+                              ? "bg-[#E0E7FF] text-[#14213D]"
+                              : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D]",
+                          )}
+                        >
                           <Icon
                             className={cn(
                               "w-5 h-5",
-                              isChildActive
+                              isChildActive || isActive
                                 ? "text-[#14213D]"
-                                : "text-[#94A3B8] group-hover:text-[#14213D]",
+                                : "text-[#94A3B8] group-hover/item:text-[#14213D]",
                             )}
                           />
                           {item.label}
-                        </div>
-                        <ChevronDown
+                        </Link>
+                        <button
+                          onClick={() => toggleMenu(item.label)}
                           className={cn(
-                            "w-4 h-4 transition-transform duration-200",
-                            isExpanded ? "rotate-180" : "",
-                            isChildActive ? "text-[#14213D]" : "text-[#94A3B8]",
+                            "px-2 py-2.5 rounded-r-lg transition-all duration-200 border-l",
+                            isChildActive || isActive
+                              ? "bg-[#E0E7FF] text-[#14213D] border-[#CBD5E1]"
+                              : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D] border-[#E2E8F0]",
                           )}
-                        />
-                      </button>
+                        >
+                          <ChevronDown
+                            className={cn(
+                              "w-4 h-4 transition-transform duration-200",
+                              isExpanded ? "rotate-180" : "",
+                              isChildActive || isActive
+                                ? "text-[#14213D]"
+                                : "text-[#94A3B8]",
+                            )}
+                          />
+                        </button>
+                      </div>
                       <AnimatePresence>
                         {isExpanded && (
                           <motion.div
