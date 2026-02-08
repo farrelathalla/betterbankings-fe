@@ -13,6 +13,7 @@ import {
   Building2,
   Briefcase,
   Loader2,
+  CheckCircle2,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,12 +23,23 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function AuthPage() {
   const router = useRouter();
-  const { signIn, signUp, user, loading: authLoading } = useAuth();
+  const {
+    signIn,
+    signUp,
+    resendVerification,
+    user,
+    loading: authLoading,
+  } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
+  const [signUpEmail, setSignUpEmail] = useState("");
+  const [unverifiedEmail, setUnverifiedEmail] = useState("");
+  const [resendingVerification, setResendingVerification] = useState(false);
+  const [resendSuccess, setResendSuccess] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -61,18 +73,27 @@ export default function AuthPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
     setError("");
   };
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
+    setUnverifiedEmail("");
+
     const result = await signIn(formData.email, formData.password);
     if (result.success) {
       router.push("/");
     } else {
-      setError(result.error || "Sign in failed");
+      if (result.emailVerified === false && result.email) {
+        setUnverifiedEmail(result.email);
+        setError("Please verify your email before signing in.");
+      } else {
+        setError(result.error || "Sign in failed");
+      }
     }
     setIsSubmitting(false);
   };
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -98,12 +119,131 @@ export default function AuthPage() {
       organization: formData.organization || undefined,
     });
     if (result.success) {
-      router.push("/");
+      setSignUpSuccess(true);
+      setSignUpEmail(formData.email);
     } else {
       setError(result.error || "Sign up failed");
     }
     setIsSubmitting(false);
   };
+
+  const handleResendVerification = async () => {
+    const email = unverifiedEmail || signUpEmail;
+    if (!email) return;
+
+    setResendingVerification(true);
+    setResendSuccess(false);
+
+    const result = await resendVerification(email);
+    if (result.success) {
+      setResendSuccess(true);
+    } else {
+      setError(result.error || "Failed to resend verification email");
+    }
+    setResendingVerification(false);
+  };
+
+  // Sign up success state
+  if (signUpSuccess) {
+    return (
+      <div className="h-screen w-full flex bg-white overflow-hidden">
+        <div className="hidden lg:block flex-none h-screen relative z-0 w-auto overflow-hidden">
+          <Carousel />
+          <div className="absolute top-8 left-8 z-20">
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <span className="font-bold tracking-tight text-xl">
+                BetterBankings
+              </span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="flex-1 bg-white p-8 lg:p-12 py-20 flex flex-col relative overflow-y-auto overflow-x-hidden max-h-screen z-10">
+          <Image
+            src={EllipseYellow2}
+            alt="Ellipse Yellow 2"
+            className="absolute -top-[30%] -right-[15%]"
+          />
+
+          <div className="w-full py-12 mr-auto z-[20] my-auto max-w-md">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center"
+            >
+              <div className="w-20 h-20 mx-auto mb-6 flex items-center justify-center bg-green-50 rounded-full">
+                <CheckCircle2 className="w-10 h-10 text-green-500" />
+              </div>
+              <h1 className="text-3xl font-bold text-[#14213D] mb-4">
+                Check Your <span className="text-[#F48C25]">Email</span>
+              </h1>
+              <p className="text-gray-500 mb-6">
+                We&apos;ve sent a verification link to{" "}
+                <span className="font-semibold text-[#14213D]">
+                  {signUpEmail}
+                </span>
+                . Please check your inbox and click the link to verify your
+                account.
+              </p>
+              <p className="text-gray-400 text-sm mb-8">
+                Don&apos;t forget to check your spam folder!
+              </p>
+
+              {resendSuccess && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-600 text-sm"
+                >
+                  Verification email sent successfully!
+                </motion.div>
+              )}
+
+              <div className="space-y-4">
+                <button
+                  onClick={handleResendVerification}
+                  disabled={resendingVerification}
+                  className="w-full py-3 border-2 border-[#14213D] text-[#14213D] rounded-lg font-semibold hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {resendingVerification ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    "Resend Verification Email"
+                  )}
+                </button>
+
+                <button
+                  onClick={() => {
+                    setSignUpSuccess(false);
+                    setIsSignUp(false);
+                    setFormData({
+                      name: "",
+                      email: "",
+                      phone: "",
+                      position: "",
+                      organization: "",
+                      password: "",
+                      confirmPassword: "",
+                    });
+                  }}
+                  className="w-full py-4 bg-gradient-to-r from-[#1B2B4B] to-[#355189] text-white rounded-lg font-semibold text-lg hover:opacity-90 transition-all shadow-lg hover:shadow-xl"
+                >
+                  Back to Sign In
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen w-full flex bg-white overflow-hidden">
@@ -170,6 +310,7 @@ export default function AuthPage() {
                   onClick={() => {
                     setIsSignUp(false);
                     setError("");
+                    setUnverifiedEmail("");
                   }}
                   className="font-bold text-[#14213D] underline"
                 >
@@ -180,6 +321,7 @@ export default function AuthPage() {
                   onClick={() => {
                     setIsSignUp(true);
                     setError("");
+                    setUnverifiedEmail("");
                   }}
                   className="font-bold text-[#14213D] underline"
                 >
@@ -196,6 +338,27 @@ export default function AuthPage() {
               className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm"
             >
               {error}
+              {unverifiedEmail && (
+                <button
+                  onClick={handleResendVerification}
+                  disabled={resendingVerification}
+                  className="block mt-2 text-[#14213D] font-semibold underline hover:no-underline"
+                >
+                  {resendingVerification
+                    ? "Sending..."
+                    : "Resend verification email"}
+                </button>
+              )}
+            </motion.div>
+          )}
+
+          {resendSuccess && !signUpSuccess && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-600 text-sm"
+            >
+              Verification email sent successfully! Please check your inbox.
             </motion.div>
           )}
 
@@ -429,12 +592,12 @@ export default function AuthPage() {
                 </div>
 
                 <div className="flex items-center justify-end text-sm">
-                  <a
-                    href="#"
+                  <Link
+                    href="/auth/forgot-password"
                     className="text-[#555555] font-medium hover:underline"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
 
                 <button

@@ -16,7 +16,9 @@ export interface User {
   position: string | null;
   organization: string | null;
   role: string;
+  emailVerified: boolean;
 }
+
 export interface SignUpData {
   email: string;
   password: string;
@@ -25,23 +27,49 @@ export interface SignUpData {
   position?: string;
   organization?: string;
 }
+
+export interface SignUpResult {
+  success: boolean;
+  error?: string;
+  emailSent?: boolean;
+}
+
 export interface AuthContextType {
   user: User | null;
   loading: boolean;
   signIn: (
     email: string,
-    password: string
-  ) => Promise<{ success: boolean; error?: string }>;
-  signUp: (data: SignUpData) => Promise<{ success: boolean; error?: string }>;
+    password: string,
+  ) => Promise<{
+    success: boolean;
+    error?: string;
+    emailVerified?: boolean;
+    email?: string;
+  }>;
+  signUp: (data: SignUpData) => Promise<SignUpResult>;
   signOut: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  forgotPassword: (
+    email: string,
+  ) => Promise<{ success: boolean; error?: string }>;
+  resetPassword: (
+    token: string,
+    password: string,
+    confirmPassword: string,
+  ) => Promise<{ success: boolean; error?: string }>;
+  resendVerification: (
+    email: string,
+  ) => Promise<{ success: boolean; error?: string }>;
 }
+
 export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined
+  undefined,
 );
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+
   const refreshUser = useCallback(async () => {
     try {
       const response = await fetch(`${API_URL}/auth/me`, {
@@ -56,9 +84,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     }
   }, []);
+
   useEffect(() => {
     refreshUser();
   }, [refreshUser]);
+
   const signIn = async (email: string, password: string) => {
     try {
       const response = await fetch(`${API_URL}/auth/signin`, {
@@ -69,7 +99,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       const data = await response.json();
       if (!response.ok) {
-        return { success: false, error: data.error || "Sign in failed" };
+        return {
+          success: false,
+          error: data.error || "Sign in failed",
+          emailVerified: data.emailVerified,
+          email: data.email,
+        };
       }
       setUser(data.user);
       return { success: true };
@@ -78,7 +113,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return { success: false, error: "An unexpected error occurred" };
     }
   };
-  const signUp = async (signUpData: SignUpData) => {
+
+  const signUp = async (signUpData: SignUpData): Promise<SignUpResult> => {
     try {
       const response = await fetch(`${API_URL}/auth/signup`, {
         method: "POST",
@@ -90,13 +126,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!response.ok) {
         return { success: false, error: data.error || "Sign up failed" };
       }
-      setUser(data.user);
-      return { success: true };
+      // Don't set user - they need to verify email first
+      return { success: true, emailSent: data.emailSent };
     } catch (error) {
       console.error("Sign up error:", error);
       return { success: false, error: "An unexpected error occurred" };
     }
   };
+
   const signOut = async () => {
     try {
       await fetch(`${API_URL}/auth/signout`, {
@@ -108,9 +145,81 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.error("Sign out error:", error);
     }
   };
+
+  const forgotPassword = async (email: string) => {
+    try {
+      const response = await fetch(`${API_URL}/auth/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        return { success: false, error: data.error || "Request failed" };
+      }
+      return { success: true };
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      return { success: false, error: "An unexpected error occurred" };
+    }
+  };
+
+  const resetPassword = async (
+    token: string,
+    password: string,
+    confirmPassword: string,
+  ) => {
+    try {
+      const response = await fetch(`${API_URL}/auth/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ token, password, confirmPassword }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        return { success: false, error: data.error || "Password reset failed" };
+      }
+      return { success: true };
+    } catch (error) {
+      console.error("Reset password error:", error);
+      return { success: false, error: "An unexpected error occurred" };
+    }
+  };
+
+  const resendVerification = async (email: string) => {
+    try {
+      const response = await fetch(`${API_URL}/auth/resend-verification`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        return { success: false, error: data.error || "Request failed" };
+      }
+      return { success: true };
+    } catch (error) {
+      console.error("Resend verification error:", error);
+      return { success: false, error: "An unexpected error occurred" };
+    }
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, loading, signIn, signUp, signOut, refreshUser }}
+      value={{
+        user,
+        loading,
+        signIn,
+        signUp,
+        signOut,
+        refreshUser,
+        forgotPassword,
+        resetPassword,
+        resendVerification,
+      }}
     >
       {children}
     </AuthContext.Provider>
