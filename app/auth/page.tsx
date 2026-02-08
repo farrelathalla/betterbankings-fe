@@ -169,7 +169,7 @@ export default function AuthPage() {
             className="absolute -top-[30%] -right-[15%]"
           />
 
-          <div className="w-full py-12 mr-auto z-[20] my-auto max-w-md">
+          <div className="w-full py-12 mx-auto z-[20] my-auto max-w-md">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
