@@ -12,6 +12,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
+import Footer from "@/components/Footer";
 
 const sections = [
   {
@@ -20,7 +21,7 @@ const sections = [
       "Provides insights into deposit composition, rates, and trends across the banking industry. These cover deposits grouping by bank category, maturity, and ownership, as well as IDR and USD deposit interest rates.",
     href: "/b-foresight/industry-bank-data/deposit",
     icon: Wallet,
-    accent: "blue",
+    index: "01",
   },
   {
     title: "Lending",
@@ -28,7 +29,7 @@ const sections = [
       "Presents an overview of credit distribution and loan growth across sectors. It includes lending by economic sector and borrower segment, IDR and USD lending rates, and non-performing loans (NPLs).",
     href: "/b-foresight/industry-bank-data/lending",
     icon: DollarSign,
-    accent: "orange",
+    index: "02",
   },
   {
     title: "Market and Exchange Rate",
@@ -36,7 +37,7 @@ const sections = [
       "Summarizes key market variables affecting the banking sector, including exchange rate movements, interbank market conditions, and selected financial market indicators relevant to banking operations.",
     href: "/b-foresight/industry-bank-data/market-exchange-rate",
     icon: ArrowLeftRight,
-    accent: "blue",
+    index: "03",
   },
   {
     title: "Rate Comparison",
@@ -44,7 +45,7 @@ const sections = [
       "Compares key interest rates across the financial system, including policy rates, deposit and lending rates, LPS rates, and other benchmark rates. This section facilitates quick assessment of pricing competitiveness.",
     href: "/b-foresight/industry-bank-data/rate-comparison",
     icon: GitCompare,
-    accent: "orange",
+    index: "04",
   },
   {
     title: "Pass Through Rate",
@@ -52,341 +53,178 @@ const sections = [
       "Analyzes the extent and speed at which changes in policy rates are transmitted to deposit and lending rates. This section supports evaluation of monetary policy transmission effectiveness.",
     href: "/b-foresight/industry-bank-data/pass-through-rate",
     icon: Percent,
-    accent: "blue",
+    index: "05",
   },
 ];
 
-// Decorative hexagon
-const Hexagon = ({
-  className = "",
-  filled = false,
-}: {
-  className?: string;
-  filled?: boolean;
-}) => (
-  <svg viewBox="0 0 100 100" className={className}>
-    <polygon
-      points="50,2 95,25 95,75 50,98 5,75 5,25"
-      fill={filled ? "currentColor" : "none"}
-      stroke="currentColor"
-      strokeWidth="2"
-    />
-  </svg>
-);
-
 export default function IndustryBankDataPage() {
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
-      {/* Sidebar */}
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row overflow-x-hidden">
       <Sidebar />
 
-      {/* Main Content */}
-      <main
-        className="flex-1 lg:ml-[280px] relative overflow-hidden"
-        style={{
-          background:
-            "linear-gradient(135deg, #14213D 0%, #1a2a4a 50%, #0f1729 100%)",
-        }}
-      >
-        {/* Decorative background shapes */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-          className="absolute top-[8%] right-[3%] text-blue-500/8"
-        >
-          <Hexagon className="w-56 h-56" />
-        </motion.div>
+      <main className="w-full flex-1 lg:ml-[280px] relative flex flex-col">
+        {/* Subtle background gradient blobs */}
+        <div className="fixed inset-0 pointer-events-none z-0">
+          <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-orange-50 rounded-full blur-[100px] opacity-60" />
+          <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-blue-50 rounded-full blur-[100px] opacity-60" />
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.15 }}
-          className="absolute top-[12%] right-[1%] text-blue-400/12"
-        >
-          <Hexagon className="w-20 h-20" filled />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.3 }}
-          className="absolute bottom-[35%] left-[3%] text-slate-500/8"
-        >
-          <Hexagon className="w-24 h-24" filled />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.45 }}
-          className="absolute top-[50%] right-[8%] text-orange-400/10"
-        >
-          <Hexagon className="w-16 h-16" />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.6 }}
-          className="absolute bottom-[15%] left-[15%] text-blue-400/6"
-        >
-          <Hexagon className="w-20 h-20" />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.75 }}
-          className="absolute bottom-[8%] right-[20%] text-orange-400/10"
-        >
-          <div className="w-3 h-3 rounded-full bg-current" />
-          <div className="w-2 h-2 rounded-full bg-current absolute top-5 left-5 opacity-50" />
-          <div className="w-1.5 h-1.5 rounded-full bg-current absolute -top-3 left-3 opacity-70" />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.9 }}
-          className="absolute top-[75%] left-[6%] text-blue-400/8"
-        >
-          <Hexagon className="w-12 h-12" />
-        </motion.div>
-
-        {/* Header */}
-        <header className="relative z-10 pt-12 pb-8 px-8">
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Link
-                href="/b-foresight"
-                className="inline-flex items-center text-blue-400/70 hover:text-blue-300 text-sm font-medium mb-6 transition-colors"
-              >
-                <ChevronLeft className="w-4 h-4 mr-1" />
-                B-FORESIGHT
-              </Link>
-
-              <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
-                Industry Bank Data
-              </h1>
-              <p className="text-blue-100/50 text-lg max-w-2xl">
-                Consolidated view of aggregated banking industry data and macro
-                indicators
-              </p>
-            </motion.div>
-          </div>
-        </header>
-
-        {/* Content */}
-        <section className="relative z-10 px-8 py-6 pb-24">
-          <div className="max-w-5xl mx-auto">
-            {/* First row - 2 items */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-16 mb-16">
-              {sections.slice(0, 2).map((section, index) => {
-                const isOrange = section.accent === "orange";
-                return (
-                  <motion.div
-                    key={section.title}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={index === 1 ? "md:translate-y-10" : ""}
-                  >
-                    <Link href={section.href} className="group block">
-                      <div className="relative">
-                        {/* Soft blob background */}
-                        <div
-                          className={`absolute -inset-5 opacity-[0.06] ${isOrange ? "bg-orange-400" : "bg-blue-400"}`}
-                          style={{
-                            borderRadius: "50% 50% 55% 45% / 45% 55% 45% 55%",
-                            transform: "rotate(-3deg)",
-                          }}
-                        />
-
-                        {/* Large rotated background icon */}
-                        <div
-                          className={`absolute -top-3 -right-6 ${isOrange ? "text-orange-400/8" : "text-blue-400/8"}`}
-                        >
-                          <section.icon
-                            className="w-24 h-24"
-                            style={{
-                              transform: `rotate(${12 + index * 8}deg)`,
-                            }}
-                            strokeWidth={1}
-                          />
-                        </div>
-
-                        {/* Content */}
-                        <div className="relative z-10 py-4">
-                          <div
-                            className={`w-10 h-10 rounded-lg ${isOrange ? "bg-orange-500/20 text-orange-400" : "bg-blue-500/20 text-blue-400"} flex items-center justify-center mb-5`}
-                          >
-                            <section.icon className="w-5 h-5" />
-                          </div>
-
-                          <h2
-                            className={`text-xl font-bold text-white mb-3 transition-colors ${isOrange ? "group-hover:text-orange-300" : "group-hover:text-blue-300"}`}
-                          >
-                            {section.title}
-                          </h2>
-
-                          <p className="text-blue-100/50 text-sm leading-relaxed mb-4">
-                            {section.description}
-                          </p>
-
-                          <div
-                            className={`flex items-center text-sm font-medium ${isOrange ? "text-orange-400 group-hover:text-orange-300" : "text-blue-400 group-hover:text-blue-300"} transition-colors`}
-                          >
-                            View data
-                            <ArrowRight className="ml-1.5 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* Second row - centered single item */}
-            <div className="flex justify-center mb-16">
+        <div className="relative z-10 flex-1">
+          {/* Hero Banner */}
+          <div className="relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#14213D] via-[#1B2B4B] to-[#355189]" />
+            <div
+              className="absolute inset-0 opacity-[0.07]"
+              style={{
+                backgroundImage: `radial-gradient(circle at 20% 50%, #F48C25 0%, transparent 50%), radial-gradient(circle at 80% 20%, #F48C25 0%, transparent 40%)`,
+              }}
+            />
+            <div className="relative z-10 px-6 lg:px-12 pt-24 pb-16">
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="max-w-md md:-translate-x-12"
+                transition={{ duration: 0.6 }}
+                className="max-w-4xl"
               >
-                {(() => {
-                  const section = sections[2];
-                  const isOrange = section.accent === "orange";
-                  return (
-                    <Link href={section.href} className="group block">
-                      <div className="relative">
-                        <div
-                          className={`absolute -inset-5 opacity-[0.06] ${isOrange ? "bg-orange-400" : "bg-blue-400"}`}
-                          style={{
-                            borderRadius: "45% 55% 50% 50% / 55% 45% 55% 45%",
-                            transform: "rotate(4deg)",
-                          }}
-                        />
+                <Link
+                  href="/b-foresight"
+                  className="inline-flex items-center text-white/50 hover:text-[#F48C25] text-sm font-medium mb-6 transition-colors"
+                >
+                  <ChevronLeft className="w-4 h-4 mr-1" />
+                  B-FORESIGHT
+                </Link>
 
-                        <div
-                          className={`absolute -top-2 -right-8 ${isOrange ? "text-orange-400/8" : "text-blue-400/8"}`}
-                        >
-                          <section.icon
-                            className="w-24 h-24"
-                            style={{ transform: "rotate(20deg)" }}
-                            strokeWidth={1}
-                          />
-                        </div>
-
-                        <div className="relative z-10 py-4">
-                          <div
-                            className={`w-10 h-10 rounded-lg ${isOrange ? "bg-orange-500/20 text-orange-400" : "bg-blue-500/20 text-blue-400"} flex items-center justify-center mb-5`}
-                          >
-                            <section.icon className="w-5 h-5" />
-                          </div>
-
-                          <h2
-                            className={`text-xl font-bold text-white mb-3 transition-colors ${isOrange ? "group-hover:text-orange-300" : "group-hover:text-blue-300"}`}
-                          >
-                            {section.title}
-                          </h2>
-
-                          <p className="text-blue-100/50 text-sm leading-relaxed mb-4">
-                            {section.description}
-                          </p>
-
-                          <div
-                            className={`flex items-center text-sm font-medium ${isOrange ? "text-orange-400 group-hover:text-orange-300" : "text-blue-400 group-hover:text-blue-300"} transition-colors`}
-                          >
-                            View data
-                            <ArrowRight className="ml-1.5 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })()}
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: 60 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="h-1 bg-[#F48C25] rounded-full mb-6"
+                />
+                <h1 className="text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
+                  Industry <span className="text-[#F48C25]">Bank Data</span>
+                </h1>
+                <p className="text-white/60 text-lg max-w-2xl">
+                  Consolidated view of aggregated banking industry data and
+                  macro indicators
+                </p>
               </motion.div>
             </div>
+            {/* Curved bottom edge */}
+            <div className="absolute -bottom-px left-0 right-0">
+              <svg viewBox="0 0 1440 40" fill="none" className="w-full block">
+                <path
+                  d="M0 40V0c240 28 480 40 720 40S1200 28 1440 0v40H0z"
+                  fill="#F8FAFC"
+                />
+              </svg>
+            </div>
+          </div>
 
-            {/* Third row - 2 items */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-16">
-              {sections.slice(3, 5).map((section, index) => {
-                const isOrange = section.accent === "orange";
-                return (
+          {/* Cards Section */}
+          <section className="px-6 lg:px-12 py-12">
+            <div className="max-w-5xl mx-auto">
+              {/* Top row: 3 cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                {sections.slice(0, 3).map((section, index) => (
                   <motion.div
                     key={section.title}
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: (index + 3) * 0.1 }}
-                    className={index === 0 ? "" : "md:-translate-y-6"}
+                    transition={{
+                      duration: 0.5,
+                      delay: index * 0.1 + 0.3,
+                      type: "spring",
+                      stiffness: 100,
+                    }}
                   >
-                    <Link href={section.href} className="group block">
-                      <div className="relative">
-                        <div
-                          className={`absolute -inset-5 opacity-[0.06] ${isOrange ? "bg-orange-400" : "bg-blue-400"}`}
-                          style={{
-                            borderRadius:
-                              index === 0
-                                ? "55% 45% 50% 50% / 50% 50% 50% 50%"
-                                : "48% 52% 45% 55% / 50% 55% 45% 50%",
-                            transform: `rotate(${index === 0 ? "-5deg" : "6deg"})`,
-                          }}
-                        />
+                    <Link href={section.href} className="group block h-full">
+                      <div className="relative h-full bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-blue-100/40 hover:-translate-y-1">
+                        {/* Gradient accent bar */}
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#F48C25] to-[#355189] rounded-l-2xl" />
 
-                        <div
-                          className={`absolute -top-3 -right-5 ${isOrange ? "text-orange-400/8" : "text-blue-400/8"}`}
-                        >
-                          <section.icon
-                            className="w-24 h-24"
-                            style={{
-                              transform: `rotate(${25 + index * 10}deg)`,
-                            }}
-                            strokeWidth={1}
-                          />
-                        </div>
-
-                        <div className="relative z-10 py-4">
-                          <div
-                            className={`w-10 h-10 rounded-lg ${isOrange ? "bg-orange-500/20 text-orange-400" : "bg-blue-500/20 text-blue-400"} flex items-center justify-center mb-5`}
-                          >
-                            <section.icon className="w-5 h-5" />
+                        <div className="p-7 pl-9">
+                          {/* Icon & Index */}
+                          <div className="flex items-start justify-between mb-5">
+                            <div className="w-11 h-11 bg-[#355188] rounded-xl flex items-center justify-center text-white group-hover:bg-[#F48C25] transition-colors duration-300">
+                              <section.icon className="w-5 h-5" />
+                            </div>
+                            <span className="text-4xl font-bold text-[#14213D]/[0.06] select-none">
+                              {section.index}
+                            </span>
                           </div>
 
-                          <h2
-                            className={`text-xl font-bold text-white mb-3 transition-colors ${isOrange ? "group-hover:text-orange-300" : "group-hover:text-blue-300"}`}
-                          >
+                          <h2 className="text-lg font-bold text-[#14213D] mb-2 group-hover:text-[#355189] transition-colors">
                             {section.title}
                           </h2>
 
-                          <p className="text-blue-100/50 text-sm leading-relaxed mb-4">
+                          <p className="text-[#535769] text-sm leading-relaxed mb-5">
                             {section.description}
                           </p>
 
-                          <div
-                            className={`flex items-center text-sm font-medium ${isOrange ? "text-orange-400 group-hover:text-orange-300" : "text-blue-400 group-hover:text-blue-300"} transition-colors`}
-                          >
-                            View data
-                            <ArrowRight className="ml-1.5 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          <div className="flex items-center text-sm font-semibold text-[#F48C25] group-hover:text-[#E07A0B] transition-colors">
+                            View Data
+                            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
                           </div>
                         </div>
                       </div>
                     </Link>
                   </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+                ))}
+              </div>
 
-        {/* Bottom gradient */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0a0f1a] to-transparent" />
+              {/* Bottom row: 2 cards, centered */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto lg:max-w-none lg:px-[calc((100%-2*min(100%,28rem)-2rem)/2)]">
+                {sections.slice(3, 5).map((section, index) => (
+                  <motion.div
+                    key={section.title}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: (index + 3) * 0.1 + 0.3,
+                      type: "spring",
+                      stiffness: 100,
+                    }}
+                  >
+                    <Link href={section.href} className="group block h-full">
+                      <div className="relative h-full bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-blue-100/40 hover:-translate-y-1">
+                        {/* Gradient accent bar */}
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#F48C25] to-[#355189] rounded-l-2xl" />
+
+                        <div className="p-7 pl-9">
+                          {/* Icon & Index */}
+                          <div className="flex items-start justify-between mb-5">
+                            <div className="w-11 h-11 bg-[#355188] rounded-xl flex items-center justify-center text-white group-hover:bg-[#F48C25] transition-colors duration-300">
+                              <section.icon className="w-5 h-5" />
+                            </div>
+                            <span className="text-4xl font-bold text-[#14213D]/[0.06] select-none">
+                              {section.index}
+                            </span>
+                          </div>
+
+                          <h2 className="text-lg font-bold text-[#14213D] mb-2 group-hover:text-[#355189] transition-colors">
+                            {section.title}
+                          </h2>
+
+                          <p className="text-[#535769] text-sm leading-relaxed mb-5">
+                            {section.description}
+                          </p>
+
+                          <div className="flex items-center text-sm font-semibold text-[#F48C25] group-hover:text-[#E07A0B] transition-colors">
+                            View Data
+                            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <Footer />
       </main>
     </div>
   );

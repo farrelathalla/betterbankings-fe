@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { BarChart3, Database, ArrowRight } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
+import Footer from "@/components/Footer";
 
 const cards = [
   {
@@ -12,7 +13,7 @@ const cards = [
       "A comprehensive set of data and indicators reflecting the structure, performance, and risk profile of individual banks. This dataset covers key metrics across capital, liquidity, credit, market, and strategic risks, curated and standardized by Betterbankings.",
     href: "/b-foresight/individual-bank-data",
     icon: BarChart3,
-    accent: "orange",
+    index: "01",
   },
   {
     title: "Industry Bank Data",
@@ -20,194 +21,119 @@ const cards = [
       "A consolidated view of aggregated banking industry data. This section presents indicators such as banking deposit, lending, market and exchange rate, offering essential context for understanding the prevailing banking industry environment.",
     href: "/b-foresight/industry-bank-data",
     icon: Database,
-    accent: "blue",
+    index: "02",
   },
 ];
 
-// Decorative hexagon
-const Hexagon = ({
-  className = "",
-  filled = false,
-}: {
-  className?: string;
-  filled?: boolean;
-}) => (
-  <svg viewBox="0 0 100 100" className={className}>
-    <polygon
-      points="50,2 95,25 95,75 50,98 5,75 5,25"
-      fill={filled ? "currentColor" : "none"}
-      stroke="currentColor"
-      strokeWidth="2"
-    />
-  </svg>
-);
-
-// Decorative dots cluster
-const DotsCluster = ({ className = "" }: { className?: string }) => (
-  <div className={className}>
-    <div className="w-2 h-2 rounded-full bg-current" />
-    <div className="w-1.5 h-1.5 rounded-full bg-current absolute top-4 left-3 opacity-60" />
-    <div className="w-1 h-1 rounded-full bg-current absolute top-1 left-5 opacity-40" />
-  </div>
-);
-
 export default function BForesightPage() {
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
-      {/* Sidebar */}
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row overflow-x-hidden">
       <Sidebar />
 
-      {/* Main Content */}
-      <main
-        className="flex-1 lg:ml-[280px] relative overflow-hidden"
-        style={{
-          background:
-            "linear-gradient(135deg, #14213D 0%, #1a2a4a 50%, #0f1729 100%)",
-        }}
-      >
-        {/* Decorative background shapes */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-          className="absolute top-[5%] right-[15%] text-blue-500/10"
-        >
-          <Hexagon className="w-48 h-48" />
-        </motion.div>
+      <main className="w-full flex-1 lg:ml-[280px] relative flex flex-col">
+        {/* Subtle background gradient blobs */}
+        <div className="fixed inset-0 pointer-events-none z-0">
+          <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-orange-50 rounded-full blur-[100px] opacity-60" />
+          <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-blue-50 rounded-full blur-[100px] opacity-60" />
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.2 }}
-          className="absolute top-[8%] right-[10%] text-blue-400/15"
-        >
-          <Hexagon className="w-20 h-20" filled />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.3 }}
-          className="absolute bottom-[30%] left-[8%] text-slate-500/10"
-        >
-          <Hexagon className="w-32 h-32" filled />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.4 }}
-          className="absolute bottom-[15%] right-[25%] text-orange-400/15"
-        >
-          <DotsCluster className="relative" />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.5 }}
-          className="absolute top-[40%] left-[3%] text-slate-400/8"
-        >
-          <Hexagon className="w-16 h-16" />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.6 }}
-          className="absolute bottom-[8%] left-[20%] text-blue-400/10"
-        >
-          <Hexagon className="w-24 h-24" />
-        </motion.div>
-
-        {/* Header */}
-        <header className="relative z-10 pt-16 pb-12 px-8">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-5xl mx-auto"
-          >
-            <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tight mb-4">
-              B-FORESIGHT
-            </h1>
-            <p className="text-blue-100/50 text-lg max-w-xl">
-              Your gateway to comprehensive banking data and risk analytics
-            </p>
-          </motion.div>
-        </header>
-
-        {/* Cards Section */}
-        <section className="relative z-10 px-8 pb-24">
-          <div className="max-w-5xl mx-auto space-y-16">
-            {cards.map((card, index) => {
-              const isOrange = card.accent === "orange";
-              return (
+        <div className="relative z-10 flex-1">
+          {/* Hero Banner */}
+          <div className="relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#14213D] via-[#1B2B4B] to-[#355189]" />
+            <div
+              className="absolute inset-0 opacity-[0.07]"
+              style={{
+                backgroundImage: `radial-gradient(circle at 20% 50%, #F48C25 0%, transparent 50%), radial-gradient(circle at 80% 20%, #F48C25 0%, transparent 40%)`,
+              }}
+            />
+            <div className="relative z-10 px-6 lg:px-12 pt-24 pb-16">
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="max-w-4xl"
+              >
                 <motion.div
-                  key={card.title}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.2 + 0.3 }}
-                  className={`${index === 1 ? "md:ml-auto md:mr-0" : "md:ml-0"} max-w-xl`}
-                >
-                  <Link href={card.href} className="group block">
-                    {/* Card with soft background shape */}
-                    <div className="relative">
-                      {/* Soft blob background */}
-                      <div
-                        className={`absolute -inset-6 rounded-[2rem] opacity-[0.08] ${isOrange ? "bg-orange-400" : "bg-blue-400"}`}
-                        style={{
-                          borderRadius: "60% 40% 50% 50% / 50% 60% 40% 50%",
-                          transform: "rotate(-3deg)",
-                        }}
-                      />
-
-                      {/* Large background icon */}
-                      <div
-                        className={`absolute -top-4 -right-8 ${isOrange ? "text-orange-400/10" : "text-blue-400/10"}`}
-                      >
-                        <card.icon
-                          className="w-32 h-32 rotate-12"
-                          strokeWidth={1}
-                        />
-                      </div>
-
-                      {/* Content */}
-                      <div className="relative z-10 py-6 px-2">
-                        {/* Small icon indicator */}
-                        <div
-                          className={`w-12 h-12 rounded-xl ${isOrange ? "bg-orange-500/20 text-orange-400" : "bg-blue-500/20 text-blue-400"} flex items-center justify-center mb-6`}
-                        >
-                          <card.icon className="w-6 h-6" />
-                        </div>
-
-                        <h2
-                          className={`text-3xl md:text-4xl font-bold text-white mb-4 transition-colors ${isOrange ? "group-hover:text-orange-300" : "group-hover:text-blue-300"}`}
-                        >
-                          {card.title}
-                        </h2>
-
-                        <p className="text-blue-100/50 text-base leading-relaxed mb-6 max-w-md">
-                          {card.description}
-                        </p>
-
-                        <div
-                          className={`flex items-center font-medium ${isOrange ? "text-orange-400 group-hover:text-orange-300" : "text-blue-400 group-hover:text-blue-300"} transition-colors`}
-                        >
-                          Explore Data
-                          <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
+                  initial={{ width: 0 }}
+                  animate={{ width: 60 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="h-1 bg-[#F48C25] rounded-full mb-6"
+                />
+                <h1 className="text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
+                  B-<span className="text-[#F48C25]">FORESIGHT</span>
+                </h1>
+                <p className="text-white/60 text-lg max-w-xl">
+                  Your gateway to comprehensive banking data and risk analytics
+                </p>
+              </motion.div>
+            </div>
+            {/* Curved bottom edge */}
+            <div className="absolute bottom-0 left-0 right-0">
+              <svg viewBox="0 0 1440 40" fill="none" className="w-full">
+                <path
+                  d="M0 40V0c240 28 480 40 720 40S1200 28 1440 0v40H0z"
+                  fill="#F8FAFC"
+                />
+              </svg>
+            </div>
           </div>
-        </section>
 
-        {/* Bottom gradient */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0f1a] to-transparent" />
+          {/* Cards Section */}
+          <section className="px-6 lg:px-12 py-12">
+            <div className="max-w-5xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {cards.map((card, index) => (
+                  <motion.div
+                    key={card.title}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: index * 0.15 + 0.3,
+                      type: "spring",
+                      stiffness: 100,
+                    }}
+                  >
+                    <Link href={card.href} className="group block h-full">
+                      <div className="relative h-full bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-blue-100/40 hover:-translate-y-1">
+                        {/* Gradient accent bar */}
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#F48C25] to-[#355189] rounded-l-2xl" />
+
+                        <div className="p-8 pl-10">
+                          {/* Index number */}
+                          <div className="flex items-start justify-between mb-6">
+                            <div className="w-12 h-12 bg-[#355188] rounded-xl flex items-center justify-center text-white group-hover:bg-[#F48C25] transition-colors duration-300">
+                              <card.icon className="w-6 h-6" />
+                            </div>
+                            <span className="text-5xl font-bold text-[#14213D]/[0.06] select-none">
+                              {card.index}
+                            </span>
+                          </div>
+
+                          <h2 className="text-2xl font-bold text-[#14213D] mb-3 group-hover:text-[#355189] transition-colors">
+                            {card.title}
+                          </h2>
+
+                          <p className="text-[#535769] text-sm leading-relaxed mb-6">
+                            {card.description}
+                          </p>
+
+                          <div className="flex items-center text-sm font-semibold text-[#F48C25] group-hover:text-[#E07A0B] transition-colors">
+                            Explore Data
+                            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <Footer />
       </main>
     </div>
   );
