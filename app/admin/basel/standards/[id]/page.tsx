@@ -105,7 +105,7 @@ export default function AdminStandardPage({
         getApiUrl(`/basel/standards/${resolvedParams.id}`),
         {
           credentials: "include",
-        }
+        },
       );
       if (res.ok) {
         const data = await res.json();
@@ -134,7 +134,7 @@ export default function AdminStandardPage({
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify(editForm),
-        }
+        },
       );
 
       if (res.ok) {
@@ -154,14 +154,22 @@ export default function AdminStandardPage({
     setCreatingChapter(true);
 
     try {
+      const payload: any = {
+        code: newChapter.code,
+        title: newChapter.title,
+        standardId: resolvedParams.id,
+      };
+      if (newChapter.effectiveDate) {
+        payload.effectiveDate = new Date(
+          newChapter.effectiveDate,
+        ).toISOString();
+      }
+
       const res = await fetch(getApiUrl("/basel/chapters"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({
-          ...newChapter,
-          standardId: resolvedParams.id,
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (res.ok) {
@@ -182,7 +190,7 @@ export default function AdminStandardPage({
   const handleDeleteChapter = async (id: string) => {
     if (
       !confirm(
-        "Delete this chapter and all its content? This cannot be undone."
+        "Delete this chapter and all its content? This cannot be undone.",
       )
     ) {
       return;
