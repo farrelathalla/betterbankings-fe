@@ -1,0 +1,62 @@
+/* Tiptap Editor Table Styles */
+.ProseMirror table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  table-layout: fixed;
+}
+
+.ProseMirror td,
+.ProseMirror th {
+  border: 2px solid #d1d5db;
+  padding: 8px 12px;
+  min-width: 80px;
+  vertical-align: top;
+  position: relative;
+}
+
+.ProseMirror th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  text-align: left;
+}
+
+.ProseMirror td.selectedCell,
+.ProseMirror th.selectedCell {
+  background-color: #dbeafe;
+  border-color: #3b82f6;
+}
+
+.ProseMirror .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #3b82f6;
+  cursor: col-resize;
+  z-index: 10;
+}
+
+.ProseMirror .tableWrapper {
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+
+.ProseMirror .resize-cursor {
+  cursor: col-resize;
+}
+
+/* Tiptap Editor Image Styles */
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 3px solid #3b82f6;
+  border-radius: 8px;
+}

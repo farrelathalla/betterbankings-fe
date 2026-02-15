@@ -11,6 +11,7 @@ import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
 import { Image } from "@tiptap/extension-image";
 import { TooltipMark, ReferenceMark } from "./extensions";
+import "./editor.css";
 import { useState, useCallback, useEffect } from "react";
 import { getApiUrl } from "@/lib/api";
 import {
@@ -335,52 +336,6 @@ export default function RichTextEditor({
 
   return (
     <div className="border border-gray-300 rounded-lg overflow-hidden">
-      {/* Table editor styles */}
-      <style jsx global>{`
-        .tiptap-table {
-          border-collapse: collapse;
-          width: 100%;
-          margin: 0.5rem 0;
-          overflow: hidden;
-        }
-        .tiptap-table td,
-        .tiptap-table th {
-          border: 1px solid #d1d5db;
-          padding: 6px 10px;
-          min-width: 60px;
-          vertical-align: top;
-          position: relative;
-        }
-        .tiptap-table th {
-          background-color: #f3f4f6;
-          font-weight: 600;
-          text-align: left;
-        }
-        .tiptap-table td.selectedCell,
-        .tiptap-table th.selectedCell {
-          background-color: #dbeafe;
-        }
-        .tiptap-table .column-resize-handle {
-          position: absolute;
-          right: -2px;
-          top: 0;
-          bottom: 0;
-          width: 4px;
-          background-color: #3b82f6;
-          cursor: col-resize;
-        }
-        .tiptap-image {
-          max-width: 100%;
-          height: auto;
-          border-radius: 8px;
-          margin: 0.5rem 0;
-        }
-        .ProseMirror .tableWrapper {
-          overflow-x: auto;
-          margin: 0.5rem 0;
-        }
-      `}</style>
-
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-1 p-2 border-b border-gray-200 bg-gray-50">
         {/* Basic formatting */}
