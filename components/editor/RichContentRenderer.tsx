@@ -13,6 +13,7 @@ interface ContentNode {
   text?: string;
   content?: ContentNode[];
   marks?: Mark[];
+  attrs?: Record<string, unknown>;
 }
 
 interface RichContentRendererProps {
@@ -65,6 +66,24 @@ function RenderNode({ node }: { node: ContentNode }) {
         </p>
       );
 
+    case "heading": {
+      const level = (node.attrs?.level as number) || 1;
+      const headingClasses: Record<number, string> = {
+        1: "text-2xl font-bold text-[#14213D] mb-4",
+        2: "text-xl font-bold text-[#14213D] mb-3",
+        3: "text-lg font-semibold text-[#14213D] mb-2",
+        4: "text-base font-semibold text-[#14213D] mb-2",
+        5: "text-sm font-semibold text-[#14213D] mb-1",
+        6: "text-xs font-semibold text-[#14213D] mb-1",
+      };
+      const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+      return (
+        <Tag className={headingClasses[level] || headingClasses[3]}>
+          {node.content && <RenderNodes nodes={node.content} />}
+        </Tag>
+      );
+    }
+
     case "bulletList":
       return (
         <ul className="list-disc list-inside text-gray-700 mb-3 space-y-1">
@@ -89,10 +108,72 @@ function RenderNode({ node }: { node: ContentNode }) {
         </blockquote>
       );
 
+    case "table":
+      return (
+        <div className="overflow-x-auto mb-4">
+          <table className="w-full border-collapse border border-gray-300 text-sm">
+            {node.content && (
+              <tbody>
+                <RenderNodes nodes={node.content} />
+              </tbody>
+            )}
+          </table>
+        </div>
+      );
+
+    case "tableRow":
+      return (
+        <tr className="border-b border-gray-200">
+          {node.content && <RenderNodes nodes={node.content} />}
+        </tr>
+      );
+
+    case "tableHeader":
+      return (
+        <th
+          className="border border-gray-300 px-3 py-2 bg-gray-100 font-semibold text-left text-[#14213D]"
+          colSpan={(node.attrs?.colspan as number) || 1}
+          rowSpan={(node.attrs?.rowspan as number) || 1}
+        >
+          {node.content && <RenderNodes nodes={node.content} />}
+        </th>
+      );
+
+    case "tableCell":
+      return (
+        <td
+          className="border border-gray-300 px-3 py-2 text-gray-700"
+          colSpan={(node.attrs?.colspan as number) || 1}
+          rowSpan={(node.attrs?.rowspan as number) || 1}
+        >
+          {node.content && <RenderNodes nodes={node.content} />}
+        </td>
+      );
+
+    case "image":
+      return (
+        <img
+          src={node.attrs?.src as string}
+          alt={(node.attrs?.alt as string) || ""}
+          title={(node.attrs?.title as string) || undefined}
+          className="max-w-full h-auto rounded-lg my-3"
+        />
+      );
+
+    case "hardBreak":
+      return <br />;
+
+    case "horizontalRule":
+      return <hr className="border-gray-300 my-4" />;
+
     case "text":
       return <RenderText text={node.text || ""} marks={node.marks} />;
 
     default:
+      // Fallback: try to render content if it exists
+      if (node.content) {
+        return <RenderNodes nodes={node.content} />;
+      }
       return null;
   }
 }

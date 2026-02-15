@@ -5,6 +5,11 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
+import { Image } from "@tiptap/extension-image";
 import { TooltipMark, ReferenceMark } from "./extensions";
 import { useState, useCallback, useEffect } from "react";
 import { getApiUrl } from "@/lib/api";
@@ -19,6 +24,13 @@ import {
   MessageSquare,
   Bookmark,
   X,
+  Table as TableIcon,
+  ImageIcon,
+  Plus,
+  Minus,
+  Trash2,
+  Columns,
+  Rows,
 } from "lucide-react";
 
 // Extended interface to include full Basel hierarchy for reference picker
@@ -53,7 +65,12 @@ export default function RichTextEditor({
 }: RichTextEditorProps) {
   const [showTooltipModal, setShowTooltipModal] = useState(false);
   const [showReferenceModal, setShowReferenceModal] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [showTableMenu, setShowTableMenu] = useState(false);
   const [tooltipDefinition, setTooltipDefinition] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageAlt, setImageAlt] = useState("");
+  const [imageUploading, setImageUploading] = useState(false);
   const [selectedStandard, setSelectedStandard] = useState("");
   const [selectedChapter, setSelectedChapter] = useState("");
   const [selectedSection, setSelectedSection] = useState("");
@@ -65,6 +82,32 @@ export default function RichTextEditor({
 
   // Use prop standards for basic data, but fetch full hierarchy when modal opens
   const standards = fullStandards.length > 0 ? fullStandards : propStandards;
+
+  // Upload image file to the server (/var/www/uploads/images/)
+  const uploadImageFile = async (file: File): Promise<string | null> => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", "images");
+
+      const res = await fetch(getApiUrl("/upload/vps"), {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        console.error("Image upload failed:", res.statusText);
+        return null;
+      }
+
+      const data = await res.json();
+      return data.url || null;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      return null;
+    }
+  };
 
   // Parse initial content for the editor
   const parseContent = (contentStr: string) => {
@@ -92,6 +135,21 @@ export default function RichTextEditor({
       Placeholder.configure({
         placeholder,
       }),
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: {
+          class: "tiptap-table",
+        },
+      }),
+      TableRow,
+      TableCell,
+      TableHeader,
+      Image.configure({
+        HTMLAttributes: {
+          class: "tiptap-image",
+        },
+        allowBase64: true,
+      }),
       TooltipMark,
       ReferenceMark,
     ],
@@ -104,6 +162,64 @@ export default function RichTextEditor({
       attributes: {
         class:
           "prose prose-sm max-w-none min-h-[150px] px-4 py-3 focus:outline-none",
+      },
+      handlePaste: (view, event) => {
+        // Handle image paste — upload to server
+        const items = event.clipboardData?.items;
+        if (items) {
+          for (let i = 0; i < items.length; i++) {
+            if (items[i].type.startsWith("image/")) {
+              event.preventDefault();
+              const file = items[i].getAsFile();
+              if (file) {
+                uploadImageFile(file).then((url) => {
+                  if (url) {
+                    view.dispatch(
+                      view.state.tr.replaceSelectionWith(
+                        view.state.schema.nodes.image.create({ src: url }),
+                      ),
+                    );
+                  }
+                });
+              }
+              return true;
+            }
+          }
+        }
+
+        // For HTML paste (Excel/Word tables), let Tiptap handle it natively
+        // The table extension automatically parses <table> HTML from clipboard
+        return false;
+      },
+      handleDrop: (view, event) => {
+        // Handle image drop — upload to server
+        const files = event.dataTransfer?.files;
+        if (files && files.length > 0) {
+          for (let i = 0; i < files.length; i++) {
+            if (files[i].type.startsWith("image/")) {
+              event.preventDefault();
+              const droppedFile = files[i];
+              uploadImageFile(droppedFile).then((url) => {
+                if (url) {
+                  const pos = view.posAtCoords({
+                    left: event.clientX,
+                    top: event.clientY,
+                  });
+                  if (pos) {
+                    view.dispatch(
+                      view.state.tr.insert(
+                        pos.pos,
+                        view.state.schema.nodes.image.create({ src: url }),
+                      ),
+                    );
+                  }
+                }
+              });
+              return true;
+            }
+          }
+        }
+        return false;
       },
     },
   });
@@ -157,6 +273,45 @@ export default function RichTextEditor({
     setShowReferenceModal(false);
   }, [editor, selectedStandard, selectedChapter, selectedSubsection]);
 
+  const addImage = useCallback(() => {
+    if (!editor || !imageUrl.trim()) return;
+    editor.chain().focus().setImage({ src: imageUrl, alt: imageAlt }).run();
+    setImageUrl("");
+    setImageAlt("");
+    setShowImageModal(false);
+  }, [editor, imageUrl, imageAlt]);
+
+  const handleImageFileSelect = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file || !editor) return;
+      setImageUploading(true);
+      const url = await uploadImageFile(file);
+      if (url) {
+        editor
+          .chain()
+          .focus()
+          .setImage({ src: url, alt: imageAlt || file.name })
+          .run();
+        setImageUrl("");
+        setImageAlt("");
+        setShowImageModal(false);
+      }
+      setImageUploading(false);
+    },
+    [editor, imageAlt],
+  );
+
+  const insertTable = useCallback(() => {
+    if (!editor) return;
+    editor
+      .chain()
+      .focus()
+      .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+      .run();
+    setShowTableMenu(false);
+  }, [editor]);
+
   const removeTooltip = useCallback(() => {
     if (!editor) return;
     editor.chain().focus().unsetMark("tooltip").run();
@@ -180,6 +335,52 @@ export default function RichTextEditor({
 
   return (
     <div className="border border-gray-300 rounded-lg overflow-hidden">
+      {/* Table editor styles */}
+      <style jsx global>{`
+        .tiptap-table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 0.5rem 0;
+          overflow: hidden;
+        }
+        .tiptap-table td,
+        .tiptap-table th {
+          border: 1px solid #d1d5db;
+          padding: 6px 10px;
+          min-width: 60px;
+          vertical-align: top;
+          position: relative;
+        }
+        .tiptap-table th {
+          background-color: #f3f4f6;
+          font-weight: 600;
+          text-align: left;
+        }
+        .tiptap-table td.selectedCell,
+        .tiptap-table th.selectedCell {
+          background-color: #dbeafe;
+        }
+        .tiptap-table .column-resize-handle {
+          position: absolute;
+          right: -2px;
+          top: 0;
+          bottom: 0;
+          width: 4px;
+          background-color: #3b82f6;
+          cursor: col-resize;
+        }
+        .tiptap-image {
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px;
+          margin: 0.5rem 0;
+        }
+        .ProseMirror .tableWrapper {
+          overflow-x: auto;
+          margin: 0.5rem 0;
+        }
+      `}</style>
+
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-1 p-2 border-b border-gray-200 bg-gray-50">
         {/* Basic formatting */}
@@ -226,6 +427,130 @@ export default function RichTextEditor({
           title="Quote"
         >
           <Quote className="w-4 h-4" />
+        </ToolbarButton>
+        <div className="w-px h-6 bg-gray-300 mx-1" />
+        {/* Table controls */}
+        <div className="relative">
+          <ToolbarButton
+            onClick={() => setShowTableMenu(!showTableMenu)}
+            active={editor.isActive("table")}
+            title="Table"
+          >
+            <TableIcon className="w-4 h-4" />
+          </ToolbarButton>
+          {showTableMenu && (
+            <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 min-w-[180px]">
+              <button
+                onClick={insertTable}
+                className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded flex items-center gap-2"
+              >
+                <Plus className="w-3 h-3" />
+                Insert Table (3×3)
+              </button>
+              {editor.isActive("table") && (
+                <>
+                  <hr className="my-1 border-gray-200" />
+                  <button
+                    onClick={() => {
+                      editor.chain().focus().addRowBefore().run();
+                      setShowTableMenu(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded flex items-center gap-2"
+                  >
+                    <Rows className="w-3 h-3" />
+                    Add Row Before
+                  </button>
+                  <button
+                    onClick={() => {
+                      editor.chain().focus().addRowAfter().run();
+                      setShowTableMenu(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded flex items-center gap-2"
+                  >
+                    <Rows className="w-3 h-3" />
+                    Add Row After
+                  </button>
+                  <button
+                    onClick={() => {
+                      editor.chain().focus().addColumnBefore().run();
+                      setShowTableMenu(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded flex items-center gap-2"
+                  >
+                    <Columns className="w-3 h-3" />
+                    Add Column Before
+                  </button>
+                  <button
+                    onClick={() => {
+                      editor.chain().focus().addColumnAfter().run();
+                      setShowTableMenu(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded flex items-center gap-2"
+                  >
+                    <Columns className="w-3 h-3" />
+                    Add Column After
+                  </button>
+                  <hr className="my-1 border-gray-200" />
+                  <button
+                    onClick={() => {
+                      editor.chain().focus().deleteRow().run();
+                      setShowTableMenu(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded text-red-600 flex items-center gap-2"
+                  >
+                    <Minus className="w-3 h-3" />
+                    Delete Row
+                  </button>
+                  <button
+                    onClick={() => {
+                      editor.chain().focus().deleteColumn().run();
+                      setShowTableMenu(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded text-red-600 flex items-center gap-2"
+                  >
+                    <Minus className="w-3 h-3" />
+                    Delete Column
+                  </button>
+                  <button
+                    onClick={() => {
+                      editor.chain().focus().deleteTable().run();
+                      setShowTableMenu(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded text-red-600 flex items-center gap-2"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                    Delete Table
+                  </button>
+                  <hr className="my-1 border-gray-200" />
+                  <button
+                    onClick={() => {
+                      editor.chain().focus().mergeCells().run();
+                      setShowTableMenu(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded flex items-center gap-2"
+                  >
+                    Merge Cells
+                  </button>
+                  <button
+                    onClick={() => {
+                      editor.chain().focus().splitCell().run();
+                      setShowTableMenu(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded flex items-center gap-2"
+                  >
+                    Split Cell
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+        {/* Image */}
+        <ToolbarButton
+          onClick={() => setShowImageModal(true)}
+          title="Insert Image"
+        >
+          <ImageIcon className="w-4 h-4" />
         </ToolbarButton>
         <div className="w-px h-6 bg-gray-300 mx-1" />
         {/* Custom marks */}
@@ -317,6 +642,82 @@ export default function RichTextEditor({
                 onClick={() => {
                   setShowTooltipModal(false);
                   setTooltipDefinition("");
+                }}
+                className="flex-1 py-2 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Image Modal */}
+      {showImageModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+            <h3 className="font-bold text-[#14213D] mb-4">Insert Image</h3>
+            <p className="text-sm text-gray-500 mb-3">
+              Upload an image file, enter a URL, or paste/drag an image directly
+              into the editor.
+            </p>
+
+            {/* File upload */}
+            <div className="mb-3">
+              <label className="block text-sm font-semibold text-[#14213D] mb-1">
+                Upload File
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageFileSelect}
+                disabled={imageUploading}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:px-3 file:py-1 file:border-0 file:bg-[#355189] file:text-white file:rounded file:text-sm file:cursor-pointer"
+              />
+              {imageUploading && (
+                <p className="text-xs text-[#F48C25] mt-1 animate-pulse">
+                  Uploading image...
+                </p>
+              )}
+            </div>
+
+            <div className="flex items-center gap-3 mb-3">
+              <hr className="flex-1 border-gray-200" />
+              <span className="text-xs text-gray-400">OR</span>
+              <hr className="flex-1 border-gray-200" />
+            </div>
+
+            {/* URL input */}
+            <label className="block text-sm font-semibold text-[#14213D] mb-1">
+              Image URL
+            </label>
+            <input
+              type="url"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="https://example.com/image.png"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none mb-3"
+            />
+            <input
+              type="text"
+              value={imageAlt}
+              onChange={(e) => setImageAlt(e.target.value)}
+              placeholder="Alt text (optional)"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none"
+            />
+            <div className="flex gap-2 mt-4">
+              <button
+                onClick={addImage}
+                disabled={!imageUrl.trim() || imageUploading}
+                className="flex-1 py-2 bg-[#355189] text-white rounded-lg font-semibold hover:bg-[#1B2B4B] disabled:opacity-50"
+              >
+                Insert from URL
+              </button>
+              <button
+                onClick={() => {
+                  setShowImageModal(false);
+                  setImageUrl("");
+                  setImageAlt("");
                 }}
                 className="flex-1 py-2 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50"
               >
@@ -439,7 +840,7 @@ export default function RichTextEditor({
                       .find((s) => s.code === selectedStandard)
                       ?.chapters.find((c) => c.code === selectedChapter);
                     const section = chapter?.sections?.find(
-                      (s) => s.id === selectedSection
+                      (s) => s.id === selectedSection,
                     );
                     const subsections = section?.subsections || [];
 
