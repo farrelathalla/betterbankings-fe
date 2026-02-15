@@ -68,20 +68,53 @@ function RenderNode({ node }: { node: ContentNode }) {
 
     case "heading": {
       const level = (node.attrs?.level as number) || 1;
-      const headingClasses: Record<number, string> = {
-        1: "text-2xl font-bold text-[#14213D] mb-4",
-        2: "text-xl font-bold text-[#14213D] mb-3",
-        3: "text-lg font-semibold text-[#14213D] mb-2",
-        4: "text-base font-semibold text-[#14213D] mb-2",
-        5: "text-sm font-semibold text-[#14213D] mb-1",
-        6: "text-xs font-semibold text-[#14213D] mb-1",
-      };
-      const Tag = `h${level}` as keyof JSX.IntrinsicElements;
-      return (
-        <Tag className={headingClasses[level] || headingClasses[3]}>
-          {node.content && <RenderNodes nodes={node.content} />}
-        </Tag>
-      );
+      const children = node.content ? (
+        <RenderNodes nodes={node.content} />
+      ) : null;
+      switch (level) {
+        case 1:
+          return (
+            <h1 className="text-2xl font-bold text-[#14213D] mb-4">
+              {children}
+            </h1>
+          );
+        case 2:
+          return (
+            <h2 className="text-xl font-bold text-[#14213D] mb-3">
+              {children}
+            </h2>
+          );
+        case 3:
+          return (
+            <h3 className="text-lg font-semibold text-[#14213D] mb-2">
+              {children}
+            </h3>
+          );
+        case 4:
+          return (
+            <h4 className="text-base font-semibold text-[#14213D] mb-2">
+              {children}
+            </h4>
+          );
+        case 5:
+          return (
+            <h5 className="text-sm font-semibold text-[#14213D] mb-1">
+              {children}
+            </h5>
+          );
+        case 6:
+          return (
+            <h6 className="text-xs font-semibold text-[#14213D] mb-1">
+              {children}
+            </h6>
+          );
+        default:
+          return (
+            <h3 className="text-lg font-semibold text-[#14213D] mb-2">
+              {children}
+            </h3>
+          );
+      }
     }
 
     case "bulletList":
