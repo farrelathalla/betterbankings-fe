@@ -7,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import { getApiUrl } from "@/lib/api";
+import { Edit } from "lucide-react";
 import {
   Plus,
   Trash2,
@@ -35,7 +36,7 @@ const SubsectionEditor = dynamic(
         <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
       </div>
     ),
-  }
+  },
 );
 
 // Dynamically import NewSubsectionEditor for creating new subsections
@@ -51,7 +52,7 @@ const NewSubsectionEditor = dynamic(
         <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
       </div>
     ),
-  }
+  },
 );
 
 // Dynamically import RichContentRenderer for displaying content
@@ -60,7 +61,7 @@ const RichContentRenderer = dynamic(
   {
     ssr: false,
     loading: () => <span className="text-gray-400">Loading...</span>,
-  }
+  },
 );
 
 interface Footnote {
@@ -138,10 +139,10 @@ export default function AdminChapterPage({
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
   const [expandedSubsections, setExpandedSubsections] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
 
   // Edit chapter form
@@ -165,7 +166,7 @@ export default function AdminChapterPage({
 
   // Edit states
   const [editingSubsection, setEditingSubsection] = useState<string | null>(
-    null
+    null,
   );
   const [subsectionContent, setSubsectionContent] = useState("");
 
@@ -190,6 +191,14 @@ export default function AdminChapterPage({
   const [editingNotes, setEditingNotes] = useState<string | null>(null);
   const [notesContent, setNotesContent] = useState("");
 
+  // Section/Subsection rename states
+  const [editingSectionTitle, setEditingSectionTitle] = useState<string | null>(
+    null,
+  );
+  const [sectionTitleValue, setSectionTitleValue] = useState("");
+  const [editingSubNumber, setEditingSubNumber] = useState<string | null>(null);
+  const [subNumberValue, setSubNumberValue] = useState("");
+
   useEffect(() => {
     if (!authLoading && (!user || user.role !== "admin")) {
       router.push("/");
@@ -207,7 +216,7 @@ export default function AdminChapterPage({
         getApiUrl(`/basel/chapters/${resolvedParams.id}`),
         {
           credentials: "include",
-        }
+        },
       );
       if (res.ok) {
         const data = await res.json();
@@ -468,6 +477,40 @@ export default function AdminChapterPage({
       fetchChapter();
     } catch (error) {
       console.error("Error saving notes:", error);
+    }
+  };
+
+  // Section rename
+  const handleRenameSectionTitle = async (sectionId: string) => {
+    if (!sectionTitleValue.trim()) return;
+    try {
+      await fetch(getApiUrl(`/basel/sections/${sectionId}`), {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ title: sectionTitleValue }),
+      });
+      setEditingSectionTitle(null);
+      fetchChapter();
+    } catch (error) {
+      console.error("Error renaming section:", error);
+    }
+  };
+
+  // Subsection number rename
+  const handleRenameSubNumber = async (subsectionId: string) => {
+    if (!subNumberValue.trim()) return;
+    try {
+      await fetch(getApiUrl(`/basel/subsections/${subsectionId}`), {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ number: subNumberValue }),
+      });
+      setEditingSubNumber(null);
+      fetchChapter();
+    } catch (error) {
+      console.error("Error renaming subsection number:", error);
     }
   };
 
@@ -736,21 +779,62 @@ export default function AdminChapterPage({
                 >
                   {/* Section Header */}
                   <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-[#E1E7EF]">
-                    <button
-                      onClick={() => toggleSection(section.id)}
-                      className="flex items-center gap-2 font-bold text-[#14213D]"
-                    >
-                      {expandedSections.has(section.id) ? (
-                        <ChevronDown className="w-4 h-4" />
-                      ) : (
-                        <ChevronRight className="w-4 h-4" />
-                      )}
-                      {section.title}
-                      <span className="text-xs text-gray-500 font-normal">
-                        ({section.subsections.length} subsections)
-                      </span>
-                    </button>
+                    {editingSectionTitle === section.id ? (
+                      <div className="flex items-center gap-2 flex-1 mr-4">
+                        <input
+                          type="text"
+                          value={sectionTitleValue}
+                          onChange={(e) => setSectionTitleValue(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter")
+                              handleRenameSectionTitle(section.id);
+                            if (e.key === "Escape")
+                              setEditingSectionTitle(null);
+                          }}
+                          className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#355189] outline-none"
+                          autoFocus
+                        />
+                        <button
+                          onClick={() => handleRenameSectionTitle(section.id)}
+                          className="px-2 py-1 bg-[#355189] text-white rounded text-xs font-semibold"
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={() => setEditingSectionTitle(null)}
+                          className="px-2 py-1 border border-gray-300 rounded text-xs"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => toggleSection(section.id)}
+                        className="flex items-center gap-2 font-bold text-[#14213D]"
+                      >
+                        {expandedSections.has(section.id) ? (
+                          <ChevronDown className="w-4 h-4" />
+                        ) : (
+                          <ChevronRight className="w-4 h-4" />
+                        )}
+                        {section.title}
+                        <span className="text-xs text-gray-500 font-normal">
+                          ({section.subsections.length} subsections)
+                        </span>
+                      </button>
+                    )}
                     <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => {
+                          setEditingSectionTitle(section.id);
+                          setSectionTitleValue(section.title);
+                        }}
+                        className="text-xs px-2 py-1 text-gray-600 hover:text-[#355189] flex items-center gap-1"
+                        title="Rename section"
+                      >
+                        <Edit className="w-3 h-3" />
+                        Rename
+                      </button>
                       <button
                         onClick={() => setNewSubsectionFor(section.id)}
                         className="text-xs px-2 py-1 text-[#355189] border border-[#355189] rounded hover:bg-[#355189] hover:text-white"
@@ -789,7 +873,7 @@ export default function AdminChapterPage({
                             } catch (error) {
                               console.error(
                                 "Error creating subsection:",
-                                error
+                                error,
                               );
                             }
                           }}
@@ -813,19 +897,67 @@ export default function AdminChapterPage({
                             >
                               {/* Subsection Header */}
                               <div className="flex items-center justify-between px-3 py-2 bg-gray-50 border-b border-gray-200">
-                                <button
-                                  onClick={() => toggleSubsection(sub.id)}
-                                  className="flex items-center gap-2 font-medium text-[#F48C25] text-sm"
-                                >
-                                  {expandedSubsections.has(sub.id) ? (
-                                    <ChevronDown className="w-3 h-3" />
-                                  ) : (
-                                    <ChevronRight className="w-3 h-3" />
-                                  )}
-                                  {chapter.standard.code}
-                                  {chapter.code}.{sub.number}
-                                </button>
+                                {editingSubNumber === sub.id ? (
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-medium text-[#F48C25]">
+                                      {chapter.standard.code}
+                                      {chapter.code}.
+                                    </span>
+                                    <input
+                                      type="text"
+                                      value={subNumberValue}
+                                      onChange={(e) =>
+                                        setSubNumberValue(e.target.value)
+                                      }
+                                      onKeyDown={(e) => {
+                                        if (e.key === "Enter")
+                                          handleRenameSubNumber(sub.id);
+                                        if (e.key === "Escape")
+                                          setEditingSubNumber(null);
+                                      }}
+                                      className="w-20 px-2 py-0.5 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#355189] outline-none"
+                                      autoFocus
+                                    />
+                                    <button
+                                      onClick={() =>
+                                        handleRenameSubNumber(sub.id)
+                                      }
+                                      className="px-2 py-0.5 bg-[#355189] text-white rounded text-xs font-semibold"
+                                    >
+                                      Save
+                                    </button>
+                                    <button
+                                      onClick={() => setEditingSubNumber(null)}
+                                      className="px-2 py-0.5 border border-gray-300 rounded text-xs"
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <button
+                                    onClick={() => toggleSubsection(sub.id)}
+                                    className="flex items-center gap-2 font-medium text-[#F48C25] text-sm"
+                                  >
+                                    {expandedSubsections.has(sub.id) ? (
+                                      <ChevronDown className="w-3 h-3" />
+                                    ) : (
+                                      <ChevronRight className="w-3 h-3" />
+                                    )}
+                                    {chapter.standard.code}
+                                    {chapter.code}.{sub.number}
+                                  </button>
+                                )}
                                 <div className="flex items-center gap-1">
+                                  <button
+                                    onClick={() => {
+                                      setEditingSubNumber(sub.id);
+                                      setSubNumberValue(sub.number);
+                                    }}
+                                    className="text-xs px-2 py-1 text-gray-600 hover:text-[#355189] flex items-center gap-1"
+                                    title="Rename subsection number"
+                                  >
+                                    <Edit className="w-3 h-3" />#
+                                  </button>
                                   <button
                                     onClick={() => {
                                       setEditingSubsection(sub.id);
@@ -853,7 +985,7 @@ export default function AdminChapterPage({
                                     onClick={() => {
                                       setEditingNotes(sub.id);
                                       setNotesContent(
-                                        sub.betterBankingNotes || ""
+                                        sub.betterBankingNotes || "",
                                       );
                                     }}
                                     className="text-xs px-2 py-1 text-gray-600 hover:text-green-600 flex items-center gap-1"
@@ -889,7 +1021,7 @@ export default function AdminChapterPage({
                                         try {
                                           await fetch(
                                             getApiUrl(
-                                              `/basel/subsections/${sub.id}`
+                                              `/basel/subsections/${sub.id}`,
                                             ),
                                             {
                                               method: "PUT",
@@ -899,14 +1031,14 @@ export default function AdminChapterPage({
                                               },
                                               credentials: "include",
                                               body: JSON.stringify({ content }),
-                                            }
+                                            },
                                           );
                                           setEditingSubsection(null);
                                           fetchChapter();
                                         } catch (error) {
                                           console.error(
                                             "Error saving subsection:",
-                                            error
+                                            error,
                                           );
                                         }
                                       }}
@@ -1158,7 +1290,7 @@ export default function AdminChapterPage({
                                                 </p>
                                                 <p className="text-gray-500">
                                                   {new Date(
-                                                    rev.revisionDate
+                                                    rev.revisionDate,
                                                   ).toLocaleDateString()}
                                                 </p>
                                               </div>
