@@ -6,6 +6,7 @@ import StatsSection from "@/components/StatsSection";
 import MissionSection from "@/components/MissionSection";
 import ServicesSection from "@/components/ServicesSection";
 import WhySection from "@/components/WhySection";
+import TeamSection from "@/components/TeamSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import Image from "next/image";
@@ -43,6 +44,7 @@ export default function Home() {
           <MissionSection />
           <ServicesSection />
           <WhySection />
+          <TeamSection />
           <CTASection />
           <Footer />
         </div>
