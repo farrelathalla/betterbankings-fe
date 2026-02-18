@@ -7,7 +7,7 @@ import { Briefcase, GraduationCap } from "lucide-react";
 const TEAM_MEMBERS = [
   {
     name: "Johanes W. Maslam",
-    role: "Director & Co-Founder",
+    role: "Director & CFO",
     image: "/jvm.jpeg",
     badges: ["20+ Years Experience", "Investment Banking", "Corporate Finance"],
     bio: "A senior finance professional with over two decades of experience across investment banking, private equity, capital markets and corporate finance. He currently serves as Director and Co-founder of Better Bankings Indonesia, overseeing finance and legal matters. His career spans senior advisory and leadership roles at Capsquare Asia, ING, Pandawa Capital Advisors, and several other institutions.",
@@ -15,7 +15,7 @@ const TEAM_MEMBERS = [
   },
   {
     name: "Emil Bambang Sumirat",
-    role: "Co-Founder & CFO, Blu IQ Tech",
+    role: "Director",
     image: "/emil.jpeg",
     badges: [
       "30+ Years Experience",
