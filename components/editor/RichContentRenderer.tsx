@@ -271,7 +271,7 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
           element = (
             <Link
               href={url}
-              className="text-[#355189] hover:underline font-medium"
+              className="text-[#F48C25] font-bold underline hover:text-[#E07A0B]"
             >
               {element}
             </Link>

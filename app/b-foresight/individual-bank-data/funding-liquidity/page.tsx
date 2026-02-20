@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Lock, Download, Loader2, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import AnalysisBox from "@/components/AnalysisBox";
 
 // Declare Tableau types for TypeScript
 declare global {
@@ -355,6 +356,9 @@ export default function BankingData() {
               style={{ overflow: "hidden" }}
             />
           </div>
+
+          {/* Analysis Box */}
+          <AnalysisBox page="individual/funding-liquidity" tabKey={activeTab} />
         </div>
       </main>
     </div>

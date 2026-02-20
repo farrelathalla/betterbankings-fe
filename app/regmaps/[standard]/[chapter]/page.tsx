@@ -26,7 +26,7 @@ const RichContentRenderer = dynamic(
   {
     ssr: false,
     loading: () => <span className="text-gray-400">Loading...</span>,
-  }
+  },
 );
 
 interface Footnote {
@@ -136,6 +136,9 @@ export default function ChapterPage({
   const chapterCode = resolvedParams.chapter;
 
   const [chapter, setChapter] = useState<Chapter | null>(null);
+  const [allChapters, setAllChapters] = useState<
+    { code: string; title: string }[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState<string>("");
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -148,19 +151,29 @@ export default function ChapterPage({
         // Get chapters filtered by standard code
         const chaptersRes = await fetch(
           getApiUrl(`/basel/chapters?standardCode=${standardCode}`),
-          { credentials: "include" }
+          { credentials: "include" },
         );
         const chaptersData = await chaptersRes.json();
 
+        // Store all chapters for prev/next navigation
+        if (chaptersData.chapters) {
+          setAllChapters(
+            chaptersData.chapters.map((c: { code: string; title: string }) => ({
+              code: c.code,
+              title: c.title,
+            })),
+          );
+        }
+
         const foundChapter = chaptersData.chapters?.find(
-          (c: { code: string }) => c.code === chapterCode
+          (c: { code: string }) => c.code === chapterCode,
         );
 
         if (foundChapter) {
           // Fetch full chapter with content
           const detailRes = await fetch(
             getApiUrl(`/basel/chapters/${foundChapter.id}`),
-            { credentials: "include" }
+            { credentials: "include" },
           );
           const detailData = await detailRes.json();
           setChapter(detailData.chapter);
@@ -485,7 +498,7 @@ export default function ChapterPage({
                                                   <span className="text-xs text-gray-500">
                                                     (
                                                     {new Date(
-                                                      rev.revisionDate
+                                                      rev.revisionDate,
                                                     ).toLocaleDateString()}
                                                     )
                                                   </span>
@@ -539,11 +552,86 @@ export default function ChapterPage({
           </div>
         </div>
 
+        {/* Sticky Chapter Navigation */}
+        {allChapters.length > 1 &&
+          (() => {
+            const currentIndex = allChapters.findIndex(
+              (c) => c.code === chapterCode,
+            );
+            const prevChapter =
+              currentIndex > 0 ? allChapters[currentIndex - 1] : null;
+            const nextChapter =
+              currentIndex < allChapters.length - 1
+                ? allChapters[currentIndex + 1]
+                : null;
+
+            if (!prevChapter && !nextChapter) return null;
+
+            return (
+              <div className="fixed bottom-0 left-0 right-0 lg:left-[280px] z-40">
+                <div className="bg-white/90 backdrop-blur-md border-t border-[#E1E7EF] shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+                  <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-3 flex items-center justify-between gap-4">
+                    {/* Previous Chapter */}
+                    {prevChapter ? (
+                      <Link
+                        href={`/regmaps/${standardCode.toLowerCase()}/${prevChapter.code}`}
+                        className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 group"
+                      >
+                        <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-[#355189] flex items-center justify-center transition-colors">
+                          <ChevronLeft className="w-4 h-4 text-gray-500 group-hover:text-white transition-colors" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-[10px] sm:text-xs text-gray-400 font-medium uppercase tracking-wider">
+                            Previous
+                          </p>
+                          <p className="text-xs sm:text-sm font-semibold text-[#14213D] truncate group-hover:text-[#355189] transition-colors">
+                            {chapter?.standard?.code}
+                            {prevChapter.code} – {prevChapter.title}
+                          </p>
+                        </div>
+                      </Link>
+                    ) : (
+                      <div className="flex-1" />
+                    )}
+
+                    {/* Divider */}
+                    {prevChapter && nextChapter && (
+                      <div className="hidden sm:block w-px h-8 bg-[#E1E7EF] flex-shrink-0" />
+                    )}
+
+                    {/* Next Chapter */}
+                    {nextChapter ? (
+                      <Link
+                        href={`/regmaps/${standardCode.toLowerCase()}/${nextChapter.code}`}
+                        className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 justify-end text-right group"
+                      >
+                        <div className="min-w-0">
+                          <p className="text-[10px] sm:text-xs text-gray-400 font-medium uppercase tracking-wider">
+                            Next
+                          </p>
+                          <p className="text-xs sm:text-sm font-semibold text-[#14213D] truncate group-hover:text-[#F48C25] transition-colors">
+                            {chapter?.standard?.code}
+                            {nextChapter.code} – {nextChapter.title}
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-[#F48C25] flex items-center justify-center transition-colors">
+                          <ChevronRight className="w-4 h-4 text-gray-500 group-hover:text-white transition-colors" />
+                        </div>
+                      </Link>
+                    ) : (
+                      <div className="flex-1" />
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
         {/* Floating Scroll Back Button */}
         {scrollStack.length > 0 && (
           <button
             onClick={handleScrollBack}
-            className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 bg-[#355189] text-white rounded-xl shadow-lg hover:bg-[#1B2B4B] transition-all hover:scale-105 group"
+            className="fixed bottom-20 right-6 z-50 flex items-center gap-2 px-4 py-3 bg-[#355189] text-white rounded-xl shadow-lg hover:bg-[#1B2B4B] transition-all hover:scale-105 group"
             title="Go back to where you clicked the reference"
           >
             <ArrowLeft className="w-5 h-5" />

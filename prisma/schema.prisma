@@ -257,3 +257,19 @@ model UserNotification {
   @@index([userId])
   @@index([userId, isRead])
 }
+
+// ============================================
+// B-Foresight Analysis Box
+// ============================================
+
+// Dynamic analysis paragraphs per B-Foresight subsection tab
+model AnalysisBox {
+  id        String   @id @default(cuid())
+  page      String   // e.g. "individual/capital-solvency", "industry/deposit"
+  tabKey    String   // e.g. "solvency", "baselCompliance", "creditRisk"
+  content   String   @db.Text // Analysis paragraph
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([page, tabKey])
+}

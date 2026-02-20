@@ -74,7 +74,7 @@ export const baselAPI = {
 
   getChapters: (standardId?: string) =>
     apiRequest(
-      `/basel/chapters${standardId ? `?standardId=${standardId}` : ""}`
+      `/basel/chapters${standardId ? `?standardId=${standardId}` : ""}`,
     ),
 
   getChapter: (id: string) => apiRequest(`/basel/chapters/${id}`),
@@ -84,7 +84,7 @@ export const baselAPI = {
 
   getSubsections: (sectionId?: string) =>
     apiRequest(
-      `/basel/subsections${sectionId ? `?sectionId=${sectionId}` : ""}`
+      `/basel/subsections${sectionId ? `?sectionId=${sectionId}` : ""}`,
     ),
 
   getSubsection: (id: string) => apiRequest(`/basel/subsections/${id}`),
@@ -135,7 +135,7 @@ export const podcastAPI = {
     if (categoryId) params.append("categoryId", categoryId);
     if (search) params.append("search", search);
     return apiRequest(
-      `/angle/podcasts${params.toString() ? `?${params}` : ""}`
+      `/angle/podcasts${params.toString() ? `?${params}` : ""}`,
     );
   },
 
@@ -211,7 +211,7 @@ export async function uploadToVPS(file: File, folder: string = "uploads") {
 
 export async function uploadToCloudinary(
   file: File,
-  folder: string = "betterbankings"
+  folder: string = "betterbankings",
 ) {
   const formData = new FormData();
   formData.append("file", file);
@@ -309,4 +309,34 @@ export const countAPI = {
     }),
 
   getStatus: () => apiRequest("/count/status"),
+};
+
+// B-Foresight API
+export const foresightAPI = {
+  getAnalysisBox: (page: string, tabKey: string) =>
+    fetch(
+      getApiUrl(
+        `/foresight/analysis-box?page=${encodeURIComponent(page)}&tabKey=${encodeURIComponent(tabKey)}`,
+      ),
+      { credentials: "include" },
+    ).then((res) => {
+      if (!res.ok) return null;
+      return res.json();
+    }),
+
+  upsertAnalysisBox: (data: {
+    page: string;
+    tabKey: string;
+    content: string;
+  }) =>
+    apiRequest("/foresight/analysis-box", {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+
+  deleteAnalysisBox: (page: string, tabKey: string) =>
+    apiRequest(
+      `/foresight/analysis-box?page=${encodeURIComponent(page)}&tabKey=${encodeURIComponent(tabKey)}`,
+      { method: "DELETE" },
+    ),
 };
