@@ -97,7 +97,7 @@ function ExpandableSection({
   const [expanded, setExpanded] = useState(defaultExpanded);
 
   return (
-    <div className="border border-[#E1E7EF] rounded-lg overflow-hidden mt-4">
+    <div className="border border-[#E1E7EF] rounded-lg overflow-hidden mt-4 pb-20">
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors"
