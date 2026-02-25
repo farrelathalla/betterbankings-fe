@@ -60,3 +60,22 @@
   outline: 3px solid #3b82f6;
   border-radius: 8px;
 }
+
+/* Text alignment for table cells */
+.ProseMirror p[style*="text-align: center"],
+.ProseMirror td p[style*="text-align: center"],
+.ProseMirror th p[style*="text-align: center"] {
+  text-align: center;
+}
+
+.ProseMirror p[style*="text-align: right"],
+.ProseMirror td p[style*="text-align: right"],
+.ProseMirror th p[style*="text-align: right"] {
+  text-align: right;
+}
+
+.ProseMirror p[style*="text-align: justify"],
+.ProseMirror td p[style*="text-align: justify"],
+.ProseMirror th p[style*="text-align: justify"] {
+  text-align: justify;
+}

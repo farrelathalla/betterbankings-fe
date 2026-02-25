@@ -5,6 +5,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
+import TextAlign from "@tiptap/extension-text-align";
 import { Table } from "@tiptap/extension-table";
 import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
@@ -32,6 +33,10 @@ import {
   Trash2,
   Columns,
   Rows,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  AlignJustify,
 } from "lucide-react";
 
 // Extended interface to include full Basel hierarchy for reference picker
@@ -135,6 +140,9 @@ export default function RichTextEditor({
       }),
       Placeholder.configure({
         placeholder,
+      }),
+      TextAlign.configure({
+        types: ["paragraph", "heading"],
       }),
       Table.configure({
         resizable: true,
@@ -476,6 +484,53 @@ export default function RichTextEditor({
                     <Trash2 className="w-3 h-3" />
                     Delete Table
                   </button>
+                  <hr className="my-1 border-gray-200" />
+                  {/* Text Alignment */}
+                  <p className="px-3 py-1 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
+                    Alignment
+                  </p>
+                  <div className="flex items-center gap-0.5 px-2 pb-1">
+                    <button
+                      onClick={() => {
+                        editor.chain().focus().setTextAlign("left").run();
+                        setShowTableMenu(false);
+                      }}
+                      className={`p-1.5 rounded hover:bg-gray-100 transition-colors ${editor.isActive({ textAlign: "left" }) ? "bg-gray-200 text-[#14213D]" : "text-gray-500"}`}
+                      title="Align Left"
+                    >
+                      <AlignLeft className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        editor.chain().focus().setTextAlign("center").run();
+                        setShowTableMenu(false);
+                      }}
+                      className={`p-1.5 rounded hover:bg-gray-100 transition-colors ${editor.isActive({ textAlign: "center" }) ? "bg-gray-200 text-[#14213D]" : "text-gray-500"}`}
+                      title="Align Center"
+                    >
+                      <AlignCenter className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        editor.chain().focus().setTextAlign("right").run();
+                        setShowTableMenu(false);
+                      }}
+                      className={`p-1.5 rounded hover:bg-gray-100 transition-colors ${editor.isActive({ textAlign: "right" }) ? "bg-gray-200 text-[#14213D]" : "text-gray-500"}`}
+                      title="Align Right"
+                    >
+                      <AlignRight className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        editor.chain().focus().setTextAlign("justify").run();
+                        setShowTableMenu(false);
+                      }}
+                      className={`p-1.5 rounded hover:bg-gray-100 transition-colors ${editor.isActive({ textAlign: "justify" }) ? "bg-gray-200 text-[#14213D]" : "text-gray-500"}`}
+                      title="Justify"
+                    >
+                      <AlignJustify className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                   <hr className="my-1 border-gray-200" />
                   <button
                     onClick={() => {

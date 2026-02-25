@@ -80,6 +80,52 @@ interface Chapter {
   sections: Section[];
 }
 
+// Marquee text component for long titles in navigation
+function MarqueeText({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (containerRef.current && textRef.current) {
+        const isOver =
+          textRef.current.scrollWidth > containerRef.current.clientWidth;
+        setIsOverflowing(isOver);
+        if (isOver && containerRef.current) {
+          const distance =
+            textRef.current.scrollWidth - containerRef.current.clientWidth;
+          containerRef.current.style.setProperty(
+            "--marquee-distance",
+            `-${distance + 32}px`,
+          );
+        }
+      }
+    };
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [children]);
+
+  return (
+    <div ref={containerRef} className={`marquee-container ${className}`}>
+      <span
+        ref={textRef}
+        className={isOverflowing ? "marquee-animate" : ""}
+        style={{ whiteSpace: "nowrap" }}
+      >
+        {children}
+      </span>
+    </div>
+  );
+}
+
 // Expandable section component
 function ExpandableSection({
   title,
@@ -408,7 +454,7 @@ export default function ChapterPage({
                                 }}
                                 className="pl-4 border-l-2 border-[#E1E7EF] scroll-mt-24"
                               >
-                                <div className="flex items-start gap-3">
+                                <div className="flex-col items-start">
                                   <span className="font-bold text-[#F48C25] text-sm whitespace-nowrap">
                                     {chapter.standard.code}
                                     {chapter.code}.{subsection.number}
@@ -580,14 +626,14 @@ export default function ChapterPage({
                         <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-[#355189] flex items-center justify-center transition-colors">
                           <ChevronLeft className="w-4 h-4 text-gray-500 group-hover:text-white transition-colors" />
                         </div>
-                        <div className="min-w-0">
+                        <div className="min-w-0 flex-1">
                           <p className="text-[10px] sm:text-xs text-gray-400 font-medium uppercase tracking-wider">
                             Previous
                           </p>
-                          <p className="text-xs sm:text-sm font-semibold text-[#14213D] truncate group-hover:text-[#355189] transition-colors">
+                          <MarqueeText className="text-xs sm:text-sm font-semibold text-[#14213D] group-hover:text-[#355189] transition-colors">
                             {chapter?.standard?.code}
                             {prevChapter.code} – {prevChapter.title}
-                          </p>
+                          </MarqueeText>
                         </div>
                       </Link>
                     ) : (
@@ -605,14 +651,14 @@ export default function ChapterPage({
                         href={`/regmaps/${standardCode.toLowerCase()}/${nextChapter.code}`}
                         className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 justify-end text-right group"
                       >
-                        <div className="min-w-0">
+                        <div className="min-w-0 flex-1">
                           <p className="text-[10px] sm:text-xs text-gray-400 font-medium uppercase tracking-wider">
                             Next
                           </p>
-                          <p className="text-xs sm:text-sm font-semibold text-[#14213D] truncate group-hover:text-[#F48C25] transition-colors">
+                          <MarqueeText className="text-xs sm:text-sm font-semibold text-[#14213D] group-hover:text-[#F48C25] transition-colors">
                             {chapter?.standard?.code}
                             {nextChapter.code} – {nextChapter.title}
-                          </p>
+                          </MarqueeText>
                         </div>
                         <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-[#F48C25] flex items-center justify-center transition-colors">
                           <ChevronRight className="w-4 h-4 text-gray-500 group-hover:text-white transition-colors" />

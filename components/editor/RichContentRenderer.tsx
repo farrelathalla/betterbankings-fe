@@ -59,12 +59,22 @@ function RenderNodes({ nodes }: { nodes: ContentNode[] }) {
 
 function RenderNode({ node }: { node: ContentNode }) {
   switch (node.type) {
-    case "paragraph":
+    case "paragraph": {
+      const align = node.attrs?.textAlign as string | undefined;
+      const alignClass =
+        align === "center"
+          ? "text-center"
+          : align === "right"
+            ? "text-right"
+            : align === "justify"
+              ? "text-justify"
+              : "";
       return (
-        <p className="text-gray-700 leading-relaxed mb-3">
+        <p className={`text-gray-700 leading-relaxed mb-3 ${alignClass}`}>
           {node.content && <RenderNodes nodes={node.content} />}
         </p>
       );
+    }
 
     case "heading": {
       const level = (node.attrs?.level as number) || 1;
