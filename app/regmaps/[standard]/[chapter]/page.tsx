@@ -91,34 +91,100 @@ function MarqueeText({
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
+  // Check overflow on mount and resize
   useEffect(() => {
     const checkOverflow = () => {
       if (containerRef.current && textRef.current) {
-        const isOver =
-          textRef.current.scrollWidth > containerRef.current.clientWidth;
-        setIsOverflowing(isOver);
-        if (isOver && containerRef.current) {
-          const distance =
-            textRef.current.scrollWidth - containerRef.current.clientWidth;
-          containerRef.current.style.setProperty(
-            "--marquee-distance",
-            `-${distance + 32}px`,
-          );
-        }
+        const over =
+          textRef.current.scrollWidth > containerRef.current.clientWidth + 2;
+        setIsOverflowing(over);
+        if (!over) setOffset(0);
       }
     };
-    checkOverflow();
+    // Delay check to ensure layout is settled
+    const timer = setTimeout(checkOverflow, 100);
     window.addEventListener("resize", checkOverflow);
-    return () => window.removeEventListener("resize", checkOverflow);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", checkOverflow);
+    };
   }, [children]);
 
+  // Auto-scroll loop when overflowing
+  useEffect(() => {
+    if (!isOverflowing) return;
+
+    const container = containerRef.current;
+    const text = textRef.current;
+    if (!container || !text) return;
+
+    const distance = text.scrollWidth - container.clientWidth;
+    let phase: "scrollLeft" | "pauseEnd" | "reset" | "pauseStart" =
+      "pauseStart";
+    let timer: ReturnType<typeof setTimeout>;
+
+    const animate = () => {
+      switch (phase) {
+        case "pauseStart":
+          setOffset(0);
+          phase = "scrollLeft";
+          timer = setTimeout(animate, 1500);
+          break;
+        case "scrollLeft":
+          setOffset(-distance);
+          phase = "pauseEnd";
+          timer = setTimeout(animate, 3000 + distance * 8);
+          break;
+        case "pauseEnd":
+          phase = "reset";
+          timer = setTimeout(animate, 1500);
+          break;
+        case "reset":
+          phase = "pauseStart";
+          timer = setTimeout(animate, 0);
+          break;
+      }
+    };
+
+    animate();
+    return () => clearTimeout(timer);
+  }, [isOverflowing]);
+
+  // On hover, immediately scroll to show the rest
+  useEffect(() => {
+    if (!isHovered || !isOverflowing) return;
+    const container = containerRef.current;
+    const text = textRef.current;
+    if (!container || !text) return;
+    const distance = text.scrollWidth - container.clientWidth;
+    setOffset(-distance);
+  }, [isHovered, isOverflowing]);
+
   return (
-    <div ref={containerRef} className={`marquee-container ${className}`}>
+    <div
+      ref={containerRef}
+      className={className}
+      style={{ overflow: "hidden", position: "relative" }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setOffset(0);
+      }}
+    >
       <span
         ref={textRef}
-        className={isOverflowing ? "marquee-animate" : ""}
-        style={{ whiteSpace: "nowrap" }}
+        style={{
+          display: "inline-block",
+          whiteSpace: "nowrap",
+          transform: `translateX(${offset}px)`,
+          transition:
+            offset === 0
+              ? "transform 0.4s ease"
+              : `transform ${Math.max(2, Math.abs(offset) * 0.015)}s linear`,
+        }}
       >
         {children}
       </span>

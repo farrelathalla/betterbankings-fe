@@ -402,7 +402,7 @@ export default function RichTextEditor({
             <TableIcon className="w-4 h-4" />
           </ToolbarButton>
           {showTableMenu && (
-            <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 min-w-[180px]">
+            <div className="absolute bottom-full left-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-50 min-w-[180px] max-h-[300px] overflow-y-auto">
               <button
                 onClick={insertTable}
                 className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded flex items-center gap-2"
