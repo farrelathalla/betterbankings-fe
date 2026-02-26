@@ -340,3 +340,28 @@ export const foresightAPI = {
       { method: "DELETE" },
     ),
 };
+
+// Workshop API
+export const workshopAPI = {
+  register: (data: {
+    name: string;
+    company: string;
+    phone: string;
+    email: string;
+    numPeople: number;
+  }) =>
+    apiRequest("/workshop/register", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  // Admin only
+  getRegistrations: () => apiRequest("/workshop/registrations"),
+
+  exportCSV: () => `${API_URL}/workshop/registrations/export`,
+
+  deleteRegistration: (id: string) =>
+    apiRequest(`/workshop/registrations/${id}`, {
+      method: "DELETE",
+    }),
+};

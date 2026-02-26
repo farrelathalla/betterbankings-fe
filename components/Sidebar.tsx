@@ -53,6 +53,7 @@ import {
   ArrowLeftRight,
   Percent,
   GitCompare,
+  GraduationCap,
 } from "lucide-react";
 
 const NAV_SECTIONS: NavSection[] = [
@@ -71,6 +72,11 @@ const NAV_SECTIONS: NavSection[] = [
         icon: ShoppingBag,
       },
       { label: "RegMaps", href: "/regmaps", icon: FileText },
+      {
+        label: "ILAAP Workshop",
+        href: "/ilaap-workshop",
+        icon: GraduationCap,
+      },
       {
         label: "BetterBankings Angle",
         href: "/coming-soon",
@@ -411,6 +417,26 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                   )}
                 />
                 Notifications
+              </Link>
+              <Link
+                href="/admin/workshop"
+                onClick={() => isMobile && setIsOpen(false)}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 group",
+                  pathname === "/admin/workshop"
+                    ? "bg-teal-100 text-teal-700"
+                    : "text-[#64748B] hover:bg-teal-50 hover:text-teal-700",
+                )}
+              >
+                <GraduationCap
+                  className={cn(
+                    "w-5 h-5",
+                    pathname === "/admin/workshop"
+                      ? "text-teal-700"
+                      : "text-[#94A3B8] group-hover:text-teal-700",
+                  )}
+                />
+                Workshop CMS
               </Link>
             </nav>
           </div>
