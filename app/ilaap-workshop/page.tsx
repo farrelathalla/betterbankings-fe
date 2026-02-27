@@ -97,7 +97,7 @@ export default function ILAAPWorkshopPage() {
     company: "",
     phone: "",
     email: "",
-    numPeople: 1,
+    numPeople: "1",
   });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -108,11 +108,13 @@ export default function ILAAPWorkshopPage() {
     setSubmitting(true);
     setError("");
 
+    const numPeople = parseInt(formData.numPeople) || 1;
+
     try {
       const res = await fetch(getApiUrl("/workshop/register"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, numPeople }),
       });
 
       if (res.ok) {
@@ -122,7 +124,7 @@ export default function ILAAPWorkshopPage() {
           company: "",
           phone: "",
           email: "",
-          numPeople: 1,
+          numPeople: "1",
         });
       } else {
         const data = await res.json();
@@ -505,7 +507,7 @@ export default function ILAAPWorkshopPage() {
                         onChange={(e) =>
                           setFormData({
                             ...formData,
-                            numPeople: parseInt(e.target.value) || 1,
+                            numPeople: e.target.value,
                           })
                         }
                         required
