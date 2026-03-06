@@ -1,3 +1,8 @@
+/* Force dark default text color — prevents invisible white/gray text from pastes */
+.ProseMirror {
+  color: #1a1a1a;
+}
+
 /* Tiptap Editor Table Styles */
 .ProseMirror table {
   border-collapse: collapse;

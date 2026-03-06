@@ -14,6 +14,8 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
+  ChevronDown,
   Save,
   Upload,
   X,
@@ -65,6 +67,7 @@ export default function AdminStandardPage({
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [reordering, setReordering] = useState(false);
 
   // Edit form
   const [editForm, setEditForm] = useState({
@@ -209,6 +212,36 @@ export default function AdminStandardPage({
       console.error("Error deleting chapter:", error);
     } finally {
       setDeleting(null);
+    }
+  };
+
+  const handleReorderChapter = async (
+    index: number,
+    direction: "up" | "down",
+  ) => {
+    if (!standard) return;
+    const chapters = standard.chapters;
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= chapters.length) return;
+
+    setReordering(true);
+    const newList = [...chapters];
+    [newList[index], newList[swapIndex]] = [newList[swapIndex], newList[index]];
+    const items = newList.map((c, i) => ({ id: c.id, order: i }));
+    setStandard({ ...standard, chapters: newList });
+
+    try {
+      await fetch(getApiUrl("/basel/reorder"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ type: "chapter", items }),
+      });
+    } catch (error) {
+      console.error("Error reordering chapters:", error);
+      fetchStandard();
+    } finally {
+      setReordering(false);
     }
   };
 
@@ -601,13 +634,34 @@ export default function AdminStandardPage({
                 </p>
               </div>
             ) : (
-              standard.chapters.map((chapter) => (
+              standard.chapters.map((chapter, idx) => (
                 <div
                   key={chapter.id}
                   className="bg-white rounded-2xl border border-[#E1E7EF] p-4"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
+                      {/* Reorder arrows */}
+                      <div className="flex flex-col gap-0.5">
+                        <button
+                          onClick={() => handleReorderChapter(idx, "up")}
+                          disabled={idx === 0 || reordering}
+                          className="p-0.5 text-gray-400 hover:text-[#355189] hover:bg-gray-100 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                          title="Move up"
+                        >
+                          <ChevronUp className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleReorderChapter(idx, "down")}
+                          disabled={
+                            idx === standard.chapters.length - 1 || reordering
+                          }
+                          className="p-0.5 text-gray-400 hover:text-[#355189] hover:bg-gray-100 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                          title="Move down"
+                        >
+                          <ChevronDown className="w-4 h-4" />
+                        </button>
+                      </div>
                       <FileText className="w-5 h-5 text-[#355189]" />
                       <div>
                         <h3 className="font-bold text-[#14213D]">

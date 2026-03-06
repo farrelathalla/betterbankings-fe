@@ -11,6 +11,8 @@ import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
 import { Image } from "@tiptap/extension-image";
+import { Color } from "@tiptap/extension-color";
+import TextStyle from "@tiptap/extension-text-style";
 import { TooltipMark, ReferenceMark } from "./extensions";
 import "./editor.css";
 import { useState, useCallback, useEffect } from "react";
@@ -37,6 +39,7 @@ import {
   AlignCenter,
   AlignRight,
   AlignJustify,
+  Palette,
 } from "lucide-react";
 
 // Extended interface to include full Basel hierarchy for reference picker
@@ -85,6 +88,7 @@ export default function RichTextEditor({
   // Fetch full standards with sections/subsections for reference picker
   const [fullStandards, setFullStandards] = useState<ReferenceStandard[]>([]);
   const [loadingRefs, setLoadingRefs] = useState(false);
+  const [showColorPicker, setShowColorPicker] = useState(false);
 
   // Use prop standards for basic data, but fetch full hierarchy when modal opens
   const standards = fullStandards.length > 0 ? fullStandards : propStandards;
@@ -159,6 +163,8 @@ export default function RichTextEditor({
         },
         allowBase64: true,
       }),
+      TextStyle,
+      Color,
       TooltipMark,
       ReferenceMark,
     ],
@@ -575,6 +581,86 @@ export default function RichTextEditor({
         >
           <ImageIcon className="w-4 h-4" />
         </ToolbarButton>
+        <div className="w-px h-6 bg-gray-300 mx-1" />
+        {/* Font Color */}
+        <div className="relative">
+          <ToolbarButton
+            onClick={() => setShowColorPicker(!showColorPicker)}
+            title="Font Color"
+            active={!!editor.getAttributes("textStyle").color}
+          >
+            <div className="flex flex-col items-center">
+              <Palette className="w-4 h-4" />
+              <div
+                className="w-4 h-0.5 rounded-full mt-0"
+                style={{
+                  backgroundColor:
+                    editor.getAttributes("textStyle").color || "#1a1a1a",
+                }}
+              />
+            </div>
+          </ToolbarButton>
+          {showColorPicker && (
+            <div
+              className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 z-[9999] w-[200px]"
+              style={{ position: "fixed", top: "auto", left: "auto" }}
+              ref={(el) => {
+                if (el) {
+                  const btn = el.parentElement?.querySelector("button");
+                  if (btn) {
+                    const rect = btn.getBoundingClientRect();
+                    el.style.left = rect.left + "px";
+                    el.style.top = rect.bottom + 4 + "px";
+                  }
+                }
+              }}
+            >
+              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                Text Color
+              </p>
+              <div className="grid grid-cols-6 gap-1.5 mb-2">
+                {[
+                  "#1a1a1a",
+                  "#dc2626",
+                  "#ea580c",
+                  "#ca8a04",
+                  "#16a34a",
+                  "#2563eb",
+                  "#7c3aed",
+                  "#db2777",
+                  "#6b7280",
+                  "#0891b2",
+                  "#4f46e5",
+                  "#9333ea",
+                ].map((color) => (
+                  <button
+                    key={color}
+                    onClick={() => {
+                      editor.chain().focus().setColor(color).run();
+                      setShowColorPicker(false);
+                    }}
+                    className={`w-6 h-6 rounded-full border-2 hover:scale-110 transition-transform ${
+                      editor.getAttributes("textStyle").color === color
+                        ? "border-[#355189] ring-2 ring-[#355189]/30"
+                        : "border-gray-200"
+                    }`}
+                    style={{ backgroundColor: color }}
+                    title={color}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={() => {
+                  editor.chain().focus().unsetColor().run();
+                  setShowColorPicker(false);
+                }}
+                className="w-full text-left px-2 py-1 text-xs text-gray-600 hover:bg-gray-100 rounded transition-colors"
+              >
+                Reset to default
+              </button>
+            </div>
+          )}
+        </div>
         <div className="w-px h-6 bg-gray-300 mx-1" />
         {/* Custom marks */}
         <ToolbarButton

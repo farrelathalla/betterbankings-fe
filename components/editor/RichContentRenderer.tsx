@@ -287,6 +287,16 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
             </Link>
           );
           break;
+
+        case "textStyle":
+          if (mark.attrs?.color) {
+            element = (
+              <span style={{ color: mark.attrs.color as string }}>
+                {element}
+              </span>
+            );
+          }
+          break;
       }
     });
   }

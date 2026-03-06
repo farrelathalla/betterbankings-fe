@@ -13,6 +13,8 @@ import {
   Loader2,
   FileText,
   ChevronRight,
+  ChevronUp,
+  ChevronDown,
   Shield,
   Clock,
 } from "lucide-react";
@@ -43,6 +45,7 @@ export default function AdminBaselPage() {
   const [updates, setUpdates] = useState<Update[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [reordering, setReordering] = useState(false);
 
   // New standard form
   const [showNewStandard, setShowNewStandard] = useState(false);
@@ -119,7 +122,7 @@ export default function AdminBaselPage() {
   const handleDeleteStandard = async (id: string) => {
     if (
       !confirm(
-        "Delete this standard and all its chapters? This cannot be undone."
+        "Delete this standard and all its chapters? This cannot be undone.",
       )
     ) {
       return;
@@ -140,6 +143,34 @@ export default function AdminBaselPage() {
       console.error("Error deleting standard:", error);
     } finally {
       setDeleting(null);
+    }
+  };
+
+  const handleReorderStandard = async (
+    index: number,
+    direction: "up" | "down",
+  ) => {
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= standards.length) return;
+
+    setReordering(true);
+    const newList = [...standards];
+    [newList[index], newList[swapIndex]] = [newList[swapIndex], newList[index]];
+    const items = newList.map((s, i) => ({ id: s.id, order: i }));
+    setStandards(newList);
+
+    try {
+      await fetch(getApiUrl("/basel/reorder"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ type: "standard", items }),
+      });
+    } catch (error) {
+      console.error("Error reordering standards:", error);
+      fetchData();
+    } finally {
+      setReordering(false);
     }
   };
 
@@ -330,13 +361,34 @@ export default function AdminBaselPage() {
                     </p>
                   </div>
                 ) : (
-                  standards.map((standard) => (
+                  standards.map((standard, idx) => (
                     <div
                       key={standard.id}
                       className="bg-white rounded-2xl border border-[#E1E7EF] p-4"
                     >
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3">
+                          {/* Reorder arrows */}
+                          <div className="flex flex-col gap-0.5">
+                            <button
+                              onClick={() => handleReorderStandard(idx, "up")}
+                              disabled={idx === 0 || reordering}
+                              className="p-0.5 text-gray-400 hover:text-[#355189] hover:bg-gray-100 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                              title="Move up"
+                            >
+                              <ChevronUp className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => handleReorderStandard(idx, "down")}
+                              disabled={
+                                idx === standards.length - 1 || reordering
+                              }
+                              className="p-0.5 text-gray-400 hover:text-[#355189] hover:bg-gray-100 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                              title="Move down"
+                            >
+                              <ChevronDown className="w-4 h-4" />
+                            </button>
+                          </div>
                           <div className="w-12 h-12 bg-gradient-to-br from-[#1B2B4B] to-[#355189] rounded-xl flex items-center justify-center">
                             <span className="text-white font-bold text-sm">
                               {standard.code}

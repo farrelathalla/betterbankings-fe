@@ -15,6 +15,7 @@ import {
   ChevronLeft,
   ChevronDown,
   ChevronRight,
+  ChevronUp,
   Save,
   BookOpen,
   HelpCircle,
@@ -198,6 +199,7 @@ export default function AdminChapterPage({
   const [sectionTitleValue, setSectionTitleValue] = useState("");
   const [editingSubNumber, setEditingSubNumber] = useState<string | null>(null);
   const [subNumberValue, setSubNumberValue] = useState("");
+  const [reordering, setReordering] = useState(false);
 
   useEffect(() => {
     if (!authLoading && (!user || user.role !== "admin")) {
@@ -532,6 +534,75 @@ export default function AdminChapterPage({
     });
   };
 
+  const handleReorderSection = async (
+    index: number,
+    direction: "up" | "down",
+  ) => {
+    if (!chapter) return;
+    const sections = chapter.sections;
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= sections.length) return;
+
+    setReordering(true);
+    const newList = [...sections];
+    [newList[index], newList[swapIndex]] = [newList[swapIndex], newList[index]];
+    const items = newList.map((s, i) => ({ id: s.id, order: i }));
+    setChapter({ ...chapter, sections: newList });
+
+    try {
+      await fetch(getApiUrl("/basel/reorder"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ type: "section", items }),
+      });
+    } catch (error) {
+      console.error("Error reordering sections:", error);
+      fetchChapter();
+    } finally {
+      setReordering(false);
+    }
+  };
+
+  const handleReorderSubsection = async (
+    section: Section,
+    sectionIndex: number,
+    subIndex: number,
+    direction: "up" | "down",
+  ) => {
+    if (!chapter) return;
+    const subs = section.subsections;
+    const swapIndex = direction === "up" ? subIndex - 1 : subIndex + 1;
+    if (swapIndex < 0 || swapIndex >= subs.length) return;
+
+    setReordering(true);
+    const newSubs = [...subs];
+    [newSubs[subIndex], newSubs[swapIndex]] = [
+      newSubs[swapIndex],
+      newSubs[subIndex],
+    ];
+    const items = newSubs.map((s, i) => ({ id: s.id, order: i }));
+
+    // Update local state
+    const newSections = [...chapter.sections];
+    newSections[sectionIndex] = { ...section, subsections: newSubs };
+    setChapter({ ...chapter, sections: newSections });
+
+    try {
+      await fetch(getApiUrl("/basel/reorder"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ type: "subsection", items }),
+      });
+    } catch (error) {
+      console.error("Error reordering subsections:", error);
+      fetchChapter();
+    } finally {
+      setReordering(false);
+    }
+  };
+
   if (authLoading || loading) {
     return (
       <div className="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row">
@@ -772,7 +843,7 @@ export default function AdminChapterPage({
                 </p>
               </div>
             ) : (
-              chapter.sections.map((section) => (
+              chapter.sections.map((section, sectionIdx) => (
                 <div
                   key={section.id}
                   className="bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden"
@@ -808,20 +879,48 @@ export default function AdminChapterPage({
                         </button>
                       </div>
                     ) : (
-                      <button
-                        onClick={() => toggleSection(section.id)}
-                        className="flex items-center gap-2 font-bold text-[#14213D]"
-                      >
-                        {expandedSections.has(section.id) ? (
-                          <ChevronDown className="w-4 h-4" />
-                        ) : (
-                          <ChevronRight className="w-4 h-4" />
-                        )}
-                        {section.title}
-                        <span className="text-xs text-gray-500 font-normal">
-                          ({section.subsections.length} subsections)
-                        </span>
-                      </button>
+                      <div className="flex items-center gap-2">
+                        {/* Section reorder arrows */}
+                        <div className="flex flex-col gap-0">
+                          <button
+                            onClick={() =>
+                              handleReorderSection(sectionIdx, "up")
+                            }
+                            disabled={sectionIdx === 0 || reordering}
+                            className="p-0 text-gray-400 hover:text-[#355189] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                            title="Move section up"
+                          >
+                            <ChevronUp className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleReorderSection(sectionIdx, "down")
+                            }
+                            disabled={
+                              sectionIdx === chapter.sections.length - 1 ||
+                              reordering
+                            }
+                            className="p-0 text-gray-400 hover:text-[#355189] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                            title="Move section down"
+                          >
+                            <ChevronDown className="w-4 h-4" />
+                          </button>
+                        </div>
+                        <button
+                          onClick={() => toggleSection(section.id)}
+                          className="flex items-center gap-2 font-bold text-[#14213D]"
+                        >
+                          {expandedSections.has(section.id) ? (
+                            <ChevronDown className="w-4 h-4" />
+                          ) : (
+                            <ChevronRight className="w-4 h-4" />
+                          )}
+                          {section.title}
+                          <span className="text-xs text-gray-500 font-normal">
+                            ({section.subsections.length} subsections)
+                          </span>
+                        </button>
+                      </div>
                     )}
                     <div className="flex items-center gap-2">
                       <button
@@ -890,7 +989,7 @@ export default function AdminChapterPage({
                         </p>
                       ) : (
                         <div className="space-y-3">
-                          {section.subsections.map((sub) => (
+                          {section.subsections.map((sub, subIdx) => (
                             <div
                               key={sub.id}
                               className="border border-gray-200 rounded-lg"
@@ -934,18 +1033,57 @@ export default function AdminChapterPage({
                                     </button>
                                   </div>
                                 ) : (
-                                  <button
-                                    onClick={() => toggleSubsection(sub.id)}
-                                    className="flex items-center gap-2 font-medium text-[#F48C25] text-sm"
-                                  >
-                                    {expandedSubsections.has(sub.id) ? (
-                                      <ChevronDown className="w-3 h-3" />
-                                    ) : (
-                                      <ChevronRight className="w-3 h-3" />
-                                    )}
-                                    {chapter.standard.code}
-                                    {chapter.code}.{sub.number}
-                                  </button>
+                                  <div className="flex items-center gap-2">
+                                    {/* Subsection reorder arrows */}
+                                    <div className="flex flex-col gap-0">
+                                      <button
+                                        onClick={() =>
+                                          handleReorderSubsection(
+                                            section,
+                                            sectionIdx,
+                                            subIdx,
+                                            "up",
+                                          )
+                                        }
+                                        disabled={subIdx === 0 || reordering}
+                                        className="p-0 text-gray-400 hover:text-[#F48C25] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                        title="Move subsection up"
+                                      >
+                                        <ChevronUp className="w-3 h-3" />
+                                      </button>
+                                      <button
+                                        onClick={() =>
+                                          handleReorderSubsection(
+                                            section,
+                                            sectionIdx,
+                                            subIdx,
+                                            "down",
+                                          )
+                                        }
+                                        disabled={
+                                          subIdx ===
+                                            section.subsections.length - 1 ||
+                                          reordering
+                                        }
+                                        className="p-0 text-gray-400 hover:text-[#F48C25] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                        title="Move subsection down"
+                                      >
+                                        <ChevronDown className="w-3 h-3" />
+                                      </button>
+                                    </div>
+                                    <button
+                                      onClick={() => toggleSubsection(sub.id)}
+                                      className="flex items-center gap-2 font-medium text-[#F48C25] text-sm"
+                                    >
+                                      {expandedSubsections.has(sub.id) ? (
+                                        <ChevronDown className="w-3 h-3" />
+                                      ) : (
+                                        <ChevronRight className="w-3 h-3" />
+                                      )}
+                                      {chapter.standard.code}
+                                      {chapter.code}.{sub.number}
+                                    </button>
+                                  </div>
                                 )}
                                 <div className="flex items-center gap-1">
                                   <button
