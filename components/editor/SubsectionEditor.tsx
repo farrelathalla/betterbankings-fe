@@ -15,7 +15,7 @@ const RichTextEditor = dynamic(
         <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
       </div>
     ),
-  }
+  },
 );
 
 interface Standard {
@@ -189,7 +189,7 @@ export function NewSubsectionEditor({
           value={number}
           onChange={(e) => setNumber(e.target.value)}
           placeholder="Number (e.g., 1)"
-          className="w-24 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+          className="w-24 px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900"
         />
         <span className="text-gray-500 text-sm">
           → {standardCode}

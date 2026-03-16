@@ -4,6 +4,7 @@ import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import Sidebar from "@/components/Sidebar";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import { getApiUrl } from "@/lib/api";
@@ -200,6 +201,13 @@ export default function AdminChapterPage({
   const [editingSubNumber, setEditingSubNumber] = useState<string | null>(null);
   const [subNumberValue, setSubNumberValue] = useState("");
   const [reordering, setReordering] = useState(false);
+  const [editOrderMode, setEditOrderMode] = useState(false);
+  const [sectionOrders, setSectionOrders] = useState<Record<string, number>>(
+    {},
+  );
+  const [subsectionOrders, setSubsectionOrders] = useState<
+    Record<string, number>
+  >({});
 
   useEffect(() => {
     if (!authLoading && (!user || user.role !== "admin")) {
@@ -603,6 +611,58 @@ export default function AdminChapterPage({
     }
   };
 
+  const handleBatchReorder = async () => {
+    if (!chapter) return;
+    setReordering(true);
+    try {
+      // Reorder Sections
+      const sectionItems = Object.entries(sectionOrders).map(([id, order]) => ({
+        id,
+        order: Number(order),
+      }));
+      await fetch(getApiUrl("/basel/reorder"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ type: "section", items: sectionItems }),
+      });
+
+      // Reorder Subsections
+      const subsectionItems = Object.entries(subsectionOrders).map(
+        ([id, order]) => ({ id, order: Number(order) }),
+      );
+      await fetch(getApiUrl("/basel/reorder"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ type: "subsection", items: subsectionItems }),
+      });
+
+      setEditOrderMode(false);
+      fetchChapter();
+    } catch (error) {
+      console.error("Error batch reordering:", error);
+    } finally {
+      setReordering(false);
+    }
+  };
+
+  const toggleOrderMode = () => {
+    if (!editOrderMode && chapter) {
+      const sOrders: Record<string, number> = {};
+      const subOrders: Record<string, number> = {};
+      chapter.sections.forEach((s) => {
+        sOrders[s.id] = s.order;
+        s.subsections.forEach((sub) => {
+          subOrders[sub.id] = sub.order;
+        });
+      });
+      setSectionOrders(sOrders);
+      setSubsectionOrders(subOrders);
+    }
+    setEditOrderMode(!editOrderMode);
+  };
+
   if (authLoading || loading) {
     return (
       <div className="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row">
@@ -800,13 +860,40 @@ export default function AdminChapterPage({
             <h2 className="text-lg font-bold text-[#14213D]">
               Content Sections
             </h2>
-            <button
-              onClick={() => setShowNewSection(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-[#F48C25] text-white rounded-lg text-sm font-semibold hover:bg-orange-600"
-            >
-              <Plus className="w-4 h-4" />
-              Add Section
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={toggleOrderMode}
+                className={cn(
+                  "px-4 py-2 rounded-lg text-sm font-semibold transition-all",
+                  editOrderMode
+                    ? "bg-purple-600 text-white"
+                    : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50",
+                )}
+              >
+                {editOrderMode ? "Exit Order Mode" : "Edit Order"}
+              </button>
+              {editOrderMode && (
+                <button
+                  onClick={handleBatchReorder}
+                  disabled={reordering}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 disabled:opacity-50 flex items-center gap-2"
+                >
+                  {reordering ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Save className="w-4 h-4" />
+                  )}
+                  Save All Orders
+                </button>
+              )}
+              <button
+                onClick={() => setShowNewSection(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-[#F48C25] text-white rounded-lg text-sm font-semibold hover:bg-orange-600"
+              >
+                <Plus className="w-4 h-4" />
+                Add Section
+              </button>
+            </div>
           </div>
 
           {/* New Section Form */}
@@ -862,7 +949,7 @@ export default function AdminChapterPage({
                             if (e.key === "Escape")
                               setEditingSectionTitle(null);
                           }}
-                          className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#355189] outline-none"
+                          className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#355189] outline-none text-gray-900"
                           autoFocus
                         />
                         <button
@@ -920,6 +1007,24 @@ export default function AdminChapterPage({
                             ({section.subsections.length} subsections)
                           </span>
                         </button>
+                        {editOrderMode && (
+                          <div className="flex items-center gap-2 ml-4">
+                            <span className="text-xs text-purple-600 font-semibold">
+                              Order:
+                            </span>
+                            <input
+                              type="number"
+                              value={sectionOrders[section.id] ?? section.order}
+                              onChange={(e) =>
+                                setSectionOrders({
+                                  ...sectionOrders,
+                                  [section.id]: parseInt(e.target.value),
+                                })
+                              }
+                              className="w-16 px-2 py-1 border border-purple-300 rounded text-xs text-gray-900 focus:ring-2 focus:ring-purple-500 outline-none"
+                            />
+                          </div>
+                        )}
                       </div>
                     )}
                     <div className="flex items-center gap-2">
@@ -1014,7 +1119,7 @@ export default function AdminChapterPage({
                                         if (e.key === "Escape")
                                           setEditingSubNumber(null);
                                       }}
-                                      className="w-20 px-2 py-0.5 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#355189] outline-none"
+                                      className="w-20 px-2 py-0.5 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#355189] outline-none text-gray-900"
                                       autoFocus
                                     />
                                     <button
@@ -1083,6 +1188,29 @@ export default function AdminChapterPage({
                                       {chapter.standard.code}
                                       {chapter.code}.{sub.number}
                                     </button>
+                                    {editOrderMode && (
+                                      <div className="flex items-center gap-2 ml-4">
+                                        <span className="text-[10px] text-purple-600 font-semibold">
+                                          Order:
+                                        </span>
+                                        <input
+                                          type="number"
+                                          value={
+                                            subsectionOrders[sub.id] ??
+                                            sub.order
+                                          }
+                                          onChange={(e) =>
+                                            setSubsectionOrders({
+                                              ...subsectionOrders,
+                                              [sub.id]: parseInt(
+                                                e.target.value,
+                                              ),
+                                            })
+                                          }
+                                          className="w-14 px-2 py-0.5 border border-purple-300 rounded text-[10px] text-gray-900 focus:ring-2 focus:ring-purple-500 outline-none"
+                                        />
+                                      </div>
+                                    )}
                                   </div>
                                 )}
                                 <div className="flex items-center gap-1">

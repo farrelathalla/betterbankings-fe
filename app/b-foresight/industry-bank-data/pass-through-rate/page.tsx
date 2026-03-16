@@ -6,6 +6,7 @@ import { Lock, Download, Loader2, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import AnalysisBox from "@/components/AnalysisBox";
+import RestrictedViz from "@/components/RestrictedViz";
 
 // Declare Tableau types for TypeScript
 declare global {
@@ -346,11 +347,13 @@ export default function PassThroughRatePage() {
                 </button>
               </div>
             )}
-            <div
-              ref={containerRef}
-              className="w-full h-full [&>tableau-viz]:w-full [&>tableau-viz]:h-full [&>tableau-viz]:block [&>tableau-viz]:overflow-hidden"
-              style={{ overflow: "hidden" }}
-            />
+            <RestrictedViz isFirstTab={activeTab === "PassThroughRate"}>
+              <div
+                ref={containerRef}
+                className="w-full h-full [&>tableau-viz]:w-full [&>tableau-viz]:h-full [&>tableau-viz]:block [&>tableau-viz]:overflow-hidden"
+                style={{ overflow: "hidden" }}
+              />
+            </RestrictedViz>
           </div>
 
           {/* Analysis Box */}

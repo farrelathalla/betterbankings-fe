@@ -112,6 +112,11 @@ const NAV_SECTIONS: NavSection[] = [
             href: "/b-foresight/individual-bank-data/performance-monitoring",
             icon: BarChart3,
           },
+          {
+            label: "Custom Data Visualization",
+            href: "/b-foresight/individual-bank-data/custom-data-visualization",
+            icon: TrendingUp,
+          },
         ],
       },
       {
