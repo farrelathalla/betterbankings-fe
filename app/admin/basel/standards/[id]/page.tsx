@@ -51,6 +51,7 @@ interface Standard {
   name: string;
   description: string | null;
   order: number;
+  categoryId: string | null;
   chapters: Chapter[];
   pdfs?: StandardPDF[];
 }
@@ -68,6 +69,14 @@ export default function AdminStandardPage({
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [reordering, setReordering] = useState(false);
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>(
+    [],
+  );
+
+  // Category creation
+  const [showQuickAddCategory, setShowQuickAddCategory] = useState(false);
+  const [quickCategoryName, setQuickCategoryName] = useState("");
+  const [creatingCategory, setCreatingCategory] = useState(false);
 
   // Edit form
   const [editForm, setEditForm] = useState({
@@ -75,6 +84,7 @@ export default function AdminStandardPage({
     name: "",
     description: "",
     order: 0,
+    categoryId: "",
   });
 
   // New chapter form
@@ -104,21 +114,28 @@ export default function AdminStandardPage({
   }, [user, resolvedParams.id]);
   const fetchStandard = async () => {
     try {
-      const res = await fetch(
-        getApiUrl(`/basel/standards/${resolvedParams.id}`),
-        {
+      const [standardRes, categoriesRes] = await Promise.all([
+        fetch(getApiUrl(`/basel/standards/${resolvedParams.id}`), {
           credentials: "include",
-        },
-      );
-      if (res.ok) {
-        const data = await res.json();
+        }),
+        fetch(getApiUrl("/basel/categories"), { credentials: "include" }),
+      ]);
+
+      if (standardRes.ok) {
+        const data = await standardRes.json();
         setStandard(data.standard);
         setEditForm({
           code: data.standard.code,
           name: data.standard.name,
           description: data.standard.description || "",
           order: data.standard.order || 0,
+          categoryId: data.standard.categoryId || "",
         });
+      }
+
+      if (categoriesRes.ok) {
+        const data = await categoriesRes.json();
+        setCategories(data.categories || []);
       }
     } catch (error) {
       console.error("Error fetching standard:", error);
@@ -149,6 +166,31 @@ export default function AdminStandardPage({
       console.error("Error saving standard:", error);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleQuickAddCategory = async () => {
+    if (!quickCategoryName.trim()) return;
+    setCreatingCategory(true);
+    try {
+      const res = await fetch(getApiUrl("/basel/categories"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ name: quickCategoryName }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setCategories((prev) => [...prev, data.category]);
+        setEditForm((prev) => ({ ...prev, categoryId: data.category.id }));
+        setQuickCategoryName("");
+        setShowQuickAddCategory(false);
+      }
+    } catch (error) {
+      console.error("Error creating category:", error);
+    } finally {
+      setCreatingCategory(false);
     }
   };
 
@@ -402,7 +444,6 @@ export default function AdminStandardPage({
                 Save Changes
               </button>
             </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-[#14213D] mb-1">
@@ -430,7 +471,7 @@ export default function AdminStandardPage({
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none"
                 />
               </div>
-              <div className="md:col-span-2">
+              <div className="md:col-span-1">
                 <label className="block text-sm font-semibold text-[#14213D] mb-1">
                   Description
                 </label>
@@ -444,6 +485,67 @@ export default function AdminStandardPage({
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-semibold text-[#14213D] mb-1">
+                  Category
+                </label>
+                <div className="flex gap-2">
+                  <select
+                    value={editForm.categoryId}
+                    onChange={(e) => {
+                      if (e.target.value === "new") {
+                        setShowQuickAddCategory(true);
+                      } else {
+                        setEditForm({
+                          ...editForm,
+                          categoryId: e.target.value,
+                        });
+                      }
+                    }}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none bg-white font-medium"
+                  >
+                    <option value="">Uncategorized</option>
+                    {categories.map((cat) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.name}
+                      </option>
+                    ))}
+                    <option value="new" className="text-purple-600 font-bold">
+                      + Create New Category
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              {showQuickAddCategory && (
+                <div className="md:col-span-2 bg-purple-50 p-4 rounded-xl border border-purple-100 mt-2 animate-in fade-in slide-in-from-top-2">
+                  <p className="text-sm font-bold text-purple-900 mb-2">
+                    Create New Category
+                  </p>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={quickCategoryName}
+                      onChange={(e) => setQuickCategoryName(e.target.value)}
+                      placeholder="Category name"
+                      className="flex-1 px-3 py-2 border border-purple-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                    <button
+                      onClick={handleQuickAddCategory}
+                      disabled={creatingCategory}
+                      className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-semibold hover:bg-purple-700 disabled:opacity-50"
+                    >
+                      {creatingCategory ? "..." : "Create"}
+                    </button>
+                    <button
+                      onClick={() => setShowQuickAddCategory(false)}
+                      className="px-4 py-2 border border-purple-200 rounded-lg text-sm font-semibold hover:bg-white transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

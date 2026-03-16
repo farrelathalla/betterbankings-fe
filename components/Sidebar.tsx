@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiUrl } from "@/lib/api";
 import {
   Home,
   Briefcase,
@@ -178,9 +179,12 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
+  const [regmapsCategories, setRegmapsCategories] = useState<any[]>([]);
+  const [regmapsLoading, setRegmapsLoading] = useState(false);
 
   // Auto-expand menu if current path matches a child
   useEffect(() => {
+    // Standard menus
     NAV_SECTIONS.forEach((section) => {
       section.items.forEach((item) => {
         if (item.children) {
@@ -193,7 +197,53 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
         }
       });
     });
-  }, [pathname]);
+
+    // Regmaps specific expansion
+    if (pathname.startsWith("/regmaps")) {
+      // Always expand "RegMaps" main menu
+      if (!expandedMenus.includes("RegMaps")) {
+        setExpandedMenus((prev) => [...prev, "RegMaps"]);
+      }
+
+      // Find which category contains the current standard
+      if (regmapsCategories.length > 0) {
+        const currentStandardCode = pathname.split("/")[2]?.toUpperCase(); // e.g. SCO
+        if (currentStandardCode) {
+          regmapsCategories.forEach((cat) => {
+            const hasStandard = cat.standards?.some(
+              (s: any) => s.code.toUpperCase() === currentStandardCode,
+            );
+            if (hasStandard && !expandedMenus.includes(`cat-${cat.id}`)) {
+              setExpandedMenus((prev) => [...prev, `cat-${cat.id}`]);
+            }
+          });
+        }
+      }
+    }
+  }, [pathname, regmapsCategories]);
+
+  // Fetch Regmaps data if on regmaps pages
+  useEffect(() => {
+    if (pathname.startsWith("/regmaps")) {
+      const fetchRegmaps = async () => {
+        setRegmapsLoading(true);
+        try {
+          const res = await fetch(getApiUrl("/basel/categories"), {
+            credentials: "include",
+          });
+          if (res.ok) {
+            const data = await res.json();
+            setRegmapsCategories(data.categories || []);
+          }
+        } catch (error) {
+          console.error("Error fetching regmaps categories:", error);
+        } finally {
+          setRegmapsLoading(false);
+        }
+      };
+      fetchRegmaps();
+    }
+  }, [pathname.startsWith("/regmaps")]);
 
   const toggleMenu = (label: string) => {
     setExpandedMenus((prev) =>
@@ -317,6 +367,149 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                                     />
                                     {child.label}
                                   </Link>
+                                );
+                              })}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                }
+
+                // Custom handle for RegMaps item to show categories
+                if (
+                  item.label === "RegMaps" &&
+                  (pathname.startsWith("/regmaps") ||
+                    regmapsCategories.length > 0)
+                ) {
+                  const isExpanded = expandedMenus.includes("RegMaps");
+                  const isActive = pathname === "/regmaps";
+
+                  return (
+                    <div key="RegMaps">
+                      <div className="flex items-center gap-1 group/item">
+                        <Link
+                          href="/regmaps"
+                          onClick={() => isMobile && setIsOpen(false)}
+                          className={cn(
+                            "flex items-center gap-3 flex-1 px-3 py-2.5 rounded-l-lg text-sm font-semibold transition-all duration-200",
+                            pathname.startsWith("/regmaps")
+                              ? "bg-[#E0E7FF] text-[#14213D]"
+                              : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D]",
+                          )}
+                        >
+                          <FileText
+                            className={cn(
+                              "w-5 h-5",
+                              pathname.startsWith("/regmaps")
+                                ? "text-[#14213D]"
+                                : "text-[#94A3B8] group-hover/item:text-[#14213D]",
+                            )}
+                          />
+                          RegMaps
+                        </Link>
+                        <button
+                          onClick={() => toggleMenu("RegMaps")}
+                          className={cn(
+                            "px-2 py-2.5 rounded-r-lg transition-all duration-200 border-l",
+                            pathname.startsWith("/regmaps")
+                              ? "bg-[#E0E7FF] text-[#14213D] border-[#CBD5E1]"
+                              : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D] border-[#E2E8F0]",
+                          )}
+                        >
+                          <ChevronDown
+                            className={cn(
+                              "w-4 h-4 transition-transform duration-200",
+                              isExpanded ? "rotate-180" : "",
+                              pathname.startsWith("/regmaps")
+                                ? "text-[#14213D]"
+                                : "text-[#94A3B8]",
+                            )}
+                          />
+                        </button>
+                      </div>
+
+                      <AnimatePresence>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="ml-4 mt-1 flex flex-col gap-1 border-l-2 border-[#E1E7EF] pl-3 py-1">
+                              {regmapsLoading && (
+                                <div className="flex items-center gap-2 px-3 py-2 text-xs text-gray-400">
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                  Loading...
+                                </div>
+                              )}
+
+                              {regmapsCategories.map((cat) => {
+                                const isCatExpanded = expandedMenus.includes(
+                                  `cat-${cat.id}`,
+                                );
+                                const currentStandardCode = pathname
+                                  .split("/")[2]
+                                  ?.toUpperCase();
+                                const isSomeChildActive = cat.standards?.some(
+                                  (s: any) =>
+                                    s.code.toUpperCase() ===
+                                    currentStandardCode,
+                                );
+
+                                return (
+                                  <div key={cat.id}>
+                                    <button
+                                      onClick={() =>
+                                        toggleMenu(`cat-${cat.id}`)
+                                      }
+                                      className={cn(
+                                        "w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200",
+                                        isSomeChildActive
+                                          ? "text-[#14213D] bg-gray-50"
+                                          : "text-[#64748B] hover:bg-gray-50 hover:text-[#14213D]",
+                                      )}
+                                    >
+                                      <span className="truncate">
+                                        {cat.name}
+                                      </span>
+                                      <ChevronDown
+                                        className={cn(
+                                          "w-3 h-3 transition-transform",
+                                          isCatExpanded ? "rotate-180" : "",
+                                        )}
+                                      />
+                                    </button>
+
+                                    {isCatExpanded && (
+                                      <div className="ml-3 mt-1 flex flex-col gap-1 border-l border-gray-100 pl-2">
+                                        {cat.standards?.map((std: any) => {
+                                          const isActive =
+                                            currentStandardCode ===
+                                            std.code.toUpperCase();
+                                          return (
+                                            <Link
+                                              key={std.id}
+                                              href={`/regmaps/${std.code.toLowerCase()}`}
+                                              onClick={() =>
+                                                isMobile && setIsOpen(false)
+                                              }
+                                              className={cn(
+                                                "px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 border-l-2",
+                                                isActive
+                                                  ? "border-[#F48C25] bg-orange-50 text-[#F48C25]"
+                                                  : "border-transparent text-gray-500 hover:text-[#14213D] hover:bg-gray-50",
+                                              )}
+                                            >
+                                              {std.code} - {std.name}
+                                            </Link>
+                                          );
+                                        })}
+                                      </div>
+                                    )}
+                                  </div>
                                 );
                               })}
                             </div>

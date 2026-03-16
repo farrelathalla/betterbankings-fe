@@ -1119,7 +1119,7 @@ export default function AdminChapterPage({
                                         if (e.key === "Escape")
                                           setEditingSubNumber(null);
                                       }}
-                                      className="w-20 px-2 py-0.5 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#355189] outline-none text-gray-900"
+                                      className="w-20 px-2 py-0.5 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#355189] outline-none text-gray-900 bg-white"
                                       autoFocus
                                     />
                                     <button
@@ -1186,7 +1186,10 @@ export default function AdminChapterPage({
                                         <ChevronRight className="w-3 h-3" />
                                       )}
                                       {chapter.standard.code}
-                                      {chapter.code}.{sub.number}
+                                      {chapter.code}.
+                                      <span className="text-[#F48C25]">
+                                        {sub.number}
+                                      </span>
                                     </button>
                                     {editOrderMode && (
                                       <div className="flex items-center gap-2 ml-4">
