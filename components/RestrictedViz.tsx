@@ -25,12 +25,12 @@ export default function RestrictedViz({
   return (
     <div className="relative w-full h-full min-h-[500px]">
       {/* Blurred background (placeholder of a dashboard) */}
-      <div className="absolute inset-0 filter blur-sm opacity-30 select-none pointer-events-none">
+      <div className="absolute inset-0 filter blur-lg opacity-30 select-none pointer-events-none">
         {children}
       </div>
 
       {/* Overlay CTA */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 bg-white/40 backdrop-blur-[2px]">
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 bg-white/40 backdrop-blur-md">
         <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 flex flex-col items-center text-center max-w-md mx-4 animate-in fade-in zoom-in duration-300">
           <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-6">
             <Lock className="w-8 h-8 text-[#355189]" />
@@ -45,7 +45,7 @@ export default function RestrictedViz({
           <div className="flex flex-col sm:flex-row gap-3 w-full">
             <Link
               href="/auth"
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-[#1B2B4B] to-[#355189] text-white rounded-xl font-bold hover:shadow-lg transition-all duration-200"
+              className="flex-1 px-6 py-3 bg-linear-to-r from-[#1B2B4B] to-[#355189] text-white rounded-xl font-bold hover:shadow-lg transition-all duration-200"
             >
               Sign In
             </Link>
