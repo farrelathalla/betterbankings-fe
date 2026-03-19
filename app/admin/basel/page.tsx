@@ -451,7 +451,7 @@ export default function AdminBaselPage() {
                     className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-semibold hover:bg-purple-700 transition-colors"
                   >
                     <Plus className="w-4 h-4" />
-                    Add Category
+                    Add New Category
                   </button>
                 </div>
 
