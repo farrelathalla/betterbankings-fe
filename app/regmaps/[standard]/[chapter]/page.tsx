@@ -637,7 +637,7 @@ export default function ChapterPage({
             </div>
 
             {/* Right Sidebar - Go to Section */}
-            {chapter.sections.length > 0 && (
+            {/* {chapter.sections.length > 0 && (
               <div className="hidden xl:block w-64 flex-shrink-0">
                 <div className="sticky top-8 bg-white rounded-2xl border border-[#E1E7EF] p-4">
                   <h3 className="font-bold text-[#14213D] mb-3 text-sm">
@@ -660,7 +660,7 @@ export default function ChapterPage({
                   </nav>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
 
