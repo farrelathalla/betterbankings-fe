@@ -199,8 +199,11 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
     });
 
     // Regmaps specific expansion
-    if (pathname.startsWith("/regmaps")) {
-      // Always expand "RegMaps" main menu
+    const isDeepRegmaps =
+      pathname.startsWith("/regmaps/") ||
+      (pathname.startsWith("/regmaps") && pathname !== "/regmaps");
+    if (isDeepRegmaps) {
+      // Always expand "RegMaps" main menu when inside a standard
       if (!expandedMenus.includes("RegMaps")) {
         setExpandedMenus((prev) => [...prev, "RegMaps"]);
       }
@@ -222,9 +225,12 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
     }
   }, [pathname, regmapsCategories]);
 
-  // Fetch Regmaps data if on regmaps pages
+  // Fetch Regmaps data if on deep regmaps pages
   useEffect(() => {
-    if (pathname.startsWith("/regmaps")) {
+    const isDeepRegmaps =
+      pathname.startsWith("/regmaps/") ||
+      (pathname.startsWith("/regmaps") && pathname !== "/regmaps");
+    if (isDeepRegmaps) {
       const fetchRegmaps = async () => {
         setRegmapsLoading(true);
         try {
@@ -243,7 +249,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
       };
       fetchRegmaps();
     }
-  }, [pathname.startsWith("/regmaps")]);
+  }, [pathname]);
 
   const toggleMenu = (label: string) => {
     setExpandedMenus((prev) =>
@@ -377,11 +383,14 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                   );
                 }
 
-                // Custom handle for RegMaps item to show categories
+                // Custom handle for RegMaps item to show categories ONLY on deep links
+                const isDeepRegmaps =
+                  pathname.startsWith("/regmaps/") ||
+                  (pathname.startsWith("/regmaps") && pathname !== "/regmaps");
                 if (
                   item.label === "RegMaps" &&
-                  (pathname.startsWith("/regmaps") ||
-                    regmapsCategories.length > 0)
+                  isDeepRegmaps &&
+                  regmapsCategories.length > 0
                 ) {
                   const isExpanded = expandedMenus.includes("RegMaps");
                   const isActive = pathname === "/regmaps";
