@@ -84,3 +84,20 @@
 .ProseMirror th p[style*="text-align: justify"] {
   text-align: justify;
 }
+
+/* Math Block Styles */
+.math-block {
+  font-family: inherit;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.math-block:hover {
+  background-color: #f8fafc;
+  border-color: #3b82f6;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.math-block .katex-display {
+  margin: 0.5em 0;
+}

@@ -13,10 +13,14 @@ import { TableHeader } from "@tiptap/extension-table-header";
 import { Image } from "@tiptap/extension-image";
 import { Color } from "@tiptap/extension-color";
 import { TextStyle } from "@tiptap/extension-text-style";
-import { TooltipMark, ReferenceMark } from "./extensions";
+import { TooltipMark, ReferenceMark, Indent, MathNode } from "./extensions";
+
 import "./editor.css";
 import { useState, useCallback, useEffect } from "react";
 import { getApiUrl } from "@/lib/api";
+import katex from "katex";
+import "katex/dist/katex.min.css";
+
 import {
   Bold,
   Italic,
@@ -40,6 +44,9 @@ import {
   AlignRight,
   AlignJustify,
   Palette,
+  Indent as IndentIcon,
+  Outdent,
+  Sigma,
 } from "lucide-react";
 
 // Extended interface to include full Basel hierarchy for reference picker
@@ -75,8 +82,13 @@ export default function RichTextEditor({
   const [showTooltipModal, setShowTooltipModal] = useState(false);
   const [showReferenceModal, setShowReferenceModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
+  const [showMathModal, setShowMathModal] = useState(false);
   const [showTableMenu, setShowTableMenu] = useState(false);
   const [tooltipDefinition, setTooltipDefinition] = useState("");
+  const [mathLatex, setMathLatex] = useState(
+    "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
+  );
+
   const [imageUrl, setImageUrl] = useState("");
   const [imageAlt, setImageAlt] = useState("");
   const [imageUploading, setImageUploading] = useState(false);
@@ -167,7 +179,10 @@ export default function RichTextEditor({
       Color,
       TooltipMark,
       ReferenceMark,
+      Indent,
+      MathNode,
     ],
+
     content: parseContent(content),
     immediatelyRender: false, // Fix SSR hydration mismatch
     onUpdate: ({ editor }) => {
@@ -337,6 +352,19 @@ export default function RichTextEditor({
     editor.chain().focus().unsetMark("reference").run();
   }, [editor]);
 
+  const addMath = useCallback(() => {
+    if (!editor || !mathLatex.trim()) return;
+    editor
+      .chain()
+      .focus()
+      .insertContent({
+        type: "math",
+        attrs: { latex: mathLatex },
+      })
+      .run();
+    setShowMathModal(false);
+  }, [editor, mathLatex]);
+
   if (!editor) {
     return (
       <div className="border border-gray-300 rounded-lg p-4 text-gray-400">
@@ -373,6 +401,20 @@ export default function RichTextEditor({
           title="Underline"
         >
           <UnderlineIcon className="w-4 h-4" />
+        </ToolbarButton>
+        <div className="w-px h-6 bg-gray-300 mx-1" />
+        {/* Indentation */}
+        <ToolbarButton
+          onClick={() => editor.chain().focus().indent().run()}
+          title="Increase Indent"
+        >
+          <IndentIcon className="w-4 h-4" />
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={() => editor.chain().focus().outdent().run()}
+          title="Decrease Indent"
+        >
+          <Outdent className="w-4 h-4" />
         </ToolbarButton>
         <div className="w-px h-6 bg-gray-300 mx-1" />
         {/* Lists */}
@@ -581,6 +623,13 @@ export default function RichTextEditor({
         >
           <ImageIcon className="w-4 h-4" />
         </ToolbarButton>
+        <ToolbarButton
+          onClick={() => setShowMathModal(true)}
+          title="Insert Math Equation"
+          className="text-orange-600"
+        >
+          <Sigma className="w-4 h-4" />
+        </ToolbarButton>
         <div className="w-px h-6 bg-gray-300 mx-1" />
         {/* Font Color */}
         <div className="relative">
@@ -767,8 +816,8 @@ export default function RichTextEditor({
           <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4">
             <h3 className="font-bold text-[#14213D] mb-4">Insert Image</h3>
             <p className="text-sm text-gray-500 mb-3">
-              Upload an image file, enter a URL, or paste/drag an image directly
-              into the editor.
+              Upload an image file, enter a URL, or{" "}
+              <strong>paste (Ctrl+V)</strong> an image directly into the editor.
             </p>
 
             {/* File upload */}
@@ -1006,6 +1055,62 @@ export default function RichTextEditor({
                   setSelectedChapter("");
                   setSelectedSection("");
                   setSelectedSubsection("");
+                }}
+                className="flex-1 py-2 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Math Modal */}
+      {showMathModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+            <h3 className="font-bold text-[#14213D] mb-4">
+              Insert Math Equation
+            </h3>
+            <p className="text-sm text-gray-500 mb-3">
+              Enter LaTeX formula to render a beautiful math equation.
+            </p>
+            <textarea
+              value={mathLatex}
+              onChange={(e) => setMathLatex(e.target.value)}
+              placeholder="e.g. a^2 + b^2 = c^2"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none font-mono text-sm"
+              rows={4}
+              autoFocus
+            />
+            <div className="mt-4 p-3 bg-gray-50 rounded-lg border border-gray-100 min-h-[60px] flex items-center justify-center">
+              {/* Preview */}
+              <div
+                ref={(el) => {
+                  if (el) {
+                    try {
+                      katex.render(mathLatex, el, {
+                        displayMode: true,
+                        throwOnError: false,
+                      });
+                    } catch (e) {
+                      el.textContent = mathLatex;
+                    }
+                  }
+                }}
+              />
+            </div>
+            <div className="flex gap-2 mt-4">
+              <button
+                onClick={addMath}
+                disabled={!mathLatex.trim()}
+                className="flex-1 py-2 bg-[#355189] text-white rounded-lg font-semibold hover:bg-[#1B2B4B] disabled:opacity-50"
+              >
+                Insert Equation
+              </button>
+              <button
+                onClick={() => {
+                  setShowMathModal(false);
                 }}
                 className="flex-1 py-2 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50"
               >
