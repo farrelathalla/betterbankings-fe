@@ -46,11 +46,13 @@ export default function CategoryStandardsPage() {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const res = await fetch(getApiUrl(`/basel/categories/${id}`), {
+        const res = await fetch(getApiUrl("/basel/categories"), {
           credentials: "include",
         });
         const data = await res.json();
-        setCategory(data.category || null);
+        const cats = (data.categories || []) as Category[];
+        const found = cats.find((c) => c.id === id);
+        setCategory(found || null);
       } catch (error) {
         console.error("Error fetching category:", error);
       } finally {
@@ -123,7 +125,7 @@ export default function CategoryStandardsPage() {
               category.standards.map((standard) => (
                 <div
                   key={standard.id}
-                  className="bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden bg-white/70 backdrop-blur-sm"
+                  className="bg-white/70 rounded-2xl border border-[#E1E7EF] overflow-hidden backdrop-blur-sm"
                 >
                   <div className="flex items-center">
                     <Link

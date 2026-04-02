@@ -855,7 +855,7 @@ export default function RichTextEditor({
 
       {/* Link Modal */}
       {showLinkModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[99999]">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-99999">
           <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4 shadow-2xl">
             <h3 className="font-bold text-[#14213D] mb-4">Add Hyperlink</h3>
             <p className="text-sm text-gray-500 mb-3">

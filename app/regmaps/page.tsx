@@ -186,7 +186,8 @@ export default function BaselCenterPage() {
                     }}
                     className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
                   >
-                    <FileText className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                    <Search className="w-5 h-5 text-gray-400 shrink-0" />
+
                     <div className="flex-1 min-w-0">
                       <span className="text-xs text-[#F48C25] font-semibold uppercase">
                         {result.code}
@@ -412,7 +413,7 @@ export default function BaselCenterPage() {
               </div>
 
               {/* Info Card */}
-              <div className="p-6 rounded-2xl bg-gradient-to-br from-[#1B2B4B] to-[#355189] text-white">
+              <div className="p-1.5 rounded-lg bg-linear-to-br from-[#355189] to-[#14213D] text-white">
                 <h3 className="font-bold mb-3">About RegMaps</h3>
                 <p className="text-sm text-white/80 leading-relaxed">
                   The RegMaps is the full set of standards of the Basel
