@@ -13,12 +13,20 @@ import { TableHeader } from "@tiptap/extension-table-header";
 import { Image } from "@tiptap/extension-image";
 import { Color } from "@tiptap/extension-color";
 import { TextStyle } from "@tiptap/extension-text-style";
-import { TooltipMark, ReferenceMark, Indent, MathNode } from "./extensions";
+import {
+  TooltipMark,
+  ReferenceMark,
+  Indent,
+  MathNode,
+  LineHeight,
+} from "./extensions";
 
 import "./editor.css";
 import { useState, useCallback, useEffect } from "react";
 import { getApiUrl } from "@/lib/api";
+import { cn } from "@/lib/utils";
 import katex from "katex";
+
 import "katex/dist/katex.min.css";
 
 import {
@@ -47,6 +55,7 @@ import {
   Indent as IndentIcon,
   Outdent,
   Sigma,
+  Baseline,
 } from "lucide-react";
 
 // Extended interface to include full Basel hierarchy for reference picker
@@ -83,8 +92,13 @@ export default function RichTextEditor({
   const [showReferenceModal, setShowReferenceModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [showMathModal, setShowMathModal] = useState(false);
+  const [showLinkModal, setShowLinkModal] = useState(false);
   const [showTableMenu, setShowTableMenu] = useState(false);
+  const [showLineHeightMenu, setShowLineHeightMenu] = useState(false);
+
   const [tooltipDefinition, setTooltipDefinition] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
+
   const [mathLatex, setMathLatex] = useState(
     "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
   );
@@ -153,7 +167,13 @@ export default function RichTextEditor({
       Underline,
       Link.configure({
         openOnClick: false,
+        HTMLAttributes: {
+          target: "_blank",
+          rel: "noopener noreferrer",
+          class: "text-blue-600 hover:underline cursor-pointer",
+        },
       }),
+
       Placeholder.configure({
         placeholder,
       }),
@@ -181,6 +201,7 @@ export default function RichTextEditor({
       ReferenceMark,
       Indent,
       MathNode,
+      LineHeight,
     ],
 
     content: parseContent(content),
@@ -402,7 +423,70 @@ export default function RichTextEditor({
         >
           <UnderlineIcon className="w-4 h-4" />
         </ToolbarButton>
-        <div className="w-px h-6 bg-gray-300 mx-1" />
+        <ToolbarButton
+          onClick={() => {
+            const previousUrl = editor.getAttributes("link").href;
+            setLinkUrl(previousUrl || "");
+            setShowLinkModal(true);
+          }}
+          active={editor.isActive("link")}
+          title="Hyperlink"
+        >
+          <LinkIcon className="w-4 h-4" />
+        </ToolbarButton>
+        {/* Line Height Dropdown */}
+        <div className="relative">
+          <ToolbarButton
+            onClick={() => setShowLineHeightMenu(!showLineHeightMenu)}
+            active={showLineHeightMenu}
+            title="Line Spacing"
+          >
+            <Baseline className="w-4 h-4" />
+          </ToolbarButton>
+          {showLineHeightMenu && (
+            <div
+              className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-9999 min-w-[120px]"
+              style={{ position: "fixed", top: "auto", left: "auto" }}
+              ref={(el) => {
+                if (el) {
+                  const rect = el.parentElement?.getBoundingClientRect();
+                  if (rect) {
+                    el.style.top = `${rect.bottom + 4}px`;
+                    el.style.left = `${rect.left}px`;
+                  }
+                }
+              }}
+            >
+              {[
+                { label: "Single", value: "1" },
+                { label: "1.15", value: "1.15" },
+                { label: "1.5", value: "1.5" },
+                { label: "Double", value: "2" },
+                { label: "Reset", value: "normal" },
+              ].map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => {
+                    if (option.value === "normal") {
+                      editor.commands.unsetLineHeight();
+                    } else {
+                      editor.commands.setLineHeight(option.value);
+                    }
+                    setShowLineHeightMenu(false);
+                  }}
+                  className={cn(
+                    "w-full text-left px-3 py-1.5 text-xs rounded hover:bg-gray-100 flex items-center justify-between",
+                    editor.isActive({ lineHeight: option.value }) &&
+                      "bg-blue-50 text-blue-600 font-medium",
+                  )}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="w-px h-6 bg-gray-200 mx-1" />
         {/* Indentation */}
         <ToolbarButton
           onClick={() => editor.chain().focus().indent().run()}
@@ -451,7 +535,7 @@ export default function RichTextEditor({
           </ToolbarButton>
           {showTableMenu && (
             <div
-              className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-[9999] min-w-[200px] max-h-[320px] overflow-y-auto"
+              className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-9999 min-w-[200px] max-h-[320px] overflow-y-auto"
               style={{ position: "fixed", top: "auto", left: "auto" }}
               ref={(el) => {
                 if (el) {
@@ -651,7 +735,7 @@ export default function RichTextEditor({
           </ToolbarButton>
           {showColorPicker && (
             <div
-              className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 z-[9999] w-[200px]"
+              className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 z-9999 w-[200px]"
               style={{ position: "fixed", top: "auto", left: "auto" }}
               ref={(el) => {
                 if (el) {
@@ -769,7 +853,81 @@ export default function RichTextEditor({
       {/* Editor Content */}
       <EditorContent editor={editor} />
 
+      {/* Link Modal */}
+      {showLinkModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[99999]">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4 shadow-2xl">
+            <h3 className="font-bold text-[#14213D] mb-4">Add Hyperlink</h3>
+            <p className="text-sm text-gray-500 mb-3">
+              Enter the destination URL. Leave empty to remove the link.
+            </p>
+            <input
+              type="url"
+              value={linkUrl}
+              onChange={(e) => setLinkUrl(e.target.value)}
+              placeholder="https://example.com"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#355189] outline-none mb-4"
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  const url = linkUrl.trim();
+                  if (url) {
+                    editor
+                      .chain()
+                      .focus()
+                      .extendMarkRange("link")
+                      .setLink({ href: url })
+                      .run();
+                  } else {
+                    editor
+                      .chain()
+                      .focus()
+                      .extendMarkRange("link")
+                      .unsetLink()
+                      .run();
+                  }
+                  setShowLinkModal(false);
+                }
+              }}
+            />
+            <div className="flex gap-2 justify-end">
+              <button
+                onClick={() => setShowLinkModal(false)}
+                className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  const url = linkUrl.trim();
+                  if (url) {
+                    editor
+                      .chain()
+                      .focus()
+                      .extendMarkRange("link")
+                      .setLink({ href: url })
+                      .run();
+                  } else {
+                    editor
+                      .chain()
+                      .focus()
+                      .extendMarkRange("link")
+                      .unsetLink()
+                      .run();
+                  }
+                  setShowLinkModal(false);
+                }}
+                className="px-4 py-2 bg-[#355189] text-white rounded-lg text-sm font-semibold hover:bg-[#1B2B4B]"
+              >
+                Apply
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Tooltip Modal */}
+
       {showTooltipModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4">

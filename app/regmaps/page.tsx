@@ -28,6 +28,12 @@ interface Standard {
   }[];
 }
 
+interface Category {
+  id: string;
+  name: string;
+  standards: Array<{ id: string }>;
+}
+
 interface Update {
   id: string;
   title: string;
@@ -49,26 +55,32 @@ export default function BaselCenterPage() {
   const [updates, setUpdates] = useState<Update[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedStandards, setExpandedStandards] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
   const [updatesExpanded, setUpdatesExpanded] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [activeTab, setActiveTab] = useState<"category" | "all">("category");
+  const [categories, setCategories] = useState<Category[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [standardsRes, updatesRes] = await Promise.all([
+        const [standardsRes, categoriesRes, updatesRes] = await Promise.all([
           fetch(getApiUrl("/basel/standards"), { credentials: "include" }),
+          fetch(getApiUrl("/basel/categories"), { credentials: "include" }),
           fetch(getApiUrl("/basel/updates?limit=5"), {
             credentials: "include",
           }),
         ]);
 
         const standardsData = await standardsRes.json();
+        const categoriesData = await categoriesRes.json();
         const updatesData = await updatesRes.json();
 
         setStandards(standardsData.standards || []);
+        setCategories(categoriesData.categories || []);
         setUpdates(updatesData.updates || []);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -104,7 +116,7 @@ export default function BaselCenterPage() {
     try {
       const res = await fetch(
         getApiUrl(`/basel/search?q=${encodeURIComponent(query)}`),
-        { credentials: "include" }
+        { credentials: "include" },
       );
       const data = await res.json();
 
@@ -192,12 +204,68 @@ export default function BaselCenterPage() {
             )}
           </div>
 
+          {/* Tabs */}
+          <div className="flex items-center gap-2 mb-8 bg-white/50 p-1 rounded-xl border border-[#E1E7EF] w-fit">
+            <button
+              onClick={() => setActiveTab("category")}
+              className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${
+                activeTab === "category"
+                  ? "bg-[#14213D] text-white shadow-lg"
+                  : "text-gray-500 hover:text-[#14213D] hover:bg-white"
+              }`}
+            >
+              Category
+            </button>
+            <button
+              onClick={() => setActiveTab("all")}
+              className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${
+                activeTab === "all"
+                  ? "bg-[#14213D] text-white shadow-lg"
+                  : "text-gray-500 hover:text-[#14213D] hover:bg-white"
+              }`}
+            >
+              All
+            </button>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Content - Standards List */}
             <div className="lg:col-span-2 space-y-4">
               {loading ? (
                 <div className="flex items-center justify-center py-12">
                   <Loader2 className="w-8 h-8 animate-spin text-[#355189]" />
+                </div>
+              ) : activeTab === "category" ? (
+                // Category View
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {categories.length === 0 ? (
+                    <div className="md:col-span-2 bg-white rounded-2xl border border-[#E1E7EF] p-8 text-center">
+                      <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                      <h3 className="text-lg font-semibold text-[#14213D] mb-2">
+                        No Categories Yet
+                      </h3>
+                    </div>
+                  ) : (
+                    categories.map((category) => (
+                      <Link
+                        key={category.id}
+                        href={`/regmaps/category/${category.id}`}
+                        className="bg-white rounded-2xl border border-[#E1E7EF] p-6 hover:shadow-md hover:border-[#355189]/30 transition-all group"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h3 className="font-bold text-[#14213D] group-hover:text-[#355189] transition-colors mb-1">
+                              {category.name}
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                              {category.standards.length} standards
+                            </p>
+                          </div>
+                          <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#355189] transition-all transform group-hover:translate-x-1" />
+                        </div>
+                      </Link>
+                    ))
+                  )}
                 </div>
               ) : standards.length === 0 ? (
                 <div className="bg-white rounded-2xl border border-[#E1E7EF] p-8 text-center">

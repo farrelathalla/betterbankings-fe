@@ -69,8 +69,15 @@ function RenderNode({ node }: { node: ContentNode }) {
             : align === "justify"
               ? "text-justify"
               : "";
+      const lineHeight = node.attrs?.lineHeight as string | undefined;
       return (
-        <p className={`text-gray-700 leading-relaxed mb-3 ${alignClass}`}>
+        <p
+          className={`text-gray-700 leading-relaxed mb-3 ${alignClass}`}
+          style={{
+            lineHeight:
+              lineHeight && lineHeight !== "normal" ? lineHeight : undefined,
+          }}
+        >
           {node.content && <RenderNodes nodes={node.content} />}
         </p>
       );
@@ -81,46 +88,69 @@ function RenderNode({ node }: { node: ContentNode }) {
       const children = node.content ? (
         <RenderNodes nodes={node.content} />
       ) : null;
+      const lineHeight = node.attrs?.lineHeight as string | undefined;
+      const style = {
+        lineHeight:
+          lineHeight && lineHeight !== "normal" ? lineHeight : undefined,
+      };
       switch (level) {
         case 1:
           return (
-            <h1 className="text-2xl font-bold text-[#14213D] mb-4">
+            <h1
+              className="text-2xl font-bold text-[#14213D] mb-4"
+              style={style}
+            >
               {children}
             </h1>
           );
         case 2:
           return (
-            <h2 className="text-xl font-bold text-[#14213D] mb-3">
+            <h2 className="text-xl font-bold text-[#14213D] mb-3" style={style}>
               {children}
             </h2>
           );
         case 3:
           return (
-            <h3 className="text-lg font-semibold text-[#14213D] mb-2">
+            <h3
+              className="text-lg font-semibold text-[#14213D] mb-2"
+              style={style}
+            >
               {children}
             </h3>
           );
         case 4:
           return (
-            <h4 className="text-base font-semibold text-[#14213D] mb-2">
+            <h4
+              className="text-base font-semibold text-[#14213D] mb-2"
+              style={style}
+            >
               {children}
             </h4>
           );
         case 5:
           return (
-            <h5 className="text-sm font-semibold text-[#14213D] mb-1">
+            <h5
+              className="text-sm font-semibold text-[#14213D] mb-1"
+              style={style}
+            >
               {children}
             </h5>
           );
         case 6:
           return (
-            <h6 className="text-xs font-semibold text-[#14213D] mb-1">
+            <h6
+              className="text-xs font-semibold text-[#14213D] mb-1"
+              style={style}
+            >
               {children}
             </h6>
           );
         default:
           return (
-            <h3 className="text-lg font-semibold text-[#14213D] mb-2">
+            <h3
+              className="text-lg font-semibold text-[#14213D] mb-2"
+              style={style}
+            >
               {children}
             </h3>
           );
@@ -129,14 +159,14 @@ function RenderNode({ node }: { node: ContentNode }) {
 
     case "bulletList":
       return (
-        <ul className="list-disc list-inside text-gray-700 mb-3 space-y-1">
+        <ul className="list-disc ml-6 text-gray-700 mb-3 space-y-1">
           {node.content && <RenderNodes nodes={node.content} />}
         </ul>
       );
 
     case "orderedList":
       return (
-        <ol className="list-decimal list-inside text-gray-700 mb-3 space-y-1">
+        <ol className="list-decimal ml-6 text-gray-700 mb-3 space-y-1">
           {node.content && <RenderNodes nodes={node.content} />}
         </ol>
       );
