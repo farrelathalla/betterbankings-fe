@@ -109,7 +109,7 @@ export default function CategoryStandardsPage() {
             </p>
           </div>
 
-          <div className="max-w-4xl space-y-4">
+          <div className="w-full space-y-4">
             {loading ? (
               <div className="flex items-center justify-center py-12">
                 <Loader2 className="w-8 h-8 animate-spin text-[#355189]" />
