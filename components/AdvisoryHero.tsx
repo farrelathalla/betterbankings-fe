@@ -21,9 +21,12 @@ export default function AdvisoryHero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed"
         >
-          Expert consulting services to help banks navigate regulatory
-          requirements, optimize operations, and strengthen risk management
-          frameworks.
+          BetterBankings&apos; Risk Practice and Advisory Services provide boutique
+          expertise in financial risk management. We help banks navigate complex
+          regulatory requirements through practical, implementation-focused
+          solutions—bridging regulatory expectations with real-world balance
+          sheet management and delivering measurable impact across risk, capital,
+          and funding.
         </motion.p>
       </div>
     </section>

@@ -5,52 +5,55 @@ import { CheckCircle2 } from "lucide-react";
 
 const SERVICES = [
   {
-    title: "ICAAP",
-    subtitle: "Internal Capital Adequacy Assessment Process",
-    description:
-      "A comprehensive framework for banks to assess their capital needs based on risk profile. We help banks develop robust ICAAP frameworks that meet regulatory requirements while optimizing capital allocation.",
+    title: "Liquidity Risk & Funding",
+    subtitle:
+      "Designing resilient liquidity frameworks that stand up to supervisory scrutiny and market stress.",
     checklist: [
-      "Risk identification and assessment",
-      "Risk identification and assessment", // Note: The image shows duplicates, intentionally keeping or correcting to 'Risk quantification' based on context? Stick to image visual or assume unique? Let's use image visual logic but distinct naming if obvious. Image shows duplicate text. I will use varied text for realism or stick to image text? The image has duplicate "Risk identification..." and "Governance...". I'll use varied relevant text for better UX.",
-      "Governance and documentation",
-      "Stress testing and capital planning",
+      "LCR, NSFR, FTP, ILAAP, and intraday liquidity frameworks",
+      "End-to-end ILAAP design aligned with regulatory expectations",
+      "Clear definition of liquidity risk appetite and tolerance",
     ],
+    impact:
+      "Stronger regulatory outcomes, improved liquidity buffers, and clearer management action triggers",
   },
   {
-    title: "ILAAP",
-    subtitle: "Internal Liquidity Adequacy Assessment Process",
-    description:
-      "Essential for maintaining adequate liquidity buffers. Our ILAAP services ensure your bank has proper liquidity risk management frameworks.",
+    title: "Interest Rate Risk in the Banking Book (IRRBB)",
+    subtitle:
+      "Enhancing earnings stability and economic value through robust IRRBB frameworks.",
     checklist: [
-      "Liquidity risk identification",
-      "Stress testing scenarios",
-      "Funding strategy optimization",
-      "Recovery plan development",
+      "Alignment with Basel IRRBB standards and local regulations",
+      "Behavioural modelling of non-maturing deposits and prepayments",
     ],
+    impact:
+      "Reduced earnings volatility, more stable EVE profiles, and better pricing and hedging decisions",
   },
   {
-    title: "Funds Transfer Pricing (FTP)",
-    subtitle: "Effective FTP mechanisms for accurate performance measurement",
-    description:
-      "We design and implement FTP frameworks tailored to your institution's needs.",
+    title: "Market & Counterparty Risk",
+    subtitle:
+      "Supporting banks in managing traded risks and meeting evolving regulatory standards.",
     checklist: [
-      "FTP methodology design",
-      "Implementation support",
-      "Performance attribution",
-      "System integration",
+      "FRTB implementation and market risk frameworks",
+      "Counterparty credit risk and CVA",
     ],
+    impact:
+      "Improved capital efficiency and stronger alignment with trading and treasury strategies",
   },
   {
-    title: "Counterparty Credit Risk (SA-CCR)",
-    subtitle: "Standardized Approach for Counterparty Credit Risk",
-    description:
-      "Our experts help banks transition to SA-CCR and optimize their derivative portfolios.",
+    title: "Credit Risk",
+    subtitle: "Building practical, decision-useful credit risk models.",
+    checklist: ["Credit risk modelling and analytics"],
+    impact:
+      "Better risk differentiation, improved portfolio insights, and enhanced capital allocation",
+  },
+  {
+    title: "Risk Governance & Regulatory Reporting",
+    subtitle: "Strengthening oversight and supervisory engagement.",
     checklist: [
-      "SA-CCR implementation",
-      "Portfolio optimization",
-      "Regulatory capital calculation",
-      "Model validation",
+      "Financial risk governance frameworks",
+      "Regulatory reporting and submission processes",
     ],
+    impact:
+      "Clearer accountability, more consistent reporting, and stronger regulatory confidence",
   },
 ];
 
@@ -76,12 +79,9 @@ export default function AdvisoryServicesList() {
                   {service.subtitle}
                 </p>
               )}
-              <p className="text-gray-600 leading-relaxed max-w-4xl">
-                {service.description}
-              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               {service.checklist.map((item, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="flex-shrink-0 w-5 h-5 rounded-full border border-[#F48C25] flex items-center justify-center">
@@ -93,6 +93,11 @@ export default function AdvisoryServicesList() {
                 </div>
               ))}
             </div>
+
+            <p className="text-sm text-[#535769] italic border-t border-gray-100 pt-4">
+              <span className="font-semibold not-italic text-[#14213D]">Impact:</span>{" "}
+              {service.impact}
+            </p>
           </motion.div>
         ))}
       </div>

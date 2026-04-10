@@ -14,10 +14,11 @@ export default function CTASection() {
         className="mx-auto"
       >
         <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-          Ready to transform your banking insights?
+          Unlock better banking insights.
         </h2>
         <p className="text-[#D5D5D5] text-lg mb-10 max-w-2xl mx-auto">
-          Get access to comprehensive banking data and analytics
+          Access data, analytics, and advisory solutions designed for compliance
+          and real risk management impact.
         </p>
 
         <a href="mailto:info@betterbankings.com">
