@@ -223,15 +223,19 @@ function RenderNode({ node }: { node: ContentNode }) {
         </td>
       );
 
-    case "image":
+    case "image": {
+      const rawSrc = (node.attrs?.src as string) || "";
+      // Only allow http/https image URLs to prevent javascript: src XSS
+      if (!/^https?:\/\//i.test(rawSrc)) return null;
       return (
         <img
-          src={node.attrs?.src as string}
+          src={rawSrc}
           alt={(node.attrs?.alt as string) || ""}
           title={(node.attrs?.title as string) || undefined}
           className="max-w-full h-auto rounded-lg my-3"
         />
       );
+    }
 
     case "hardBreak":
       return <br />;
@@ -270,11 +274,14 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
           element = <u className="underline">{element}</u>;
           break;
 
-        case "link":
+        case "link": {
+          const rawHref = (mark.attrs?.href as string) || "";
+          // Block javascript: and data: URIs to prevent XSS
+          const safeHref = /^(https?:\/\/|mailto:|\/|#)/i.test(rawHref) ? rawHref : "#";
           element = (
             <a
-              href={mark.attrs?.href as string}
-              target="_blank"
+              href={safeHref}
+              target={safeHref.startsWith("/") || safeHref.startsWith("#") ? undefined : "_blank"}
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline"
             >
@@ -282,6 +289,7 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
             </a>
           );
           break;
+        }
 
         case "tooltip":
           element = (

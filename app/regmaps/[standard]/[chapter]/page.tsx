@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use, useRef } from "react";
+import { useState, useEffect, useCallback, use, useRef } from "react";
 import dynamic from "next/dynamic";
 import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
@@ -238,6 +238,61 @@ function ExpandableSection({
   );
 }
 
+// Renders BetterBanking Notes as a numbered list.
+// Tries to parse as Tiptap JSON first; if that fails, splits plain text by newlines.
+function BetterBankingNotes({ content }: { content: string }) {
+  // Try Tiptap JSON — extract top-level block nodes as numbered items
+  try {
+    const parsed = JSON.parse(content);
+    if (parsed?.type === "doc" && Array.isArray(parsed.content)) {
+      const blocks = parsed.content.filter(
+        (n: { type: string }) => n.type === "paragraph" || n.type === "bulletList" || n.type === "orderedList",
+      );
+      if (blocks.length > 0) {
+        return (
+          <ol className="space-y-2 list-none">
+            {blocks.map((block: { type: string; content?: { content?: { text?: string }[] }[] }, i: number) => {
+              // Extract plain text from the block for display
+              const text = (block.content || [])
+                .flatMap((inline: { content?: { text?: string }[] }) => inline.content || [inline])
+                .map((leaf: { text?: string }) => leaf.text || "")
+                .join("");
+              if (!text.trim()) return null;
+              return (
+                <li key={i} className="flex gap-2 text-sm text-gray-600">
+                  <span className="font-bold text-[#355189] shrink-0">{i + 1}.</span>
+                  <span>{text}</span>
+                </li>
+              );
+            })}
+          </ol>
+        );
+      }
+    }
+  } catch {
+    // not JSON — fall through to plain text
+  }
+
+  // Plain text: split by newlines, number each non-empty line
+  const lines = content
+    .split(/\n+/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  if (lines.length === 0) return null;
+
+  return (
+    <ol className="space-y-2 list-none">
+      {lines.map((line, i) => (
+        <li key={i} className="flex gap-2 text-sm text-gray-600">
+          <span className="font-bold text-[#355189] shrink-0">{i + 1}.</span>
+          <span>{line}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export default function ChapterPage({
   params,
 }: {
@@ -254,9 +309,11 @@ export default function ChapterPage({
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState<string>("");
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // Scroll back navigation stack
   const [scrollStack, setScrollStack] = useState<number[]>([]);
+
   useEffect(() => {
     const fetchChapter = async () => {
       try {
@@ -300,37 +357,67 @@ export default function ChapterPage({
     fetchChapter();
   }, [standardCode, chapterCode]);
 
-  // Handle URL hash for scrolling to sections
-  useEffect(() => {
-    if (typeof window !== "undefined" && chapter) {
-      const hash = window.location.hash.slice(1);
-      if (hash && sectionRefs.current[hash]) {
-        sectionRefs.current[hash]?.scrollIntoView({ behavior: "smooth" });
-      }
+  // Scroll to an anchor ID without changing the URL (prevents Sidebar re-render)
+  const scrollToAnchor = useCallback((anchorId: string) => {
+    const el = document.getElementById(anchorId);
+    if (el) {
+      setScrollStack((prev) => [...prev, window.scrollY]);
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  }, []);
+
+  // On load: scroll to hash if present (e.g. navigating from a cross-chapter reference)
+  useEffect(() => {
+    if (!chapter) return;
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+    // Wait a tick for the DOM to render
+    const t = setTimeout(() => {
+      const el = document.getElementById(hash);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 120);
+    return () => clearTimeout(t);
   }, [chapter]);
 
-  // Listen for same-page reference clicks
+  // Intercept anchor clicks inside the rich content area.
+  // Handles same-page (#anchor) and same-chapter (/regmaps/std/ch#anchor) links.
+  // Does NOT change the URL hash → Sidebar never re-renders, repeated clicks always scroll.
   useEffect(() => {
-    const handleReferenceClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const link =
-        target.closest('a[href^="#"]') ||
-        target.closest(`a[href*="${chapterCode}#"]`);
+    const contentEl = contentRef.current;
+    if (!contentEl) return;
 
-      if (link) {
-        const href = link.getAttribute("href");
-        // Check if it's a same-page anchor or same-chapter link
-        if (href?.startsWith("#") || href?.includes(`/${chapterCode}#`)) {
-          // Save current scroll position before navigating
-          setScrollStack((prev) => [...prev, window.scrollY]);
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest("a[href]") as HTMLAnchorElement | null;
+      if (!link) return;
+
+      const href = link.getAttribute("href");
+      if (!href) return;
+
+      // Case 1: pure hash link — e.g. href="#SCO10.5"
+      if (href.startsWith("#")) {
+        e.preventDefault();
+        scrollToAnchor(href.slice(1));
+        return;
+      }
+
+      // Case 2: absolute/relative URL pointing to the same chapter with a hash
+      // e.g. href="/regmaps/sco/10#SCO10.5"
+      try {
+        const url = new URL(href, window.location.origin);
+        if (url.pathname === window.location.pathname && url.hash) {
+          e.preventDefault();
+          scrollToAnchor(url.hash.slice(1));
         }
+        // else: different page — let Next.js navigate normally
+      } catch {
+        // not a valid URL — do nothing
       }
     };
 
-    document.addEventListener("click", handleReferenceClick);
-    return () => document.removeEventListener("click", handleReferenceClick);
-  }, [chapterCode]);
+    contentEl.addEventListener("click", handleClick);
+    return () => contentEl.removeEventListener("click", handleClick);
+  }, [scrollToAnchor]);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -339,11 +426,10 @@ export default function ChapterPage({
 
   // Go back to previous scroll position
   const handleScrollBack = () => {
-    if (scrollStack.length > 0) {
-      const prevPosition = scrollStack[scrollStack.length - 1];
-      setScrollStack((prev) => prev.slice(0, -1));
-      window.scrollTo({ top: prevPosition, behavior: "smooth" });
-    }
+    if (scrollStack.length === 0) return;
+    const prevPosition = scrollStack[scrollStack.length - 1];
+    setScrollStack((prev) => prev.slice(0, -1));
+    window.scrollTo({ top: prevPosition, behavior: "smooth" });
   };
 
   if (loading) {
@@ -486,7 +572,7 @@ export default function ChapterPage({
                   </p>
                 </div>
               ) : (
-                <div className="space-y-6">
+                <div ref={contentRef} className="space-y-6">
                   {chapter.sections.map((section) => (
                     <div
                       key={section.id}
@@ -530,26 +616,21 @@ export default function ChapterPage({
                                       content={subsection.content}
                                     />
 
-                                    {/* Footnotes */}
+                                    {/* OJK Notes (formerly Footnotes — no numbering) */}
                                     {subsection.footnotes.length > 0 && (
                                       <ExpandableSection
-                                        title="Footnotes"
+                                        title="OJK Notes"
                                         icon={BookOpen}
                                         count={subsection.footnotes.length}
                                       >
-                                        <div className="space-y-3">
+                                        <div className="space-y-2">
                                           {subsection.footnotes.map((fn) => (
-                                            <div
+                                            <p
                                               key={fn.id}
-                                              className="flex gap-2 text-sm"
+                                              className="text-sm text-gray-600 leading-relaxed"
                                             >
-                                              <span className="font-bold text-[#355189]">
-                                                [{fn.number}]
-                                              </span>
-                                              <p className="text-gray-600">
-                                                {fn.content}
-                                              </p>
-                                            </div>
+                                              {fn.content}
+                                            </p>
                                           ))}
                                         </div>
                                       </ExpandableSection>
@@ -577,15 +658,15 @@ export default function ChapterPage({
                                       </ExpandableSection>
                                     )}
 
-                                    {/* BetterBanking Notes */}
+                                    {/* BetterBanking Notes (numbered paragraphs) */}
                                     {subsection.betterBankingNotes && (
                                       <ExpandableSection
                                         title="BetterBanking Notes"
                                         icon={MessageSquare}
                                       >
-                                        <div className="text-sm text-gray-600">
-                                          {subsection.betterBankingNotes}
-                                        </div>
+                                        <BetterBankingNotes
+                                          content={subsection.betterBankingNotes}
+                                        />
                                       </ExpandableSection>
                                     )}
 

@@ -9,6 +9,15 @@ function BetterBankingsDiagram() {
       xmlns="http://www.w3.org/2000/svg"
       className="w-full h-full"
     >
+      {/* Smooth dashed oval ring passing through the center of each circle.
+          Bezier ellipse: center (250,225), rx=168, ry=133, k=0.5523
+          Control offsets: kx=93, ky=73  */}
+      <path
+        d="M250,92 C343,92 418,152 418,225 C418,298 343,358 250,358 C157,358 82,298 82,225 C82,152 157,92 250,92 Z"
+        stroke="#CBD5E1" strokeWidth="2" strokeDasharray="6,4"
+        fill="none" strokeLinecap="round" strokeLinejoin="round"
+      />
+
       {/* Connecting lines from center hub to each circle edge */}
       <line x1="250" y1="157" x2="250" y2="203" stroke="#CBD5E1" strokeWidth="2.5" strokeDasharray="5,3"/>
       <line x1="250" y1="247" x2="250" y2="293" stroke="#CBD5E1" strokeWidth="2.5" strokeDasharray="5,3"/>

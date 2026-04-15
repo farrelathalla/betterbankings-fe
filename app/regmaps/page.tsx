@@ -63,6 +63,7 @@ export default function BaselCenterPage() {
   const [isSearching, setIsSearching] = useState(false);
   const [activeTab, setActiveTab] = useState<"category" | "all">("category");
   const [categories, setCategories] = useState<Category[]>([]);
+  const [visibleCount, setVisibleCount] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -218,7 +219,7 @@ export default function BaselCenterPage() {
               Category
             </button>
             <button
-              onClick={() => setActiveTab("all")}
+              onClick={() => { setActiveTab("all"); setVisibleCount(10); }}
               className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${
                 activeTab === "all"
                   ? "bg-[#14213D] text-white shadow-lg"
@@ -279,76 +280,86 @@ export default function BaselCenterPage() {
                   </p>
                 </div>
               ) : (
-                standards.map((standard) => (
-                  <div
-                    key={standard.id}
-                    className="bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden"
-                  >
-                    {/* Standard Header */}
-                    <div className="flex items-center">
-                      <Link
-                        href={`/regmaps/${standard.code.toLowerCase()}`}
-                        className="flex-1 flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors"
-                      >
-                        <div className="text-left">
-                          <h3 className="font-bold text-[#14213D]">
-                            {standard.code} - {standard.name}
-                          </h3>
-                          {standard.description && (
-                            <p className="text-sm text-gray-500 line-clamp-1">
-                              {standard.description}
+                <>
+                  {standards.slice(0, visibleCount).map((standard) => (
+                    <div
+                      key={standard.id}
+                      className="bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden"
+                    >
+                      {/* Standard Header */}
+                      <div className="flex items-center">
+                        <Link
+                          href={`/regmaps/${standard.code.toLowerCase()}`}
+                          className="flex-1 flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors"
+                        >
+                          <div className="text-left">
+                            <h3 className="font-bold text-[#14213D]">
+                              {standard.code} - {standard.name}
+                            </h3>
+                            {standard.description && (
+                              <p className="text-sm text-gray-500 line-clamp-1">
+                                {standard.description}
+                              </p>
+                            )}
+                          </div>
+                        </Link>
+                        <button
+                          onClick={() => toggleStandard(standard.id)}
+                          className="px-4 py-4 hover:bg-gray-50 transition-colors border-l border-[#E1E7EF]"
+                        >
+                          {expandedStandards.has(standard.id) ? (
+                            <ChevronDown className="w-5 h-5 text-gray-400" />
+                          ) : (
+                            <ChevronRight className="w-5 h-5 text-gray-400" />
+                          )}
+                        </button>
+                      </div>
+
+                      {/* Chapters List */}
+                      {expandedStandards.has(standard.id) && (
+                        <div className="border-t border-[#E1E7EF] bg-gray-50">
+                          {standard.chapters.length === 0 ? (
+                            <p className="px-6 py-4 text-sm text-gray-500">
+                              No chapters in this standard yet.
                             </p>
+                          ) : (
+                            standard.chapters.map((chapter) => (
+                              <Link
+                                key={chapter.id}
+                                href={`/regmaps/${standard.code.toLowerCase()}/${chapter.code}`}
+                                className="flex items-center gap-3 px-6 py-3 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
+                              >
+                                <FileText className="w-4 h-4 text-[#355189]" />
+                                <span className="font-medium text-[#14213D]">
+                                  {standard.code}
+                                  {chapter.code}
+                                </span>
+                                <span className="text-gray-500">
+                                  {chapter.title}
+                                </span>
+                                {chapter.status === "archived" && (
+                                  <span className="ml-auto text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded">
+                                    Archived
+                                  </span>
+                                )}
+                              </Link>
+                            ))
                           )}
                         </div>
-                      </Link>
-                      <button
-                        onClick={() => toggleStandard(standard.id)}
-                        className="px-4 py-4 hover:bg-gray-50 transition-colors border-l border-[#E1E7EF]"
-                      >
-                        {expandedStandards.has(standard.id) ? (
-                          <ChevronDown className="w-5 h-5 text-gray-400" />
-                        ) : (
-                          <ChevronRight className="w-5 h-5 text-gray-400" />
-                        )}
-                      </button>
+                      )}
                     </div>
+                  ))}
 
-                    {/* Chapters List */}
-                    {expandedStandards.has(standard.id) && (
-                      <div className="border-t border-[#E1E7EF] bg-gray-50">
-                        {standard.chapters.length === 0 ? (
-                          <p className="px-6 py-4 text-sm text-gray-500">
-                            No chapters in this standard yet.
-                          </p>
-                        ) : (
-                          standard.chapters.map((chapter) => (
-                            <Link
-                              key={chapter.id}
-                              href={`/regmaps/${standard.code.toLowerCase()}/${
-                                chapter.code
-                              }`}
-                              className="flex items-center gap-3 px-6 py-3 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
-                            >
-                              <FileText className="w-4 h-4 text-[#355189]" />
-                              <span className="font-medium text-[#14213D]">
-                                {standard.code}
-                                {chapter.code}
-                              </span>
-                              <span className="text-gray-500">
-                                {chapter.title}
-                              </span>
-                              {chapter.status === "archived" && (
-                                <span className="ml-auto text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded">
-                                  Archived
-                                </span>
-                              )}
-                            </Link>
-                          ))
-                        )}
-                      </div>
-                    )}
-                  </div>
-                ))
+                  {/* Load More */}
+                  {visibleCount < standards.length && (
+                    <button
+                      onClick={() => setVisibleCount((v) => v + 10)}
+                      className="w-full py-3 rounded-2xl border border-[#E1E7EF] bg-white text-sm font-semibold text-[#355189] hover:bg-[#355189] hover:text-white transition-all"
+                    >
+                      Load more ({standards.length - visibleCount} remaining)
+                    </button>
+                  )}
+                </>
               )}
             </div>
 
