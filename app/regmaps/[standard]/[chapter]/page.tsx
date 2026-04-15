@@ -244,23 +244,36 @@ function BetterBankingNotes({ content }: { content: string }) {
   // Try Tiptap JSON — extract top-level block nodes as numbered items
   try {
     const parsed = JSON.parse(content);
+
+    // Helper to extract text from Tiptap nodes recursively
+    const extractTiptapText = (node: any): string => {
+      if (node.text) return node.text;
+      if (Array.isArray(node.content)) {
+        return node.content.map(extractTiptapText).join("");
+      }
+      return "";
+    };
+
     if (parsed?.type === "doc" && Array.isArray(parsed.content)) {
       const blocks = parsed.content.filter(
-        (n: { type: string }) => n.type === "paragraph" || n.type === "bulletList" || n.type === "orderedList",
+        (n: { type: string }) =>
+          n.type === "paragraph" ||
+          n.type === "bulletList" ||
+          n.type === "orderedList" ||
+          n.type === "listItem",
       );
       if (blocks.length > 0) {
         return (
           <ol className="space-y-2 list-none">
-            {blocks.map((block: { type: string; content?: { content?: { text?: string }[] }[] }, i: number) => {
-              // Extract plain text from the block for display
-              const text = (block.content || [])
-                .flatMap((inline: { content?: { text?: string }[] }) => inline.content || [inline])
-                .map((leaf: { text?: string }) => leaf.text || "")
-                .join("");
+            {blocks.map((block: any, i: number) => {
+              // Extract plain text from the block using recursive helper
+              const text = extractTiptapText(block);
               if (!text.trim()) return null;
               return (
                 <li key={i} className="flex gap-2 text-sm text-gray-600">
-                  <span className="font-bold text-[#355189] shrink-0">{i + 1}.</span>
+                  <span className="font-bold text-[#355189] shrink-0">
+                    {i + 1}.
+                  </span>
                   <span>{text}</span>
                 </li>
               );
@@ -665,7 +678,9 @@ export default function ChapterPage({
                                         icon={MessageSquare}
                                       >
                                         <BetterBankingNotes
-                                          content={subsection.betterBankingNotes}
+                                          content={
+                                            subsection.betterBankingNotes
+                                          }
                                         />
                                       </ExpandableSection>
                                     )}
