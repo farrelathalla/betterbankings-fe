@@ -379,17 +379,31 @@ export default function ChapterPage({
     }
   }, []);
 
-  // On load: scroll to hash if present (e.g. navigating from a cross-chapter reference)
+  // On load: scroll to hash if present (e.g. navigating from a cross-chapter reference).
+  // Retries with increasing delays because RichContentRenderer (dynamic import) may not
+  // be fully rendered within the first tick, especially for long chapters.
   useEffect(() => {
     if (!chapter) return;
     const hash = window.location.hash.slice(1);
     if (!hash) return;
-    // Wait a tick for the DOM to render
-    const t = setTimeout(() => {
-      const el = document.getElementById(hash);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 120);
-    return () => clearTimeout(t);
+
+    let found = false;
+    const delays = [120, 400, 800, 1500];
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    delays.forEach((delay) => {
+      const t = setTimeout(() => {
+        if (found) return;
+        const el = document.getElementById(hash);
+        if (el) {
+          found = true;
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, delay);
+      timers.push(t);
+    });
+
+    return () => timers.forEach(clearTimeout);
   }, [chapter]);
 
   // Intercept anchor clicks inside the rich content area.
@@ -428,8 +442,11 @@ export default function ChapterPage({
       }
     };
 
-    contentEl.addEventListener("click", handleClick);
-    return () => contentEl.removeEventListener("click", handleClick);
+    // Use capture phase (true) so our handler fires BEFORE Next.js Link's own click
+    // handler (which is attached directly on the <a> element and would navigate first).
+    // This ensures e.preventDefault() actually prevents the router navigation.
+    contentEl.addEventListener("click", handleClick, true);
+    return () => contentEl.removeEventListener("click", handleClick, true);
   }, [scrollToAnchor]);
 
   const scrollToSection = (sectionId: string) => {
