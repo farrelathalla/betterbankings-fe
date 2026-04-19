@@ -379,31 +379,45 @@ export default function ChapterPage({
     }
   }, []);
 
-  // On load: scroll to hash if present (e.g. navigating from a cross-chapter reference).
-  // Retries with increasing delays because RichContentRenderer (dynamic import) may not
-  // be fully rendered within the first tick, especially for long chapters.
+  // On load: scroll to hash if present (cross-chapter reference navigation).
+  // Dynamic imports cause layout shifts — we poll until the element's absolute
+  // document position stabilises for 3 consecutive checks, then scroll once.
   useEffect(() => {
     if (!chapter) return;
     const hash = window.location.hash.slice(1);
     if (!hash) return;
 
-    let found = false;
-    const delays = [120, 400, 800, 1500];
-    const timers: ReturnType<typeof setTimeout>[] = [];
+    let lastTop = -1;
+    let stableCount = 0;
+    const REQUIRED_STABLE = 3;
+    let timerId: ReturnType<typeof setTimeout>;
+    let done = false;
 
-    delays.forEach((delay) => {
-      const t = setTimeout(() => {
-        if (found) return;
-        const el = document.getElementById(hash);
-        if (el) {
-          found = true;
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, delay);
-      timers.push(t);
-    });
+    const tryScroll = () => {
+      if (done) return;
+      const el = document.getElementById(hash);
+      if (!el) {
+        timerId = setTimeout(tryScroll, 150);
+        return;
+      }
+      // Absolute position in document (independent of current scroll offset)
+      const absTop = el.getBoundingClientRect().top + window.scrollY;
+      if (Math.abs(absTop - lastTop) < 2) {
+        stableCount++;
+      } else {
+        stableCount = 0;
+        lastTop = absTop;
+      }
+      if (stableCount >= REQUIRED_STABLE) {
+        done = true;
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      timerId = setTimeout(tryScroll, 150);
+    };
 
-    return () => timers.forEach(clearTimeout);
+    timerId = setTimeout(tryScroll, 200);
+    return () => clearTimeout(timerId);
   }, [chapter]);
 
   // Intercept anchor clicks inside the rich content area.

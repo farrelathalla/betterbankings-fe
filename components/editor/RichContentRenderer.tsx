@@ -277,11 +277,17 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
         case "link": {
           const rawHref = (mark.attrs?.href as string) || "";
           // Block javascript: and data: URIs to prevent XSS
-          const safeHref = /^(https?:\/\/|mailto:|\/|#)/i.test(rawHref) ? rawHref : "#";
+          const safeHref = /^(https?:\/\/|mailto:|\/|#)/i.test(rawHref)
+            ? rawHref
+            : "#";
           element = (
             <a
               href={safeHref}
-              target={safeHref.startsWith("/") || safeHref.startsWith("#") ? undefined : "_blank"}
+              target={
+                safeHref.startsWith("/") || safeHref.startsWith("#")
+                  ? undefined
+                  : "_blank"
+              }
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline"
             >
@@ -299,32 +305,54 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
           );
           break;
 
-        case "reference":
-          const standardCode = (
+        case "reference": {
+          const stdCode = (
             (mark.attrs?.standardCode as string) || ""
           ).toLowerCase();
-          const chapterCode = mark.attrs?.chapterCode as string;
-          const subsectionNumber = mark.attrs?.subsectionNumber as string;
+          const chapCode = mark.attrs?.chapterCode as string;
+          const subsNum = mark.attrs?.subsectionNumber as string;
 
           // Build URL with optional subsection anchor
-          let url = `/regmaps/${standardCode}`;
-          if (chapterCode) {
-            url += `/${chapterCode}`;
-            if (subsectionNumber) {
-              // The subsection ID format is {standardCode}{chapterCode}.{number}
-              url += `#${standardCode.toUpperCase()}${chapterCode}.${subsectionNumber}`;
+          let refUrl = `/regmaps/${stdCode}`;
+          if (chapCode) {
+            refUrl += `/${chapCode}`;
+            if (subsNum) {
+              refUrl += `#${stdCode.toUpperCase()}${chapCode}.${subsNum}`;
             }
           }
 
+          // Anchor ID that matches the id="..." set on each subsection div in page.tsx
+          const anchorId = subsNum
+            ? `${stdCode.toUpperCase()}${chapCode}.${subsNum}`
+            : null;
+
           element = (
             <Link
-              href={url}
+              href={refUrl}
               className="text-[#F48C25] font-bold underline hover:text-[#E07A0B]"
+              onClick={(e) => {
+                if (!anchorId) return;
+                // Same-page check: pathname matches but hash may differ
+                const targetPathname = refUrl.split("#")[0];
+                if (
+                  typeof window !== "undefined" &&
+                  window.location.pathname === targetPathname
+                ) {
+                  // Prevent Next.js from re-navigating (no-op or hash update).
+                  // Scroll to the anchor ourselves so repeated clicks always work.
+                  e.preventDefault();
+                  const el = document.getElementById(anchorId);
+                  if (el)
+                    el.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+                // Different page: let Link navigate normally; page.tsx hash effect handles scroll
+              }}
             >
               {element}
             </Link>
           );
           break;
+        }
 
         case "textStyle":
           if (mark.attrs?.color) {
