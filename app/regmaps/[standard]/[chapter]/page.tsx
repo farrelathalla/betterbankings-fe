@@ -370,26 +370,36 @@ export default function ChapterPage({
     fetchChapter();
   }, [standardCode, chapterCode]);
 
-  // Scroll to an anchor ID without changing the URL (prevents Sidebar re-render)
-  const scrollToAnchor = useCallback((anchorId: string) => {
-    const el = document.getElementById(anchorId);
-    if (el) {
-      setScrollStack((prev) => [...prev, window.scrollY]);
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+  // Resolve an anchor: exact id match first, then prefix match (e.g. "AML.IV.51" → "AML.IV.51.1-5")
+  const resolveAnchor = useCallback((anchorId: string): HTMLElement | null => {
+    return (
+      document.getElementById(anchorId) ??
+      (document.querySelector(`[id^="${anchorId}."]`) as HTMLElement | null)
+    );
   }, []);
 
+  // Scroll to an anchor ID without changing the URL (prevents Sidebar re-render)
+  const scrollToAnchor = useCallback(
+    (anchorId: string) => {
+      const el = resolveAnchor(anchorId);
+      if (el) {
+        setScrollStack((prev) => [...prev, window.scrollY]);
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    },
+    [resolveAnchor],
+  );
+
   // On load: scroll to hash if present (cross-chapter reference navigation).
-  // Dynamic imports cause layout shifts after chapter data loads.
-  // We poll until the element's document-top position (scroll-independent) stabilises
-  // for 3 consecutive checks, then scroll. Uses offsetParent traversal so that
-  // Next.js scroll-restoration changes to window.scrollY don't fool the check.
+  // Subsection numbers in references (e.g. "51") may not match DOM IDs exactly
+  // (e.g. "AML.IV.51.1-5"), so we use resolveAnchor for prefix fallback.
+  // We poll until the resolved element's document-top position stabilises,
+  // then scroll once.
   useEffect(() => {
     if (!chapter) return;
     const hash = window.location.hash.slice(1);
     if (!hash) return;
 
-    // Absolute top position in the document, independent of current scroll offset
     const getDocTop = (el: HTMLElement): number => {
       let top = 0;
       let node: HTMLElement | null = el;
@@ -403,34 +413,26 @@ export default function ChapterPage({
     let lastTop = -1;
     let stableCount = 0;
     const REQUIRED_STABLE = 3;
-    const MAX_ATTEMPTS = 60; // 60 × 150ms = 9 seconds max
+    const MAX_ATTEMPTS = 60;
     let attempts = 0;
     let timerId: ReturnType<typeof setTimeout>;
     let done = false;
 
-    console.log(`[regmaps] hash scroll: targeting "${hash}"`);
-
     const tryScroll = () => {
       if (done) return;
-      if (attempts++ >= MAX_ATTEMPTS) {
-        console.warn(`[regmaps] gave up scrolling to "${hash}" after 9s`);
-        return;
-      }
+      if (attempts++ >= MAX_ATTEMPTS) return;
 
-      const el = document.getElementById(hash);
+      // Exact match first, then prefix match (e.g. "AML.IV.51" → "AML.IV.51.1-5")
+      const el =
+        document.getElementById(hash) ??
+        (document.querySelector(`[id^="${hash}."]`) as HTMLElement | null);
+
       if (!el) {
-        console.log(
-          `[regmaps] element #${hash} not found yet (attempt ${attempts})`,
-        );
         timerId = setTimeout(tryScroll, 150);
         return;
       }
 
       const docTop = getDocTop(el);
-      console.log(
-        `[regmaps] #${hash} docTop=${docTop} stableCount=${stableCount} (attempt ${attempts})`,
-      );
-
       if (Math.abs(docTop - lastTop) < 2) {
         stableCount++;
       } else {
@@ -440,7 +442,6 @@ export default function ChapterPage({
 
       if (stableCount >= REQUIRED_STABLE) {
         done = true;
-        console.log(`[regmaps] scrolling to "${hash}" at docTop=${docTop}`);
         el.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }

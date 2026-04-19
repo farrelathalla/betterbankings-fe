@@ -341,7 +341,11 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
                   // Prevent Next.js from re-navigating (no-op or hash update).
                   // Scroll to the anchor ourselves so repeated clicks always work.
                   e.preventDefault();
-                  const el = document.getElementById(anchorId);
+                  const el =
+                    document.getElementById(anchorId) ??
+                    (document.querySelector(
+                      `[id^="${anchorId}."]`,
+                    ) as HTMLElement | null);
                   if (el)
                     el.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
