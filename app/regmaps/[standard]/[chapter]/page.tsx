@@ -380,39 +380,71 @@ export default function ChapterPage({
   }, []);
 
   // On load: scroll to hash if present (cross-chapter reference navigation).
-  // Dynamic imports cause layout shifts — we poll until the element's absolute
-  // document position stabilises for 3 consecutive checks, then scroll once.
+  // Dynamic imports cause layout shifts after chapter data loads.
+  // We poll until the element's document-top position (scroll-independent) stabilises
+  // for 3 consecutive checks, then scroll. Uses offsetParent traversal so that
+  // Next.js scroll-restoration changes to window.scrollY don't fool the check.
   useEffect(() => {
     if (!chapter) return;
     const hash = window.location.hash.slice(1);
     if (!hash) return;
 
+    // Absolute top position in the document, independent of current scroll offset
+    const getDocTop = (el: HTMLElement): number => {
+      let top = 0;
+      let node: HTMLElement | null = el;
+      while (node) {
+        top += node.offsetTop;
+        node = node.offsetParent as HTMLElement | null;
+      }
+      return top;
+    };
+
     let lastTop = -1;
     let stableCount = 0;
     const REQUIRED_STABLE = 3;
+    const MAX_ATTEMPTS = 60; // 60 × 150ms = 9 seconds max
+    let attempts = 0;
     let timerId: ReturnType<typeof setTimeout>;
     let done = false;
 
+    console.log(`[regmaps] hash scroll: targeting "${hash}"`);
+
     const tryScroll = () => {
       if (done) return;
+      if (attempts++ >= MAX_ATTEMPTS) {
+        console.warn(`[regmaps] gave up scrolling to "${hash}" after 9s`);
+        return;
+      }
+
       const el = document.getElementById(hash);
       if (!el) {
+        console.log(
+          `[regmaps] element #${hash} not found yet (attempt ${attempts})`,
+        );
         timerId = setTimeout(tryScroll, 150);
         return;
       }
-      // Absolute position in document (independent of current scroll offset)
-      const absTop = el.getBoundingClientRect().top + window.scrollY;
-      if (Math.abs(absTop - lastTop) < 2) {
+
+      const docTop = getDocTop(el);
+      console.log(
+        `[regmaps] #${hash} docTop=${docTop} stableCount=${stableCount} (attempt ${attempts})`,
+      );
+
+      if (Math.abs(docTop - lastTop) < 2) {
         stableCount++;
       } else {
         stableCount = 0;
-        lastTop = absTop;
+        lastTop = docTop;
       }
+
       if (stableCount >= REQUIRED_STABLE) {
         done = true;
+        console.log(`[regmaps] scrolling to "${hash}" at docTop=${docTop}`);
         el.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }
+
       timerId = setTimeout(tryScroll, 150);
     };
 
