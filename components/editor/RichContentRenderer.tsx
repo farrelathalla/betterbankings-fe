@@ -44,7 +44,11 @@ export default function RichContentRenderer({
     return <p className="text-gray-700 leading-relaxed">{content}</p>;
   }
 
-  return <RenderNodes nodes={nodes} />;
+  return (
+    <div className="rich-content-container prose prose-sm max-w-none text-[#1a1a1a]">
+      <RenderNodes nodes={nodes} />
+    </div>
+  );
 }
 
 function RenderNodes({ nodes }: { nodes: ContentNode[] }) {
@@ -72,8 +76,8 @@ function RenderNode({ node }: { node: ContentNode }) {
       const lineHeight = node.attrs?.lineHeight as string | undefined;
       return (
         <p
-          className={`text-gray-700 leading-relaxed mb-3 ${alignClass}`}
           style={{
+            textAlign: align as any,
             lineHeight:
               lineHeight && lineHeight !== "normal" ? lineHeight : undefined,
           }}
@@ -95,96 +99,42 @@ function RenderNode({ node }: { node: ContentNode }) {
       };
       switch (level) {
         case 1:
-          return (
-            <h1
-              className="text-2xl font-bold text-[#14213D] mb-4"
-              style={style}
-            >
-              {children}
-            </h1>
-          );
+          return <h1 style={style}>{children}</h1>;
         case 2:
-          return (
-            <h2 className="text-xl font-bold text-[#14213D] mb-3" style={style}>
-              {children}
-            </h2>
-          );
+          return <h2 style={style}>{children}</h2>;
         case 3:
-          return (
-            <h3
-              className="text-lg font-semibold text-[#14213D] mb-2"
-              style={style}
-            >
-              {children}
-            </h3>
-          );
+          return <h3 style={style}>{children}</h3>;
         case 4:
-          return (
-            <h4
-              className="text-base font-semibold text-[#14213D] mb-2"
-              style={style}
-            >
-              {children}
-            </h4>
-          );
+          return <h4 style={style}>{children}</h4>;
         case 5:
-          return (
-            <h5
-              className="text-sm font-semibold text-[#14213D] mb-1"
-              style={style}
-            >
-              {children}
-            </h5>
-          );
+          return <h5 style={style}>{children}</h5>;
         case 6:
-          return (
-            <h6
-              className="text-xs font-semibold text-[#14213D] mb-1"
-              style={style}
-            >
-              {children}
-            </h6>
-          );
+          return <h6 style={style}>{children}</h6>;
         default:
-          return (
-            <h3
-              className="text-lg font-semibold text-[#14213D] mb-2"
-              style={style}
-            >
-              {children}
-            </h3>
-          );
+          return <h3 style={style}>{children}</h3>;
       }
     }
 
     case "bulletList":
-      return (
-        <ul className="list-disc ml-6 text-gray-700 mb-3 space-y-1">
-          {node.content && <RenderNodes nodes={node.content} />}
-        </ul>
-      );
+      return <ul>{node.content && <RenderNodes nodes={node.content} />}</ul>;
 
     case "orderedList":
-      return (
-        <ol className="list-decimal ml-6 text-gray-700 mb-3 space-y-1">
-          {node.content && <RenderNodes nodes={node.content} />}
-        </ol>
-      );
+      return <ol>{node.content && <RenderNodes nodes={node.content} />}</ol>;
 
     case "listItem":
       return <li>{node.content && <RenderNodes nodes={node.content} />}</li>;
 
     case "blockquote":
       return (
-        <blockquote className="border-l-4 border-[#355189] pl-4 italic text-gray-600 mb-3">
+        <blockquote className="border-l-4 border-[#355189] pl-4 italic text-gray-600">
           {node.content && <RenderNodes nodes={node.content} />}
         </blockquote>
       );
 
     case "table":
       return (
-        <div className="overflow-x-auto mb-4">
-          <table className="w-full border-collapse border border-gray-300 text-sm">
+        <div className="tableWrapper">
+          <table>
             {node.content && (
               <tbody>
                 <RenderNodes nodes={node.content} />
@@ -272,6 +222,10 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
 
         case "underline":
           element = <u className="underline">{element}</u>;
+          break;
+
+        case "strike":
+          element = <s className="line-through">{element}</s>;
           break;
 
         case "link": {

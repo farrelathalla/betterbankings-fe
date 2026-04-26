@@ -35,6 +35,12 @@ interface Footnote {
   content: string;
 }
 
+interface BetterBankingNote {
+  id: string;
+  order: number;
+  content: string;
+}
+
 interface FAQ {
   id: string;
   question: string;
@@ -52,7 +58,8 @@ interface Subsection {
   id: string;
   number: string;
   content: string;
-  betterBankingNotes: string | null;
+  betterBankingNotes: string | null; // Legacy
+  betterBankingNotesList: BetterBankingNote[];
   footnotes: Footnote[];
   faqs: FAQ[];
   revisions: Revision[];
@@ -239,67 +246,19 @@ function ExpandableSection({
 }
 
 // Renders BetterBanking Notes as a numbered list.
-// Tries to parse as Tiptap JSON first; if that fails, splits plain text by newlines.
-function BetterBankingNotes({ content }: { content: string }) {
-  // Try Tiptap JSON — extract top-level block nodes as numbered items
-  try {
-    const parsed = JSON.parse(content);
-
-    // Helper to extract text from Tiptap nodes recursively
-    const extractTiptapText = (node: any): string => {
-      if (node.text) return node.text;
-      if (Array.isArray(node.content)) {
-        return node.content.map(extractTiptapText).join("");
-      }
-      return "";
-    };
-
-    if (parsed?.type === "doc" && Array.isArray(parsed.content)) {
-      const blocks = parsed.content.filter(
-        (n: { type: string }) =>
-          n.type === "paragraph" ||
-          n.type === "bulletList" ||
-          n.type === "orderedList" ||
-          n.type === "listItem",
-      );
-      if (blocks.length > 0) {
-        return (
-          <ol className="space-y-2 list-none">
-            {blocks.map((block: any, i: number) => {
-              // Extract plain text from the block using recursive helper
-              const text = extractTiptapText(block);
-              if (!text.trim()) return null;
-              return (
-                <li key={i} className="flex gap-2 text-sm text-gray-600">
-                  <span className="font-bold text-[#355189] shrink-0">
-                    {i + 1}.
-                  </span>
-                  <span>{text}</span>
-                </li>
-              );
-            })}
-          </ol>
-        );
-      }
-    }
-  } catch {
-    // not JSON — fall through to plain text
-  }
-
-  // Plain text: split by newlines, number each non-empty line
-  const lines = content
-    .split(/\n+/)
-    .map((l) => l.trim())
-    .filter(Boolean);
-
-  if (lines.length === 0) return null;
+function BetterBankingNotes({ notes }: { notes: BetterBankingNote[] }) {
+  if (notes.length === 0) return null;
 
   return (
-    <ol className="space-y-2 list-none">
-      {lines.map((line, i) => (
-        <li key={i} className="flex gap-2 text-sm text-gray-600">
-          <span className="font-bold text-[#355189] shrink-0">{i + 1}.</span>
-          <span>{line}</span>
+    <ol className="space-y-4 list-none">
+      {notes.map((note, i) => (
+        <li key={note.id} className="flex gap-3 text-sm text-gray-600">
+          <span className="font-bold text-[#355189] shrink-0 mt-0.5">
+            {i + 1}.
+          </span>
+          <div className="flex-1">
+            <RichContentRenderer content={note.content} />
+          </div>
         </li>
       ))}
     </ol>
@@ -324,8 +283,8 @@ export default function ChapterPage({
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Scroll back navigation stack
-  const [scrollStack, setScrollStack] = useState<number[]>([]);
+  // Track number of internal navigation jumps for the UI back button
+  const [internalJumpCount, setInternalJumpCount] = useState(0);
 
   useEffect(() => {
     const fetchChapter = async () => {
@@ -378,80 +337,95 @@ export default function ChapterPage({
     );
   }, []);
 
-  // Scroll to an anchor ID without changing the URL (prevents Sidebar re-render)
+  // Scroll to an anchor ID with URL synchronization
   const scrollToAnchor = useCallback(
-    (anchorId: string) => {
+    (anchorId: string, isFromPopState = false) => {
       const el = resolveAnchor(anchorId);
       if (el) {
-        setScrollStack((prev) => [...prev, window.scrollY]);
+        if (!isFromPopState) {
+          // Update URL hash without re-rendering everything
+          const newHash = `#${anchorId}`;
+          if (window.location.hash !== newHash) {
+            window.history.pushState(null, "", newHash);
+            setInternalJumpCount((prev) => prev + 1);
+          }
+        }
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     },
     [resolveAnchor],
   );
 
-  // On load: scroll to hash if present (cross-chapter reference navigation).
-  // Subsection numbers in references (e.g. "51") may not match DOM IDs exactly
-  // (e.g. "AML.IV.51.1-5"), so we use resolveAnchor for prefix fallback.
-  // We poll until the resolved element's document-top position stabilises,
-  // then scroll once.
+  // Scroll to hash on load or on browser back/forward (popstate)
   useEffect(() => {
     if (!chapter) return;
-    const hash = window.location.hash.slice(1);
-    if (!hash) return;
 
-    const getDocTop = (el: HTMLElement): number => {
-      let top = 0;
-      let node: HTMLElement | null = el;
-      while (node) {
-        top += node.offsetTop;
-        node = node.offsetParent as HTMLElement | null;
-      }
-      return top;
-    };
+    const handleHashScroll = (isPopState = false) => {
+      const hash = window.location.hash.slice(1);
+      if (!hash) return;
 
-    let lastTop = -1;
-    let stableCount = 0;
-    const REQUIRED_STABLE = 3;
-    const MAX_ATTEMPTS = 60;
-    let attempts = 0;
-    let timerId: ReturnType<typeof setTimeout>;
-    let done = false;
+      const getDocTop = (el: HTMLElement): number => {
+        let top = 0;
+        let node: HTMLElement | null = el;
+        while (node) {
+          top += node.offsetTop;
+          node = node.offsetParent as HTMLElement | null;
+        }
+        return top;
+      };
 
-    const tryScroll = () => {
-      if (done) return;
-      if (attempts++ >= MAX_ATTEMPTS) return;
+      let lastTop = -1;
+      let stableCount = 0;
+      const REQUIRED_STABLE = 3;
+      const MAX_ATTEMPTS = 60;
+      let attempts = 0;
+      let timerId: ReturnType<typeof setTimeout>;
+      let done = false;
 
-      // Exact match first, then prefix match (e.g. "AML.IV.51" → "AML.IV.51.1-5")
-      const el =
-        document.getElementById(hash) ??
-        (document.querySelector(`[id^="${hash}."]`) as HTMLElement | null);
+      const tryScroll = () => {
+        if (done) return;
+        if (attempts++ >= MAX_ATTEMPTS) return;
 
-      if (!el) {
+        const el = resolveAnchor(hash);
+
+        if (!el) {
+          timerId = setTimeout(tryScroll, 150);
+          return;
+        }
+
+        const docTop = getDocTop(el);
+        if (Math.abs(docTop - lastTop) < 2) {
+          stableCount++;
+        } else {
+          stableCount = 0;
+          lastTop = docTop;
+        }
+
+        if (stableCount >= REQUIRED_STABLE) {
+          done = true;
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          return;
+        }
+
         timerId = setTimeout(tryScroll, 150);
-        return;
-      }
+      };
 
-      const docTop = getDocTop(el);
-      if (Math.abs(docTop - lastTop) < 2) {
-        stableCount++;
-      } else {
-        stableCount = 0;
-        lastTop = docTop;
-      }
-
-      if (stableCount >= REQUIRED_STABLE) {
-        done = true;
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        return;
-      }
-
-      timerId = setTimeout(tryScroll, 150);
+      timerId = setTimeout(tryScroll, isPopState ? 50 : 200);
+      return () => clearTimeout(timerId);
     };
 
-    timerId = setTimeout(tryScroll, 200);
-    return () => clearTimeout(timerId);
-  }, [chapter]);
+    // Initial scroll on load
+    handleHashScroll(false);
+
+    // Re-scroll on browser back/forward
+    const onPopState = () => {
+      handleHashScroll(true);
+      setInternalJumpCount((prev) => Math.max(0, prev - 1));
+    };
+
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [chapter, resolveAnchor]);
 
   // Intercept anchor clicks inside the rich content area.
   // Handles same-page (#anchor) and same-chapter (/regmaps/std/ch#anchor) links.
@@ -501,12 +475,9 @@ export default function ChapterPage({
     sectionRefs.current[sectionId]?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Go back to previous scroll position
+  // Go back using browser history (works for same-page and cross-page)
   const handleScrollBack = () => {
-    if (scrollStack.length === 0) return;
-    const prevPosition = scrollStack[scrollStack.length - 1];
-    setScrollStack((prev) => prev.slice(0, -1));
-    window.scrollTo({ top: prevPosition, behavior: "smooth" });
+    window.history.back();
   };
 
   if (loading) {
@@ -693,21 +664,21 @@ export default function ChapterPage({
                                       content={subsection.content}
                                     />
 
-                                    {/* OJK Notes (formerly Footnotes — no numbering) */}
                                     {subsection.footnotes.length > 0 && (
                                       <ExpandableSection
                                         title="OJK Notes"
                                         icon={BookOpen}
-                                        count={subsection.footnotes.length}
                                       >
-                                        <div className="space-y-2">
+                                        <div className="space-y-3">
                                           {subsection.footnotes.map((fn) => (
-                                            <p
+                                            <div
                                               key={fn.id}
                                               className="text-sm text-gray-600 leading-relaxed"
                                             >
-                                              {fn.content}
-                                            </p>
+                                              <RichContentRenderer
+                                                content={fn.content}
+                                              />
+                                            </div>
                                           ))}
                                         </div>
                                       </ExpandableSection>
@@ -736,18 +707,20 @@ export default function ChapterPage({
                                     )}
 
                                     {/* BetterBanking Notes (numbered paragraphs) */}
-                                    {subsection.betterBankingNotes && (
-                                      <ExpandableSection
-                                        title="BetterBanking Notes"
-                                        icon={MessageSquare}
-                                      >
-                                        <BetterBankingNotes
-                                          content={
-                                            subsection.betterBankingNotes
-                                          }
-                                        />
-                                      </ExpandableSection>
-                                    )}
+                                    {subsection.betterBankingNotesList &&
+                                      subsection.betterBankingNotesList.length >
+                                        0 && (
+                                        <ExpandableSection
+                                          title="BetterBanking Notes"
+                                          icon={MessageSquare}
+                                        >
+                                          <BetterBankingNotes
+                                            notes={
+                                              subsection.betterBankingNotesList
+                                            }
+                                          />
+                                        </ExpandableSection>
+                                      )}
 
                                     {/* Previous Revisions */}
                                     {subsection.revisions &&
@@ -900,17 +873,17 @@ export default function ChapterPage({
           })()}
 
         {/* Floating Scroll Back Button */}
-        {scrollStack.length > 0 && (
+        {internalJumpCount > 0 && (
           <button
             onClick={handleScrollBack}
             className="fixed bottom-20 right-6 z-50 flex items-center gap-2 px-4 py-3 bg-[#355189] text-white rounded-xl shadow-lg hover:bg-[#1B2B4B] transition-all hover:scale-105 group"
-            title="Go back to where you clicked the reference"
+            title="Go back to previous reference"
           >
             <ArrowLeft className="w-5 h-5" />
             <span className="text-sm font-medium">Back</span>
-            {scrollStack.length > 1 && (
+            {internalJumpCount > 1 && (
               <span className="ml-1 bg-white/20 text-xs px-1.5 py-0.5 rounded">
-                {scrollStack.length}
+                {internalJumpCount}
               </span>
             )}
           </button>

@@ -1,9 +1,11 @@
 /* Force dark default text color — prevents invisible white/gray text from pastes */
+.rich-content-container,
 .ProseMirror {
   color: #1a1a1a;
 }
 
-/* Tiptap Editor Table Styles */
+/* Tiptap Editor & Renderer Table Styles */
+.rich-content-container table,
 .ProseMirror table {
   border-collapse: collapse;
   width: 100%;
@@ -12,6 +14,8 @@
   table-layout: fixed;
 }
 
+.rich-content-container td,
+.rich-content-container th,
 .ProseMirror td,
 .ProseMirror th {
   border: 2px solid #d1d5db;
@@ -21,18 +25,22 @@
   position: relative;
 }
 
+.rich-content-container th,
 .ProseMirror th {
   background-color: #f3f4f6;
   font-weight: 600;
   text-align: left;
 }
 
+.rich-content-container td.selectedCell,
+.rich-content-container th.selectedCell,
 .ProseMirror td.selectedCell,
 .ProseMirror th.selectedCell {
   background-color: #dbeafe;
   border-color: #3b82f6;
 }
 
+/* Column resize handles only for editor */
 .ProseMirror .column-resize-handle {
   position: absolute;
   right: -2px;
@@ -44,6 +52,7 @@
   z-index: 10;
 }
 
+.rich-content-container .tableWrapper,
 .ProseMirror .tableWrapper {
   overflow-x: auto;
   margin: 0.5rem 0;
@@ -53,7 +62,8 @@
   cursor: col-resize;
 }
 
-/* Tiptap Editor Image Styles */
+/* Tiptap Editor & Renderer Image Styles */
+.rich-content-container img,
 .ProseMirror img {
   max-width: 100%;
   height: auto;
@@ -66,19 +76,22 @@
   border-radius: 8px;
 }
 
-/* Text alignment for table cells */
+/* Text alignment for table cells and normal paragraphs */
+.rich-content-container [style*="text-align: center"],
 .ProseMirror p[style*="text-align: center"],
 .ProseMirror td p[style*="text-align: center"],
 .ProseMirror th p[style*="text-align: center"] {
   text-align: center;
 }
 
+.rich-content-container [style*="text-align: right"],
 .ProseMirror p[style*="text-align: right"],
 .ProseMirror td p[style*="text-align: right"],
 .ProseMirror th p[style*="text-align: right"] {
   text-align: right;
 }
 
+.rich-content-container [style*="text-align: justify"],
 .ProseMirror p[style*="text-align: justify"],
 .ProseMirror td p[style*="text-align: justify"],
 .ProseMirror th p[style*="text-align: justify"] {
@@ -102,17 +115,20 @@
   margin: 0.5em 0;
 }
 
-/* List Styles to ensure visibility */
+/* List Styles to ensure visibility in Renderer too */
+.rich-content-container ul,
 .ProseMirror ul {
-  list-style-type: disc;
-  padding-left: 1.5rem;
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
 }
 
+.rich-content-container ol,
 .ProseMirror ol {
-  list-style-type: decimal;
-  padding-left: 1.5rem;
+  list-style-type: decimal !important;
+  padding-left: 1.5rem !important;
 }
 
+.rich-content-container li,
 .ProseMirror li {
-  display: list-item;
+  display: list-item !important;
 }

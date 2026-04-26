@@ -72,6 +72,12 @@ interface Footnote {
   content: string;
 }
 
+interface BetterBankingNote {
+  id: string;
+  order: number;
+  content: string;
+}
+
 interface FAQ {
   id: string;
   question: string;
@@ -91,7 +97,8 @@ interface Subsection {
   id: string;
   number: string;
   content: string;
-  betterBankingNotes: string | null;
+  betterBankingNotes: string | null; // Legacy
+  betterBankingNotesList: BetterBankingNote[];
   order: number;
   footnotes: Footnote[];
   faqs: FAQ[];
@@ -174,7 +181,6 @@ export default function AdminChapterPage({
 
   // Footnote/FAQ forms
   const [addingFootnote, setAddingFootnote] = useState<string | null>(null);
-  const [newFootnote, setNewFootnote] = useState({ number: 1, content: "" });
   const [addingFAQ, setAddingFAQ] = useState<string | null>(null);
   const [newFAQ, setNewFAQ] = useState({ question: "", answer: "" });
 
@@ -191,6 +197,7 @@ export default function AdminChapterPage({
     revisionDate: "",
   });
   const [editingNotes, setEditingNotes] = useState<string | null>(null);
+  const [addingNotes, setAddingNotes] = useState<string | null>(null);
   const [notesContent, setNotesContent] = useState("");
 
   // Section/Subsection rename states
@@ -346,16 +353,15 @@ export default function AdminChapterPage({
   };
 
   // Footnote CRUD
-  const handleAddFootnote = async (subsectionId: string) => {
-    if (!newFootnote.content) return;
+  const handleAddFootnote = async (subsectionId: string, content: string) => {
+    if (!content) return;
     try {
       await fetch(getApiUrl("/basel/footnotes"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ ...newFootnote, subsectionId }),
+        body: JSON.stringify({ content, subsectionId }),
       });
-      setNewFootnote({ number: 1, content: "" });
       setAddingFootnote(null);
       fetchChapter();
     } catch (error) {
@@ -364,6 +370,7 @@ export default function AdminChapterPage({
   };
 
   const handleDeleteFootnote = async (id: string) => {
+    if (!confirm("Delete this note?")) return;
     try {
       await fetch(getApiUrl(`/basel/footnotes/${id}`), {
         method: "DELETE",
@@ -372,6 +379,58 @@ export default function AdminChapterPage({
       fetchChapter();
     } catch (error) {
       console.error("Error deleting footnote:", error);
+    }
+  };
+
+  // BetterBanking Notes CRUD
+  const handleAddBetterBankingNote = async (
+    subsectionId: string,
+    content: string,
+  ) => {
+    if (!content) return;
+    try {
+      await fetch(getApiUrl("/basel/betterbanking-notes"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          content,
+          subsectionId,
+          order: 0, // Frontend handles numbering by index
+        }),
+      });
+      setAddingNotes(null);
+      fetchChapter();
+    } catch (error) {
+      console.error("Error adding betterbanking note:", error);
+    }
+  };
+
+  const handleUpdateBetterBankingNote = async (id: string, content: string) => {
+    try {
+      await fetch(getApiUrl(`/basel/betterbanking-notes/${id}`), {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ content }),
+      });
+      setEditingNotes(null);
+      fetchChapter();
+    } catch (error) {
+      console.error("Error updating betterbanking note:", error);
+    }
+  };
+
+  const handleDeleteBetterBankingNote = async (id: string) => {
+    if (!confirm("Delete this note?")) return;
+    try {
+      await fetch(getApiUrl(`/basel/betterbanking-notes/${id}`), {
+        method: "DELETE",
+        credentials: "include",
+      });
+      fetchChapter();
+    } catch (error) {
+      console.error("Error deleting betterbanking note:", error);
     }
   };
 
@@ -1252,10 +1311,7 @@ export default function AdminChapterPage({
                                   </button>
                                   <button
                                     onClick={() => {
-                                      setEditingNotes(sub.id);
-                                      setNotesContent(
-                                        sub.betterBankingNotes || "",
-                                      );
+                                      setAddingNotes(sub.id);
                                     }}
                                     className="text-xs px-2 py-1 text-gray-600 hover:text-green-600 flex items-center gap-1"
                                   >
@@ -1365,50 +1421,18 @@ export default function AdminChapterPage({
                                   {/* Add Footnote Form */}
                                   {addingFootnote === sub.id && (
                                     <div className="mt-3 pt-3 border-t border-gray-200 bg-gray-50 p-2 rounded">
-                                      <div className="flex gap-2 mb-2">
-                                        <input
-                                          type="number"
-                                          value={newFootnote.number}
-                                          onChange={(e) =>
-                                            setNewFootnote({
-                                              ...newFootnote,
-                                              number: parseInt(e.target.value),
-                                            })
-                                          }
-                                          className="w-16 px-2 py-1 border rounded text-xs"
-                                          placeholder="#"
-                                        />
-                                        <input
-                                          type="text"
-                                          value={newFootnote.content}
-                                          onChange={(e) =>
-                                            setNewFootnote({
-                                              ...newFootnote,
-                                              content: e.target.value,
-                                            })
-                                          }
-                                          className="flex-1 px-2 py-1 border rounded text-xs"
-                                          placeholder="Footnote content..."
-                                        />
-                                      </div>
-                                      <div className="flex gap-2">
-                                        <button
-                                          onClick={() =>
-                                            handleAddFootnote(sub.id)
-                                          }
-                                          className="px-2 py-1 bg-[#355189] text-white rounded text-xs"
-                                        >
-                                          Add
-                                        </button>
-                                        <button
-                                          onClick={() =>
-                                            setAddingFootnote(null)
-                                          }
-                                          className="px-2 py-1 border rounded text-xs"
-                                        >
-                                          Cancel
-                                        </button>
-                                      </div>
+                                      <p className="text-xs font-semibold text-gray-500 mb-2">
+                                        Add OJK Note
+                                      </p>
+                                      <SubsectionEditor
+                                        content=""
+                                        onSave={(content) =>
+                                          handleAddFootnote(sub.id, content)
+                                        }
+                                        onCancel={() => setAddingFootnote(null)}
+                                        chapterCode={chapter.code}
+                                        standardCode={chapter.standard.code}
+                                      />
                                     </div>
                                   )}
 
@@ -1490,51 +1514,100 @@ export default function AdminChapterPage({
                                   )}
 
                                   {/* BetterBanking Notes Section */}
-                                  {editingNotes === sub.id && (
+                                  {addingNotes === sub.id && (
                                     <div className="mt-3 pt-3 border-t border-gray-200 bg-green-50 p-3 rounded">
                                       <p className="text-xs font-semibold text-green-700 mb-2 flex items-center gap-1">
-                                        <MessageSquare className="w-3 h-3" />
-                                        BetterBanking Notes
+                                        <Plus className="w-3 h-3" />
+                                        Add BetterBanking Note
                                       </p>
-                                      <textarea
-                                        value={notesContent}
-                                        onChange={(e) =>
-                                          setNotesContent(e.target.value)
+                                      <SubsectionEditor
+                                        content=""
+                                        onSave={(content) =>
+                                          handleAddBetterBankingNote(
+                                            sub.id,
+                                            content,
+                                          )
                                         }
-                                        className="w-full px-2 py-1 border rounded text-xs mb-2"
-                                        placeholder="Add summary notes for this subsection..."
-                                        rows={4}
+                                        onCancel={() => setAddingNotes(null)}
+                                        chapterCode={chapter.code}
+                                        standardCode={chapter.standard.code}
                                       />
-                                      <div className="flex gap-2">
-                                        <button
-                                          onClick={() =>
-                                            handleSaveNotes(sub.id)
-                                          }
-                                          className="px-2 py-1 bg-green-600 text-white rounded text-xs"
-                                        >
-                                          Save Notes
-                                        </button>
-                                        <button
-                                          onClick={() => setEditingNotes(null)}
-                                          className="px-2 py-1 border rounded text-xs"
-                                        >
-                                          Cancel
-                                        </button>
-                                      </div>
                                     </div>
                                   )}
 
                                   {/* Show existing notes */}
-                                  {sub.betterBankingNotes &&
-                                    editingNotes !== sub.id && (
+                                  {sub.betterBankingNotesList &&
+                                    sub.betterBankingNotesList.length > 0 && (
                                       <div className="mt-3 pt-3 border-t border-gray-200">
                                         <p className="text-xs font-semibold text-green-700 mb-2 flex items-center gap-1">
                                           <MessageSquare className="w-3 h-3" />
                                           BetterBanking Notes
                                         </p>
-                                        <p className="text-xs text-gray-600 bg-green-50 p-2 rounded">
-                                          {sub.betterBankingNotes}
-                                        </p>
+                                        <div className="space-y-4 pt-2">
+                                          {sub.betterBankingNotesList.map(
+                                            (note, noteIdx) => (
+                                              <div
+                                                key={note.id}
+                                                className="bg-green-50/50 rounded-lg p-3 border border-green-100"
+                                              >
+                                                <div className="flex items-center justify-between mb-2">
+                                                  <span className="text-xs font-bold text-green-700">
+                                                    Note {noteIdx + 1}
+                                                  </span>
+                                                  <div className="flex gap-2">
+                                                    <button
+                                                      onClick={() => {
+                                                        setEditingNotes(
+                                                          note.id,
+                                                        );
+                                                        setNotesContent(
+                                                          note.content,
+                                                        );
+                                                      }}
+                                                      className="text-[10px] text-green-600 hover:underline"
+                                                    >
+                                                      Edit
+                                                    </button>
+                                                    <button
+                                                      onClick={() =>
+                                                        handleDeleteBetterBankingNote(
+                                                          note.id,
+                                                        )
+                                                      }
+                                                      className="text-[10px] text-red-500 hover:underline"
+                                                    >
+                                                      Delete
+                                                    </button>
+                                                  </div>
+                                                </div>
+                                                {editingNotes === note.id ? (
+                                                  <SubsectionEditor
+                                                    content={note.content}
+                                                    onSave={(content) =>
+                                                      handleUpdateBetterBankingNote(
+                                                        note.id,
+                                                        content,
+                                                      )
+                                                    }
+                                                    onCancel={() =>
+                                                      setEditingNotes(null)
+                                                    }
+                                                    chapterCode={chapter.code}
+                                                    standardCode={
+                                                      chapter.standard.code
+                                                    }
+                                                  />
+                                                ) : (
+                                                  <div className="text-sm">
+                                                    <RichContentRenderer
+                                                      content={note.content}
+                                                    />
+                                                  </div>
+                                                )}
+                                              </div>
+                                            ),
+                                          )}
+                                        </div>
                                       </div>
                                     )}
 

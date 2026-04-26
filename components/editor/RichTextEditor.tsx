@@ -56,6 +56,7 @@ import {
   Outdent,
   Sigma,
   Baseline,
+  Strikethrough,
 } from "lucide-react";
 
 // Extended interface to include full Basel hierarchy for reference picker
@@ -212,7 +213,7 @@ export default function RichTextEditor({
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm max-w-none min-h-[150px] px-4 py-3 focus:outline-none",
+          "prose prose-sm max-w-none min-h-[150px] px-4 py-3 focus:outline-none rich-content-container",
       },
       handlePaste: (view, event) => {
         // Handle image paste — upload to server
@@ -422,6 +423,13 @@ export default function RichTextEditor({
           title="Underline"
         >
           <UnderlineIcon className="w-4 h-4" />
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={() => editor.chain().focus().toggleStrike().run()}
+          active={editor.isActive("strike")}
+          title="Strike-through"
+        >
+          <Strikethrough className="w-4 h-4" />
         </ToolbarButton>
         <ToolbarButton
           onClick={() => {
