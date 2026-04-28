@@ -129,12 +129,16 @@ function RenderNode({ node }: { node: ContentNode }) {
       return (
         <div
           className="tableWrapper"
-          style={isOverflow ? { overflowX: "auto" } : undefined}
+          style={
+            isOverflow
+              ? { overflowX: "auto", width: "100%", maxWidth: "100%" }
+              : undefined
+          }
         >
           <table
             style={
               isOverflow
-                ? { tableLayout: "auto", width: "auto", minWidth: "100%" }
+                ? { tableLayout: "auto", width: "auto" }
                 : undefined
             }
           >

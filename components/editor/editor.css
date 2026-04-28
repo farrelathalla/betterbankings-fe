@@ -44,7 +44,10 @@
 .ProseMirror table[data-overflow="true"] {
   table-layout: auto !important;
   width: auto !important;
-  min-width: 100%;
+}
+
+.ProseMirror .tableWrapper:has(table[data-overflow="true"]) {
+  max-width: 100%;
 }
 
 /* Column resize handles only for editor */
