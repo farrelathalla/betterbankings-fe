@@ -6,7 +6,6 @@ import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
-import { Table } from "@tiptap/extension-table";
 import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
@@ -19,6 +18,8 @@ import {
   Indent,
   MathNode,
   LineHeight,
+  FontSize,
+  OverflowTable,
 } from "./extensions";
 
 import "./editor.css";
@@ -57,6 +58,8 @@ import {
   Sigma,
   Baseline,
   Strikethrough,
+  Type,
+  MoveHorizontal,
 } from "lucide-react";
 
 // Extended interface to include full Basel hierarchy for reference picker
@@ -96,6 +99,7 @@ export default function RichTextEditor({
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [showTableMenu, setShowTableMenu] = useState(false);
   const [showLineHeightMenu, setShowLineHeightMenu] = useState(false);
+  const [showFontSizeMenu, setShowFontSizeMenu] = useState(false);
 
   const [tooltipDefinition, setTooltipDefinition] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
@@ -181,7 +185,7 @@ export default function RichTextEditor({
       TextAlign.configure({
         types: ["paragraph", "heading"],
       }),
-      Table.configure({
+      OverflowTable.configure({
         resizable: true,
         HTMLAttributes: {
           class: "tiptap-table",
@@ -198,6 +202,7 @@ export default function RichTextEditor({
       }),
       TextStyle,
       Color,
+      FontSize,
       TooltipMark,
       ReferenceMark,
       Indent,
@@ -431,6 +436,80 @@ export default function RichTextEditor({
         >
           <Strikethrough className="w-4 h-4" />
         </ToolbarButton>
+        {/* Font Size Dropdown */}
+        <div className="relative">
+          <ToolbarButton
+            onClick={() => setShowFontSizeMenu(!showFontSizeMenu)}
+            active={showFontSizeMenu}
+            title="Font Size"
+          >
+            <div className="flex items-center gap-0.5">
+              <Type className="w-4 h-4" />
+              <span className="text-[10px] font-mono leading-none">
+                {editor.getAttributes("textStyle").fontSize?.replace("pt", "") ||
+                  "—"}
+              </span>
+            </div>
+          </ToolbarButton>
+          {showFontSizeMenu && (
+            <div
+              className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-9999 min-w-[80px] max-h-[260px] overflow-y-auto"
+              style={{ position: "fixed", top: "auto", left: "auto" }}
+              ref={(el) => {
+                if (el) {
+                  const rect = el.parentElement?.getBoundingClientRect();
+                  if (rect) {
+                    el.style.top = `${rect.bottom + 4}px`;
+                    el.style.left = `${rect.left}px`;
+                  }
+                }
+              }}
+            >
+              {[
+                "8pt",
+                "9pt",
+                "10pt",
+                "11pt",
+                "12pt",
+                "14pt",
+                "16pt",
+                "18pt",
+                "20pt",
+                "24pt",
+                "28pt",
+                "32pt",
+                "36pt",
+                "48pt",
+                "72pt",
+              ].map((size) => (
+                <button
+                  key={size}
+                  onClick={() => {
+                    editor.chain().focus().setFontSize(size).run();
+                    setShowFontSizeMenu(false);
+                  }}
+                  className={cn(
+                    "w-full text-left px-3 py-1 text-xs rounded hover:bg-gray-100",
+                    editor.getAttributes("textStyle").fontSize === size &&
+                      "bg-blue-50 text-blue-600 font-medium",
+                  )}
+                >
+                  {size}
+                </button>
+              ))}
+              <hr className="my-1 border-gray-200" />
+              <button
+                onClick={() => {
+                  editor.chain().focus().unsetFontSize().run();
+                  setShowFontSizeMenu(false);
+                }}
+                className="w-full text-left px-3 py-1 text-xs rounded hover:bg-gray-100 text-gray-500"
+              >
+                Reset
+              </button>
+            </div>
+          )}
+        </div>
         <ToolbarButton
           onClick={() => {
             const previousUrl = editor.getAttributes("link").href;
@@ -702,6 +781,24 @@ export default function RichTextEditor({
                     className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 rounded flex items-center gap-2"
                   >
                     Split Cell
+                  </button>
+                  <hr className="my-1 border-gray-200" />
+                  <button
+                    onClick={() => {
+                      editor.chain().focus().toggleTableOverflow().run();
+                      setShowTableMenu(false);
+                    }}
+                    className={cn(
+                      "w-full text-left px-3 py-1.5 text-sm rounded flex items-center gap-2",
+                      editor.isActive("table", { overflow: true })
+                        ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
+                        : "hover:bg-gray-100",
+                    )}
+                  >
+                    <MoveHorizontal className="w-3 h-3" />
+                    {editor.isActive("table", { overflow: true })
+                      ? "Wide Table: ON"
+                      : "Wide Table: OFF"}
                   </button>
                 </>
               )}

@@ -181,6 +181,10 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const [regmapsCategories, setRegmapsCategories] = useState<any[]>([]);
   const [regmapsLoading, setRegmapsLoading] = useState(false);
+  const [standardChapters, setStandardChapters] = useState<
+    { code: string; title: string }[]
+  >([]);
+  const [loadingChapters, setLoadingChapters] = useState(false);
 
   // Auto-expand menu if current path matches a child
   useEffect(() => {
@@ -249,6 +253,41 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
       };
       fetchRegmaps();
     }
+  }, [pathname]);
+
+  // Fetch chapters for the current standard when inside a standard
+  useEffect(() => {
+    const parts = pathname.split("/");
+    const isInsideStandard =
+      parts[1] === "regmaps" && parts[2] && parts[2] !== "";
+    if (!isInsideStandard) {
+      setStandardChapters([]);
+      return;
+    }
+    const stdCode = parts[2].toUpperCase();
+    const fetchChapters = async () => {
+      setLoadingChapters(true);
+      try {
+        const res = await fetch(
+          getApiUrl(`/basel/chapters?standardCode=${stdCode}`),
+          { credentials: "include" },
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setStandardChapters(
+            (data.chapters || []).map((c: any) => ({
+              code: c.code,
+              title: c.title,
+            })),
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching chapters for sidebar:", error);
+      } finally {
+        setLoadingChapters(false);
+      }
+    };
+    fetchChapters();
   }, [pathname]);
 
   const toggleMenu = (label: string) => {
@@ -498,22 +537,72 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
                                           const isActive =
                                             currentStandardCode ===
                                             std.code.toUpperCase();
+                                          const activeChapterCode =
+                                            pathname.split("/")[3] || "";
+
                                           return (
-                                            <Link
-                                              key={std.id}
-                                              href={`/regmaps/${std.code.toLowerCase()}`}
-                                              onClick={() =>
-                                                isMobile && setIsOpen(false)
-                                              }
-                                              className={cn(
-                                                "px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 border-l-2",
-                                                isActive
-                                                  ? "border-[#F48C25] bg-orange-50 text-[#F48C25]"
-                                                  : "border-transparent text-gray-500 hover:text-[#14213D] hover:bg-gray-50",
+                                            <div key={std.id}>
+                                              <Link
+                                                href={`/regmaps/${std.code.toLowerCase()}`}
+                                                onClick={() =>
+                                                  isMobile && setIsOpen(false)
+                                                }
+                                                className={cn(
+                                                  "block px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 border-l-2",
+                                                  isActive
+                                                    ? "border-[#F48C25] bg-orange-50 text-[#F48C25]"
+                                                    : "border-transparent text-gray-500 hover:text-[#14213D] hover:bg-gray-50",
+                                                )}
+                                              >
+                                                {std.code} - {std.name}
+                                              </Link>
+
+                                              {/* Chapter list — only shown when inside this standard */}
+                                              {isActive && (
+                                                <div className="ml-3 mt-0.5 mb-1 flex flex-col gap-0.5 border-l border-orange-200 pl-2">
+                                                  {loadingChapters ? (
+                                                    <div className="flex items-center gap-1 px-2 py-1 text-[10px] text-gray-400">
+                                                      <Loader2 className="w-2.5 h-2.5 animate-spin" />
+                                                      Loading...
+                                                    </div>
+                                                  ) : (
+                                                    standardChapters.map(
+                                                      (ch) => {
+                                                        const isChActive =
+                                                          activeChapterCode ===
+                                                          ch.code;
+                                                        return (
+                                                          <Link
+                                                            key={ch.code}
+                                                            href={`/regmaps/${std.code.toLowerCase()}/${ch.code}`}
+                                                            onClick={() =>
+                                                              isMobile &&
+                                                              setIsOpen(false)
+                                                            }
+                                                            className={cn(
+                                                              "px-2 py-1 rounded text-[10px] transition-all duration-150 border-l-2",
+                                                              isChActive
+                                                                ? "border-[#355189] bg-blue-50 text-[#355189] font-semibold"
+                                                                : "border-transparent text-gray-400 hover:text-[#14213D] hover:bg-gray-50",
+                                                            )}
+                                                          >
+                                                            {std.code}
+                                                            {ch.code} -{" "}
+                                                            {ch.title.length >
+                                                            22
+                                                              ? ch.title.slice(
+                                                                  0,
+                                                                  22,
+                                                                ) + "…"
+                                                              : ch.title}
+                                                          </Link>
+                                                        );
+                                                      },
+                                                    )
+                                                  )}
+                                                </div>
                                               )}
-                                            >
-                                              {std.code} - {std.name}
-                                            </Link>
+                                            </div>
                                           );
                                         })}
                                       </div>

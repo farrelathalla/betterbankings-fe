@@ -65,15 +65,8 @@ function RenderNode({ node }: { node: ContentNode }) {
   switch (node.type) {
     case "paragraph": {
       const align = node.attrs?.textAlign as string | undefined;
-      const alignClass =
-        align === "center"
-          ? "text-center"
-          : align === "right"
-            ? "text-right"
-            : align === "justify"
-              ? "text-justify"
-              : "";
       const lineHeight = node.attrs?.lineHeight as string | undefined;
+      const hasContent = node.content && node.content.length > 0;
       return (
         <p
           style={{
@@ -82,7 +75,7 @@ function RenderNode({ node }: { node: ContentNode }) {
               lineHeight && lineHeight !== "normal" ? lineHeight : undefined,
           }}
         >
-          {node.content && <RenderNodes nodes={node.content} />}
+          {hasContent ? <RenderNodes nodes={node.content!} /> : <br />}
         </p>
       );
     }
@@ -131,10 +124,20 @@ function RenderNode({ node }: { node: ContentNode }) {
         </blockquote>
       );
 
-    case "table":
+    case "table": {
+      const isOverflow = node.attrs?.overflow === true;
       return (
-        <div className="tableWrapper">
-          <table>
+        <div
+          className="tableWrapper"
+          style={isOverflow ? { overflowX: "auto" } : undefined}
+        >
+          <table
+            style={
+              isOverflow
+                ? { tableLayout: "auto", width: "auto", minWidth: "100%" }
+                : undefined
+            }
+          >
             {node.content && (
               <tbody>
                 <RenderNodes nodes={node.content} />
@@ -143,6 +146,7 @@ function RenderNode({ node }: { node: ContentNode }) {
           </table>
         </div>
       );
+    }
 
     case "tableRow":
       return (
@@ -151,27 +155,35 @@ function RenderNode({ node }: { node: ContentNode }) {
         </tr>
       );
 
-    case "tableHeader":
+    case "tableHeader": {
+      const colwidthH = node.attrs?.colwidth as number[] | undefined;
+      const widthH = colwidthH?.[0];
       return (
         <th
           className="border border-gray-300 px-3 py-2 bg-gray-100 font-semibold text-left text-[#14213D]"
           colSpan={(node.attrs?.colspan as number) || 1}
           rowSpan={(node.attrs?.rowspan as number) || 1}
+          style={widthH ? { width: widthH, minWidth: widthH } : undefined}
         >
           {node.content && <RenderNodes nodes={node.content} />}
         </th>
       );
+    }
 
-    case "tableCell":
+    case "tableCell": {
+      const colwidthC = node.attrs?.colwidth as number[] | undefined;
+      const widthC = colwidthC?.[0];
       return (
         <td
           className="border border-gray-300 px-3 py-2 text-gray-700"
           colSpan={(node.attrs?.colspan as number) || 1}
           rowSpan={(node.attrs?.rowspan as number) || 1}
+          style={widthC ? { width: widthC, minWidth: widthC } : undefined}
         >
           {node.content && <RenderNodes nodes={node.content} />}
         </td>
       );
+    }
 
     case "image": {
       const rawSrc = (node.attrs?.src as string) || "";
@@ -312,15 +324,16 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
           break;
         }
 
-        case "textStyle":
-          if (mark.attrs?.color) {
-            element = (
-              <span style={{ color: mark.attrs.color as string }}>
-                {element}
-              </span>
-            );
+        case "textStyle": {
+          const styles: React.CSSProperties = {};
+          if (mark.attrs?.color) styles.color = mark.attrs.color as string;
+          if (mark.attrs?.fontSize)
+            styles.fontSize = mark.attrs.fontSize as string;
+          if (Object.keys(styles).length > 0) {
+            element = <span style={styles}>{element}</span>;
           }
           break;
+        }
       }
     });
   }

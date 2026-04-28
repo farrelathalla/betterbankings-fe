@@ -5,6 +5,7 @@ import {
   Extension,
   RawCommands,
 } from "@tiptap/core";
+import { Table } from "@tiptap/extension-table";
 
 import katex from "katex";
 import "katex/dist/katex.min.css";
@@ -12,24 +13,19 @@ import "katex/dist/katex.min.css";
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     indent: {
-      /**
-       * Increase the indentation of the selected nodes.
-       */
       indent: () => ReturnType;
-      /**
-       * Decrease the indentation of the selected nodes.
-       */
       outdent: () => ReturnType;
     };
     lineHeight: {
-      /**
-       * Set the line height of the selected nodes.
-       */
       setLineHeight: (lineHeight: string) => ReturnType;
-      /**
-       * Unset the line height of the selected nodes.
-       */
       unsetLineHeight: () => ReturnType;
+    };
+    fontSize: {
+      setFontSize: (size: string) => ReturnType;
+      unsetFontSize: () => ReturnType;
+    };
+    tableOverflow: {
+      toggleTableOverflow: () => ReturnType;
     };
   }
 }
@@ -358,5 +354,96 @@ export const MathNode = Node.create({
         },
       };
     };
+  },
+});
+
+// FontSize extension — adds fontSize attribute to textStyle mark (inline)
+export const FontSize = Extension.create({
+  name: "fontSize",
+
+  addGlobalAttributes() {
+    return [
+      {
+        types: ["textStyle"],
+        attributes: {
+          fontSize: {
+            default: null,
+            parseHTML: (element) => element.style.fontSize || null,
+            renderHTML: (attributes) => {
+              if (!attributes.fontSize) return {};
+              return { style: `font-size: ${attributes.fontSize}` };
+            },
+          },
+        },
+      },
+    ];
+  },
+
+  addCommands() {
+    return {
+      setFontSize:
+        (fontSize: string) =>
+        ({ chain }: { chain: any }) => {
+          return chain().setMark("textStyle", { fontSize }).run();
+        },
+      unsetFontSize:
+        () =>
+        ({ chain }: { chain: any }) => {
+          return chain().setMark("textStyle", { fontSize: null }).run();
+        },
+    } as any;
+  },
+});
+
+// OverflowTable — extends Table to store a horizontal-scroll flag
+export const OverflowTable = Table.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      overflow: {
+        default: false,
+        parseHTML: (element) =>
+          element.getAttribute("data-overflow") === "true",
+        renderHTML: (attributes) => {
+          if (!attributes.overflow) return {};
+          return { "data-overflow": "true" };
+        },
+      },
+    };
+  },
+
+  addCommands() {
+    return {
+      ...this.parent?.(),
+      toggleTableOverflow:
+        () =>
+        ({
+          tr,
+          state,
+          dispatch,
+        }: {
+          tr: any;
+          state: any;
+          dispatch: any;
+        }) => {
+          const { $anchor } = state.selection;
+          for (let d = $anchor.depth; d > 0; d--) {
+            const node = $anchor.node(d);
+            if (node.type === state.schema.nodes.table) {
+              const pos = $anchor.before(d);
+              if (dispatch) {
+                dispatch(
+                  tr.setNodeMarkup(pos, undefined, {
+                    ...node.attrs,
+                    overflow: !node.attrs.overflow,
+                  }),
+                );
+              }
+              return true;
+            }
+          }
+          return false;
+        },
+    } as any;
   },
 });

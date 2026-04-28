@@ -40,6 +40,13 @@
   border-color: #3b82f6;
 }
 
+/* Wide/overflow tables — let column widths drive the width */
+.ProseMirror table[data-overflow="true"] {
+  table-layout: auto !important;
+  width: auto !important;
+  min-width: 100%;
+}
+
 /* Column resize handles only for editor */
 .ProseMirror .column-resize-handle {
   position: absolute;

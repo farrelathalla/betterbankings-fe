@@ -278,6 +278,9 @@ export default function ChapterPage({
   const [allChapters, setAllChapters] = useState<
     { code: string; title: string }[]
   >([]);
+  const [standardPdfs, setStandardPdfs] = useState<
+    { id: string; name: string; url: string; createdAt: string }[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState<string>("");
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -318,6 +321,20 @@ export default function ChapterPage({
           );
           const detailData = await detailRes.json();
           setChapter(detailData.chapter);
+
+          // Fetch the parent standard to get its PDFs
+          const standardId =
+            detailData.chapter?.standard?.id || foundChapter.standardId;
+          if (standardId) {
+            const stdRes = await fetch(
+              getApiUrl(`/basel/standards/${standardId}`),
+              { credentials: "include" },
+            );
+            if (stdRes.ok) {
+              const stdData = await stdRes.json();
+              setStandardPdfs(stdData.standard?.pdfs || []);
+            }
+          }
         }
       } catch (error) {
         console.error("Error fetching chapter:", error);
@@ -585,15 +602,15 @@ export default function ChapterPage({
                   </div>
                 </div>
 
-                {/* PDF Documents List */}
-                {chapter.pdfs && chapter.pdfs.length > 0 && (
+                {/* PDF Documents — from parent standard */}
+                {standardPdfs.length > 0 && (
                   <div className="mt-4 pt-4 border-t border-[#E1E7EF]">
                     <p className="text-sm font-semibold text-[#14213D] mb-3 flex items-center gap-2">
                       <FileText className="w-4 h-4 text-[#355189]" />
-                      Related Documents
+                      Standard Documents
                     </p>
                     <div className="flex flex-wrap gap-2">
-                      {chapter.pdfs.map((pdf) => (
+                      {standardPdfs.map((pdf) => (
                         <a
                           key={pdf.id}
                           href={pdf.url}
