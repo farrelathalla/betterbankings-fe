@@ -55,7 +55,7 @@ export default function BaselCenterPage() {
   const [updates, setUpdates] = useState<Update[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedStandards, setExpandedStandards] = useState<Set<string>>(
-    new Set(),
+    new Set()
   );
   const [updatesExpanded, setUpdatesExpanded] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -117,7 +117,7 @@ export default function BaselCenterPage() {
     try {
       const res = await fetch(
         getApiUrl(`/basel/search?q=${encodeURIComponent(query)}`),
-        { credentials: "include" },
+        { credentials: "include" }
       );
       const data = await res.json();
 
@@ -219,7 +219,10 @@ export default function BaselCenterPage() {
               Category
             </button>
             <button
-              onClick={() => { setActiveTab("all"); setVisibleCount(10); }}
+              onClick={() => {
+                setActiveTab("all");
+                setVisibleCount(10);
+              }}
               className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${
                 activeTab === "all"
                   ? "bg-[#14213D] text-white shadow-lg"
@@ -326,7 +329,9 @@ export default function BaselCenterPage() {
                             standard.chapters.map((chapter) => (
                               <Link
                                 key={chapter.id}
-                                href={`/regmaps/${standard.code.toLowerCase()}/${chapter.code}`}
+                                href={`/regmaps/${standard.code.toLowerCase()}/${
+                                  chapter.code
+                                }`}
                                 className="flex items-center gap-3 px-6 py-3 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
                               >
                                 <FileText className="w-4 h-4 text-[#355189]" />
@@ -427,9 +432,12 @@ export default function BaselCenterPage() {
               <div className="p-1.5 rounded-lg bg-linear-to-br from-[#355189] to-[#14213D] text-white">
                 <h3 className="font-bold mb-3">About RegMaps</h3>
                 <p className="text-sm text-white/80 leading-relaxed">
-                  The RegMaps is the full set of standards of the Basel
-                  Committee on Banking Supervision (BCBS), which is the primary
-                  global standard setter for the prudential regulation of banks.
+                  RegsMap is a structured and searchable regulatory intelligence
+                  platform focused on OJK and Bank Indonesia regulations,
+                  helping financial institutions navigate Indonesia’s
+                  regulations with clarity, traceability, and confidence. LPS
+                  regulations are also included at the document level for
+                  reference and monitoring.
                 </p>
               </div>
             </div>
