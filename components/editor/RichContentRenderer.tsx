@@ -125,23 +125,12 @@ function RenderNode({ node }: { node: ContentNode }) {
       );
 
     case "table": {
-      const isOverflow = node.attrs?.overflow === true;
       return (
         <div
           className="tableWrapper"
-          style={
-            isOverflow
-              ? { overflowX: "auto", width: "100%", maxWidth: "100%" }
-              : undefined
-          }
+          style={{ overflowX: "auto", width: "100%", maxWidth: "100%" }}
         >
-          <table
-            style={
-              isOverflow
-                ? { tableLayout: "auto", width: "auto" }
-                : undefined
-            }
-          >
+          <table style={{ tableLayout: "auto", width: "auto", minWidth: "100%" }}>
             {node.content && (
               <tbody>
                 <RenderNodes nodes={node.content} />
