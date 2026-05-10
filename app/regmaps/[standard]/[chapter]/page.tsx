@@ -671,12 +671,12 @@ export default function ChapterPage({
                                 }}
                                 className="pl-4 border-l-2 border-[#E1E7EF] scroll-mt-24"
                               >
-                                <div className="flex-col items-start">
+                                <div>
                                   <span className="font-bold text-[#F48C25] text-sm whitespace-nowrap">
                                     {chapter.standard.code}
                                     {chapter.code}.{subsection.number}
                                   </span>
-                                  <div className="flex-1">
+                                  <div>
                                     <RichContentRenderer
                                       content={subsection.content}
                                     />

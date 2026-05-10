@@ -6,6 +6,8 @@ import {
   RawCommands,
 } from "@tiptap/core";
 import { Table } from "@tiptap/extension-table";
+import { Plugin } from "@tiptap/pm/state";
+import { Decoration, DecorationSet } from "@tiptap/pm/view";
 
 import katex from "katex";
 import "katex/dist/katex.min.css";
@@ -445,5 +447,32 @@ export const OverflowTable = Table.extend({
           return false;
         },
     } as any;
+  },
+
+  addProseMirrorPlugins() {
+    const parentPlugins = (this.parent?.() as any[]) ?? [];
+    return [
+      ...parentPlugins,
+      new Plugin({
+        props: {
+          decorations: (state: any) => {
+            const decorations: Decoration[] = [];
+            state.doc.descendants((node: any, pos: number) => {
+              if (
+                node.type === state.schema.nodes.table &&
+                node.attrs.overflow
+              ) {
+                decorations.push(
+                  Decoration.node(pos, pos + node.nodeSize, {
+                    "data-overflow": "true",
+                  }),
+                );
+              }
+            });
+            return DecorationSet.create(state.doc, decorations);
+          },
+        },
+      }),
+    ];
   },
 });

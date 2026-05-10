@@ -40,7 +40,8 @@
 }
 
 /* Wide/overflow tables — let column widths drive the width */
-.ProseMirror table[data-overflow="true"] {
+/* data-overflow is set on the tableWrapper div via ProseMirror decoration */
+.ProseMirror .tableWrapper[data-overflow="true"] table {
   table-layout: auto !important;
   width: max-content;
   min-width: 100%;
