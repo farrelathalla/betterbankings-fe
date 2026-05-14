@@ -289,6 +289,9 @@ export default function ChapterPage({
   // Track number of internal navigation jumps for the UI back button
   const [internalJumpCount, setInternalJumpCount] = useState(0);
 
+  // True while we're about to restore a back-nav scroll position; suppresses hash scrolling
+  const hasPendingScrollRestore = useRef(false);
+
   useEffect(() => {
     const fetchChapter = async () => {
       try {
@@ -373,9 +376,50 @@ export default function ChapterPage({
     [resolveAnchor],
   );
 
+  // Save current scroll position into sessionStorage and stamp the history entry with a key.
+  // Called just before a cross-page reference link navigates away.
+  const saveScrollForBackNav = useCallback(() => {
+    const key = `bbScroll_${Date.now()}`;
+    sessionStorage.setItem(key, String(Math.round(window.scrollY)));
+    // Merge into existing history state so Next.js router internals are preserved
+    const cur = { ...(history.state as Record<string, unknown> | null) };
+    cur.bbScrollKey = key;
+    history.replaceState(cur, "");
+  }, []);
+
+  // Restore scroll position when arriving via browser back from a cross-page reference.
+  // Must be defined BEFORE the hash-scroll effect so it sets hasPendingScrollRestore first.
+  useEffect(() => {
+    if (!chapter) return;
+
+    const state = history.state as Record<string, unknown> | null;
+    const scrollKey = state?.bbScrollKey as string | undefined;
+    if (!scrollKey) return;
+
+    const rawY = sessionStorage.getItem(scrollKey);
+    if (!rawY) return;
+
+    // Block hash-scroll from overriding our restoration
+    hasPendingScrollRestore.current = true;
+
+    const timerId = setTimeout(() => {
+      window.scrollTo(0, parseInt(rawY, 10));
+      sessionStorage.removeItem(scrollKey);
+      // Remove the key from history state so a reload or re-visit doesn't re-restore
+      const cur = { ...(history.state as Record<string, unknown> | null) };
+      delete cur.bbScrollKey;
+      history.replaceState(cur, "");
+      hasPendingScrollRestore.current = false;
+    }, 300);
+
+    return () => clearTimeout(timerId);
+  }, [chapter]);
+
   // Scroll to hash on load or on browser back/forward (popstate)
   useEffect(() => {
     if (!chapter) return;
+    // Skip if back-nav scroll restoration is already handling positioning
+    if (hasPendingScrollRestore.current) return;
 
     const handleHashScroll = (isPopState = false) => {
       const hash = window.location.hash.slice(1);
@@ -473,8 +517,10 @@ export default function ChapterPage({
         if (url.pathname === window.location.pathname && url.hash) {
           e.preventDefault();
           scrollToAnchor(url.hash.slice(1));
+        } else if (url.pathname !== window.location.pathname) {
+          // Cross-page reference: stamp scroll position so back button can restore it
+          saveScrollForBackNav();
         }
-        // else: different page — let Next.js navigate normally
       } catch {
         // not a valid URL — do nothing
       }
@@ -485,7 +531,7 @@ export default function ChapterPage({
     // This ensures e.preventDefault() actually prevents the router navigation.
     contentEl.addEventListener("click", handleClick, true);
     return () => contentEl.removeEventListener("click", handleClick, true);
-  }, [scrollToAnchor]);
+  }, [scrollToAnchor, saveScrollForBackNav]);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
