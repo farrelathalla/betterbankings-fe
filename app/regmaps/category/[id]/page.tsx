@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
 import { useParams } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
@@ -34,6 +34,12 @@ interface Category {
   name: string;
   standards: Standard[];
 }
+
+const WATERMARK_STYLE: CSSProperties = {
+  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='90'%3E%3Ctext x='110' y='45' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='%23355189' fill-opacity='0.07' text-anchor='middle' dominant-baseline='middle' transform='rotate(-25 110 45)'%3EBetterBankings%3C%2Ftext%3E%3C%2Fsvg%3E")`,
+  backgroundSize: "220px 90px",
+  backgroundRepeat: "repeat",
+};
 
 export default function CategoryStandardsPage() {
   const { id } = useParams();
@@ -125,8 +131,9 @@ export default function CategoryStandardsPage() {
               category.standards.map((standard) => (
                 <div
                   key={standard.id}
-                  className="bg-white/70 rounded-2xl border border-[#E1E7EF] overflow-hidden backdrop-blur-sm"
+                  className="relative bg-white/70 rounded-2xl border border-[#E1E7EF] overflow-hidden backdrop-blur-sm"
                 >
+                  <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none" style={WATERMARK_STYLE} />
                   <div className="flex items-center">
                     <Link
                       href={`/regmaps/${standard.code.toLowerCase()}`}

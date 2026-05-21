@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import RegmapsProtection from "@/components/RegmapsProtection";
 
 export const metadata: Metadata = {
   title: "RegMaps - Basel Framework & Regulatory Standards",
@@ -32,5 +33,5 @@ export default function BaselCenterLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return <RegmapsProtection>{children}</RegmapsProtection>;
 }
