@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, type CSSProperties } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
@@ -49,12 +49,6 @@ interface SearchResult {
   title: string;
   url: string;
 }
-
-const WATERMARK_STYLE: CSSProperties = {
-  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='90'%3E%3Ctext x='110' y='45' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='%23355189' fill-opacity='0.07' text-anchor='middle' dominant-baseline='middle' transform='rotate(-25 110 45)'%3EBetterBankings%3C%2Ftext%3E%3C%2Fsvg%3E")`,
-  backgroundSize: "220px 90px",
-  backgroundRepeat: "repeat",
-};
 
 export default function BaselCenterPage() {
   const [standards, setStandards] = useState<Standard[]>([]);
@@ -261,9 +255,8 @@ export default function BaselCenterPage() {
                       <Link
                         key={category.id}
                         href={`/regmaps/category/${category.id}`}
-                        className="relative bg-white rounded-2xl border border-[#E1E7EF] p-6 hover:shadow-md hover:border-[#355189]/30 transition-all group overflow-hidden"
+                        className="bg-white rounded-2xl border border-[#E1E7EF] p-6 hover:shadow-md hover:border-[#355189]/30 transition-all group"
                       >
-                        <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none rounded-2xl" style={WATERMARK_STYLE} />
                         <div className="flex items-center justify-between">
                           <div>
                             <h3 className="font-bold text-[#14213D] group-hover:text-[#355189] transition-colors mb-1">
@@ -294,9 +287,8 @@ export default function BaselCenterPage() {
                   {standards.slice(0, visibleCount).map((standard) => (
                     <div
                       key={standard.id}
-                      className="relative bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden"
+                      className="bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden"
                     >
-                      <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none" style={WATERMARK_STYLE} />
                       {/* Standard Header */}
                       <div className="flex items-center">
                         <Link

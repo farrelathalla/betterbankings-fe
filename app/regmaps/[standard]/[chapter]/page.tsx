@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, use, useRef } from "react";
+import { useState, useEffect, useCallback, use, useRef, type CSSProperties } from "react";
 import dynamic from "next/dynamic";
 import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
@@ -86,6 +86,12 @@ interface Chapter {
   };
   sections: Section[];
 }
+
+const WATERMARK_STYLE: CSSProperties = {
+  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='90'%3E%3Ctext x='110' y='45' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='%23355189' fill-opacity='0.10' text-anchor='middle' dominant-baseline='middle' transform='rotate(-25 110 45)'%3EBetterBankings%3C%2Ftext%3E%3C%2Fsvg%3E")`,
+  backgroundSize: "220px 90px",
+  backgroundRepeat: "repeat",
+};
 
 // Marquee text component for long titles in navigation
 function MarqueeText({
@@ -617,7 +623,8 @@ export default function ChapterPage({
             {/* Main Content */}
             <div className="flex-1 min-w-0">
               {/* Header */}
-              <div className="bg-white rounded-2xl border border-[#E1E7EF] p-6 mb-6">
+              <div className="relative bg-white rounded-2xl border border-[#E1E7EF] p-6 mb-6 overflow-hidden">
+                <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none" style={WATERMARK_STYLE} />
                 <div className="flex items-start justify-between">
                   <div>
                     <h1 className="text-2xl lg:text-3xl font-bold text-[#14213D] mb-2">
@@ -691,8 +698,9 @@ export default function ChapterPage({
                       ref={(el) => {
                         sectionRefs.current[section.id] = el;
                       }}
-                      className="bg-white rounded-2xl border border-[#E1E7EF] p-6"
+                      className="relative bg-white rounded-2xl border border-[#E1E7EF] p-6 overflow-hidden"
                     >
+                      <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none" style={WATERMARK_STYLE} />
                       <h2 className="text-xl font-bold text-[#14213D] mb-4 pb-3 border-b border-[#E1E7EF]">
                         {section.title}
                       </h2>

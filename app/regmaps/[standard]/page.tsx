@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use, type CSSProperties } from "react";
+import { useState, useEffect, use } from "react";
 import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
 import { getApiUrl } from "@/lib/api";
@@ -42,12 +42,6 @@ interface Standard {
   chapters: Chapter[];
   pdfs?: StandardPDF[];
 }
-
-const WATERMARK_STYLE: CSSProperties = {
-  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='90'%3E%3Ctext x='110' y='45' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='%23355189' fill-opacity='0.07' text-anchor='middle' dominant-baseline='middle' transform='rotate(-25 110 45)'%3EBetterBankings%3C%2Ftext%3E%3C%2Fsvg%3E")`,
-  backgroundSize: "220px 90px",
-  backgroundRepeat: "repeat",
-};
 
 export default function StandardPage({
   params,
@@ -224,9 +218,8 @@ export default function StandardPage({
               standard.chapters.map((chapter) => (
                 <div
                   key={chapter.id}
-                  className="relative bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden"
+                  className="bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden"
                 >
-                  <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none" style={WATERMARK_STYLE} />
                   {/* Chapter Header */}
                   <div className="flex items-center">
                     <Link
