@@ -26,6 +26,18 @@ const TEAM_MEMBERS = [
     education:
       "MBA in Finance — Imperial College London (Chevening Scholar) · Mechanical Engineering — University of Indonesia",
   },
+  {
+    name: "Michael Tjia",
+    role: "Director, BetterBankings Singapore",
+    image: "/tjia.png",
+    badges: [
+      "30+ Years Experience",
+      "Risk Management Expert",
+      "Banking & Financial Services",
+    ],
+    bio: "A senior banking professional with more than three decades of experience in risk management, specializing in credit risk and operational risk. He has held senior risk leadership positions at leading Asian and European banks, bringing extensive expertise in banking operations, governance, and risk oversight. Based in Singapore, Michael currently advises a consultancy firm on client advisory, deal sourcing, and deal structuring, with a focus on the maritime and commodity sectors. He plays a key role in strengthening BetterBankings’ Risk Practices and Advisory capabilities.",
+    education: "Financial Economics — Erasmus Universiteit Rotterdam",
+  },
 ];
 
 function TeamCard({

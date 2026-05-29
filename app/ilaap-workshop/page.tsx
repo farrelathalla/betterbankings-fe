@@ -198,7 +198,7 @@ export default function ILAAPWorkshopPage() {
               >
                 <a
                   href="#register"
-                  className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#F48C25] text-white font-semibold rounded-lg hover:bg-[#e07d1a] transition-all shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30"
+                  className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#F48C25] text-white font-semibold rounded-lg hover:bg-[#9f8e7c] transition-all shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30"
                 >
                   Register Now
                   <ArrowRight className="w-4 h-4" />
