@@ -93,6 +93,9 @@ interface Chapter {
   sections: Section[];
 }
 
+// Flip to false to silence scroll-restoration debug logs.
+const DEBUG_SCROLL = true;
+
 const WATERMARK_STYLE: CSSProperties = {
   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='90'%3E%3Ctext x='130' y='45' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='%23355189' fill-opacity='0.10' text-anchor='middle' dominant-baseline='middle' transform='rotate(-25 130 45)'%3EBetterBankings.com%3C%2Ftext%3E%3C%2Fsvg%3E")`,
   backgroundSize: "260px 90px",
@@ -399,6 +402,13 @@ export default function ChapterPage({
   const saveScrollForBackNav = useCallback(() => {
     if (typeof window === "undefined") return;
     saveScrollPosition(sessionStorage, window.location.pathname, window.scrollY);
+    if (DEBUG_SCROLL)
+      console.log(
+        "[scroll] SAVE",
+        window.location.pathname,
+        "y=",
+        Math.round(window.scrollY),
+      );
   }, []);
 
   // Prime a pending scroll restore for the current path (if one was saved).
@@ -406,6 +416,8 @@ export default function ChapterPage({
   const primeScrollRestore = useCallback(() => {
     if (typeof window === "undefined") return;
     const y = consumeScrollPosition(sessionStorage, window.location.pathname);
+    if (DEBUG_SCROLL)
+      console.log("[scroll] PRIME", window.location.pathname, "->", y);
     if (y === null) return;
     pendingRestoreY.current = y;
     hasPendingScrollRestore.current = true;
@@ -421,6 +433,13 @@ export default function ChapterPage({
     const legacyType = (
       performance as Performance & { navigation?: { type?: number } }
     ).navigation?.type;
+    if (DEBUG_SCROLL)
+      console.log(
+        "[scroll] MOUNT navType=",
+        navEntries[0]?.type,
+        "legacy=",
+        legacyType,
+      );
     if (isBackForwardNavigation(navEntries, legacyType)) {
       primeScrollRestore();
     }
@@ -430,7 +449,11 @@ export default function ChapterPage({
   //    are landing on. The actual scroll happens in effect 3 once content loads.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const onPopState = () => primeScrollRestore();
+    const onPopState = () => {
+      if (DEBUG_SCROLL)
+        console.log("[scroll] POPSTATE path=", window.location.pathname);
+      primeScrollRestore();
+    };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, [primeScrollRestore]);
@@ -444,6 +467,7 @@ export default function ChapterPage({
     if (pendingRestoreY.current === null) return;
 
     const target = pendingRestoreY.current;
+    if (DEBUG_SCROLL) console.log("[scroll] RESTORE start target=", target);
     let attempts = 0;
     let lastHeight = -1;
     let stableCount = 0;
@@ -471,6 +495,17 @@ export default function ChapterPage({
 
       if ((reachable && stableCount >= REQUIRED_STABLE) || attempts >= MAX_ATTEMPTS) {
         window.scrollTo(0, target);
+        if (DEBUG_SCROLL)
+          console.log(
+            "[scroll] RESTORE done -> scrollTo",
+            target,
+            "after",
+            attempts,
+            "attempts; height=",
+            height,
+            "reachable=",
+            reachable,
+          );
         pendingRestoreY.current = null;
         hasPendingScrollRestore.current = false;
         return;
@@ -602,8 +637,12 @@ export default function ChapterPage({
     // handler (which is attached directly on the <a> element and would navigate first).
     // This ensures e.preventDefault() actually prevents the router navigation.
     contentEl.addEventListener("click", handleClick, true);
+    if (DEBUG_SCROLL) console.log("[scroll] click-capture listener attached");
     return () => contentEl.removeEventListener("click", handleClick, true);
-  }, [scrollToAnchor, saveScrollForBackNav]);
+    // `chapter` is required: contentRef only exists once content has rendered
+    // (the initial render shows a loading spinner with no contentRef), so the
+    // listener must be (re)attached when the chapter content mounts.
+  }, [scrollToAnchor, saveScrollForBackNav, chapter]);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
