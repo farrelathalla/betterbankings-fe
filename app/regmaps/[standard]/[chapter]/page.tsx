@@ -8,7 +8,6 @@ import { getApiUrl } from "@/lib/api";
 import {
   saveScrollPosition,
   consumeScrollPosition,
-  isScrollTargetReachable,
 } from "@/lib/scrollRestore";
 import {
   ChevronLeft,
@@ -310,6 +309,48 @@ export default function ChapterPage({
   // the page is tall enough for the target to be reachable. null = nothing pending.
   const pendingRestoreY = useRef<number | null>(null);
 
+  // Detect the element that actually scrolls this page. Normally it's the window,
+  // but if the content lives inside an overflow container we must read/write that
+  // element's scrollTop instead (window.scrollY would always be 0). We probe the
+  // window first, then walk up from the content looking for a scrollable ancestor.
+  const getScroller = useCallback(() => {
+    const doc = (document.scrollingElement ||
+      document.documentElement) as HTMLElement;
+    const windowScroller = {
+      read: () => window.scrollY || doc.scrollTop || 0,
+      write: (y: number) => window.scrollTo(0, y),
+      max: () => doc.scrollHeight - doc.clientHeight,
+      label: "window",
+    };
+    if (doc && doc.scrollHeight - doc.clientHeight > 4) {
+      return windowScroller;
+    }
+    let node: HTMLElement | null = contentRef.current;
+    while (node) {
+      const oy = getComputedStyle(node).overflowY;
+      if (
+        (oy === "auto" || oy === "scroll") &&
+        node.scrollHeight - node.clientHeight > 4
+      ) {
+        const el = node;
+        const cls =
+          typeof el.className === "string"
+            ? el.className.split(" ")[0]
+            : "";
+        return {
+          read: () => el.scrollTop,
+          write: (y: number) => {
+            el.scrollTop = y;
+          },
+          max: () => el.scrollHeight - el.clientHeight,
+          label: `${el.tagName.toLowerCase()}.${cls}`,
+        };
+      }
+      node = node.parentElement;
+    }
+    return windowScroller;
+  }, []);
+
   useEffect(() => {
     const fetchChapter = async () => {
       try {
@@ -400,15 +441,18 @@ export default function ChapterPage({
   // cross-page link (reference link or prev/next chapter) navigates away.
   const saveScrollForBackNav = useCallback(() => {
     if (typeof window === "undefined") return;
-    saveScrollPosition(sessionStorage, window.location.pathname, window.scrollY);
+    const s = getScroller();
+    saveScrollPosition(sessionStorage, window.location.pathname, s.read());
     if (DEBUG_SCROLL)
       console.log(
         "[scroll] SAVE",
         window.location.pathname,
         "y=",
-        Math.round(window.scrollY),
+        Math.round(s.read()),
+        "via",
+        s.label,
       );
-  }, []);
+  }, [getScroller]);
 
   // Prime a pending scroll restore for the current path (if one was saved).
   // Sets hasPendingScrollRestore so the hash-scroll effect yields to us.
@@ -439,34 +483,55 @@ export default function ChapterPage({
   //    pagehide/visibilitychange do. We save on both for cross-browser safety.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (DEBUG_SCROLL) console.log("[scroll] v4 effect0 setup (save listeners)");
+    if (DEBUG_SCROLL) console.log("[scroll] v5 effect0 setup (save listeners)");
     const prev = history.scrollRestoration;
     try {
       history.scrollRestoration = "manual";
     } catch {
       /* not supported — ignore */
     }
-    const save = (reason: string) => {
-      saveScrollPosition(
-        sessionStorage,
-        window.location.pathname,
-        window.scrollY,
-      );
-      if (DEBUG_SCROLL)
+
+    let lastLog = 0;
+    let rafId = 0;
+    const persist = (reason: string) => {
+      const s = getScroller();
+      const y = s.read();
+      saveScrollPosition(sessionStorage, window.location.pathname, y);
+      if (DEBUG_SCROLL && (reason !== "scroll" || Date.now() - lastLog > 600)) {
+        if (reason === "scroll") lastLog = Date.now();
         console.log(
           `[scroll] SAVE(${reason})`,
           window.location.pathname,
           "y=",
-          Math.round(window.scrollY),
+          Math.round(y),
+          "via",
+          s.label,
         );
+      }
     };
-    const onPageHide = () => save("pagehide");
+
+    // Continuous save: persist the scroll position as the user scrolls (rAF-
+    // throttled). This is the reliable mechanism — it never depends on pagehide /
+    // popstate / Navigation-Timing, all of which proved unreliable here. Capture
+    // phase (true) also catches scrolling inside a nested overflow container.
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        persist("scroll");
+      });
+    };
+    const onPageHide = () => persist("pagehide");
     const onVisibility = () => {
-      if (document.visibilityState === "hidden") save("visibility");
+      if (document.visibilityState === "hidden") persist("visibility");
     };
+
+    window.addEventListener("scroll", onScroll, true);
     window.addEventListener("pagehide", onPageHide);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll, true);
       window.removeEventListener("pagehide", onPageHide);
       document.removeEventListener("visibilitychange", onVisibility);
       try {
@@ -475,7 +540,7 @@ export default function ChapterPage({
         /* ignore */
       }
     };
-  }, []);
+  }, [getScroller]);
 
   // 1. On load, restore the saved scroll position for this path if one exists.
   //    We deliberately do NOT gate on Navigation Timing's "back_forward" type:
@@ -488,7 +553,7 @@ export default function ChapterPage({
     if (DEBUG_SCROLL) {
       const navEntries = performance.getEntriesByType("navigation");
       console.log(
-        "[scroll] v4 MOUNT navType=",
+        "[scroll] v5 MOUNT navType=",
         (navEntries[0] as PerformanceNavigationTiming | undefined)?.type,
         "hash=",
         window.location.hash,
@@ -531,12 +596,11 @@ export default function ChapterPage({
       if (pendingRestoreY.current === null) return;
       attempts++;
 
-      const height = document.documentElement.scrollHeight;
-      const reachable = isScrollTargetReachable(
-        height,
-        window.innerHeight,
-        target,
-      );
+      const s = getScroller();
+      const maxScroll = s.max();
+      // height proxy for stability/reachability: how far this scroller can go.
+      const height = maxScroll;
+      const reachable = maxScroll >= target - 2;
 
       if (Math.abs(height - lastHeight) < 2) {
         stableCount++;
@@ -546,15 +610,17 @@ export default function ChapterPage({
       }
 
       if ((reachable && stableCount >= REQUIRED_STABLE) || attempts >= MAX_ATTEMPTS) {
-        window.scrollTo(0, target);
+        s.write(target);
         if (DEBUG_SCROLL)
           console.log(
             "[scroll] RESTORE done -> scrollTo",
             target,
+            "via",
+            s.label,
             "after",
             attempts,
-            "attempts; height=",
-            height,
+            "attempts; maxScroll=",
+            Math.round(maxScroll),
             "reachable=",
             reachable,
           );
@@ -568,7 +634,8 @@ export default function ChapterPage({
 
     timerId = setTimeout(tryRestore, 50);
     return () => clearTimeout(timerId);
-  }, [chapter]);
+    // getScroller is stable (useCallback []) but listed for correctness.
+  }, [chapter, getScroller]);
 
   // Scroll to hash on load or on browser back/forward (popstate)
   useEffect(() => {
