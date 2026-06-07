@@ -6,6 +6,12 @@ import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
 import { getApiUrl } from "@/lib/api";
 import {
+  saveScrollPosition,
+  consumeScrollPosition,
+  isBackForwardNavigation,
+  isScrollTargetReachable,
+} from "@/lib/scrollRestore";
+import {
   ChevronLeft,
   ChevronDown,
   ChevronRight,
@@ -88,8 +94,8 @@ interface Chapter {
 }
 
 const WATERMARK_STYLE: CSSProperties = {
-  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='90'%3E%3Ctext x='110' y='45' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='%23355189' fill-opacity='0.10' text-anchor='middle' dominant-baseline='middle' transform='rotate(-25 110 45)'%3EBetterBankings%3C%2Ftext%3E%3C%2Fsvg%3E")`,
-  backgroundSize: "220px 90px",
+  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='90'%3E%3Ctext x='130' y='45' font-family='Arial,sans-serif' font-size='13' font-weight='bold' fill='%23355189' fill-opacity='0.10' text-anchor='middle' dominant-baseline='middle' transform='rotate(-25 130 45)'%3EBetterBankings.com%3C%2Ftext%3E%3C%2Fsvg%3E")`,
+  backgroundSize: "260px 90px",
   backgroundRepeat: "repeat",
 };
 
@@ -298,6 +304,10 @@ export default function ChapterPage({
   // True while we're about to restore a back-nav scroll position; suppresses hash scrolling
   const hasPendingScrollRestore = useRef(false);
 
+  // The scroll Y we intend to restore once the chapter content has rendered and
+  // the page is tall enough for the target to be reachable. null = nothing pending.
+  const pendingRestoreY = useRef<number | null>(null);
+
   useEffect(() => {
     const fetchChapter = async () => {
       try {
@@ -319,7 +329,8 @@ export default function ChapterPage({
         }
 
         const foundChapter = chaptersData.chapters?.find(
-          (c: { code: string }) => c.code === chapterCode,
+          (c: { code: string }) =>
+            c.code.toLowerCase() === chapterCode.toLowerCase(),
         );
 
         if (foundChapter) {
@@ -382,50 +393,99 @@ export default function ChapterPage({
     [resolveAnchor],
   );
 
-  // Save current scroll position into sessionStorage and stamp the history entry with a key.
-  // Called just before a cross-page reference link navigates away.
+  // Save the current scroll position keyed by the page we're leaving, so that a
+  // later browser-back to this page can restore it. Called just before a
+  // cross-page link (reference link or prev/next chapter) navigates away.
   const saveScrollForBackNav = useCallback(() => {
-    const key = `bbScroll_${Date.now()}`;
-    sessionStorage.setItem(key, String(Math.round(window.scrollY)));
-    // Merge into existing history state so Next.js router internals are preserved
-    const cur = { ...(history.state as Record<string, unknown> | null) };
-    cur.bbScrollKey = key;
-    history.replaceState(cur, "");
+    if (typeof window === "undefined") return;
+    saveScrollPosition(sessionStorage, window.location.pathname, window.scrollY);
   }, []);
 
-  // Restore scroll position when arriving via browser back from a cross-page reference.
-  // Must be defined BEFORE the hash-scroll effect so it sets hasPendingScrollRestore first.
+  // Prime a pending scroll restore for the current path (if one was saved).
+  // Sets hasPendingScrollRestore so the hash-scroll effect yields to us.
+  const primeScrollRestore = useCallback(() => {
+    if (typeof window === "undefined") return;
+    const y = consumeScrollPosition(sessionStorage, window.location.pathname);
+    if (y === null) return;
+    pendingRestoreY.current = y;
+    hasPendingScrollRestore.current = true;
+  }, []);
+
+  // 1. On the very first load, detect a full-page back/forward navigation and,
+  //    if so, prime a restore for the current path. Runs once on mount.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const navEntries = performance.getEntriesByType(
+      "navigation",
+    ) as PerformanceNavigationTiming[];
+    const legacyType = (
+      performance as Performance & { navigation?: { type?: number } }
+    ).navigation?.type;
+    if (isBackForwardNavigation(navEntries, legacyType)) {
+      primeScrollRestore();
+    }
+  }, [primeScrollRestore]);
+
+  // 2. On client-side back/forward (popstate) prime a restore for the path we
+  //    are landing on. The actual scroll happens in effect 3 once content loads.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onPopState = () => primeScrollRestore();
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [primeScrollRestore]);
+
+  // 3. Perform the pending restore once the chapter content is available. We
+  //    poll until the page is tall enough for the target to be reachable and its
+  //    height has stabilised (async content/images keep growing the layout),
+  //    then scroll exactly to the saved position.
   useEffect(() => {
     if (!chapter) return;
+    if (pendingRestoreY.current === null) return;
 
-    const state = history.state as Record<string, unknown> | null;
-    const scrollKey = state?.bbScrollKey as string | undefined;
-    if (!scrollKey) return;
+    const target = pendingRestoreY.current;
+    let attempts = 0;
+    let lastHeight = -1;
+    let stableCount = 0;
+    const REQUIRED_STABLE = 3;
+    const MAX_ATTEMPTS = 60;
+    let timerId: ReturnType<typeof setTimeout>;
 
-    const rawY = sessionStorage.getItem(scrollKey);
-    if (!rawY) return;
+    const tryRestore = () => {
+      if (pendingRestoreY.current === null) return;
+      attempts++;
 
-    // Block hash-scroll from overriding our restoration
-    hasPendingScrollRestore.current = true;
+      const height = document.documentElement.scrollHeight;
+      const reachable = isScrollTargetReachable(
+        height,
+        window.innerHeight,
+        target,
+      );
 
-    const timerId = setTimeout(() => {
-      window.scrollTo(0, parseInt(rawY, 10));
-      sessionStorage.removeItem(scrollKey);
-      // Remove the key from history state so a reload or re-visit doesn't re-restore
-      const cur = { ...(history.state as Record<string, unknown> | null) };
-      delete cur.bbScrollKey;
-      history.replaceState(cur, "");
-      hasPendingScrollRestore.current = false;
-    }, 300);
+      if (Math.abs(height - lastHeight) < 2) {
+        stableCount++;
+      } else {
+        stableCount = 0;
+        lastHeight = height;
+      }
 
+      if ((reachable && stableCount >= REQUIRED_STABLE) || attempts >= MAX_ATTEMPTS) {
+        window.scrollTo(0, target);
+        pendingRestoreY.current = null;
+        hasPendingScrollRestore.current = false;
+        return;
+      }
+
+      timerId = setTimeout(tryRestore, 50);
+    };
+
+    timerId = setTimeout(tryRestore, 50);
     return () => clearTimeout(timerId);
   }, [chapter]);
 
   // Scroll to hash on load or on browser back/forward (popstate)
   useEffect(() => {
     if (!chapter) return;
-    // Skip if back-nav scroll restoration is already handling positioning
-    if (hasPendingScrollRestore.current) return;
 
     const handleHashScroll = (isPopState = false) => {
       const hash = window.location.hash.slice(1);
@@ -451,6 +511,8 @@ export default function ChapterPage({
 
       const tryScroll = () => {
         if (done) return;
+        // A back-nav scroll restore takes precedence over hash scrolling.
+        if (hasPendingScrollRestore.current) return;
         if (attempts++ >= MAX_ATTEMPTS) return;
 
         const el = resolveAnchor(hash);
@@ -481,10 +543,13 @@ export default function ChapterPage({
       return () => clearTimeout(timerId);
     };
 
-    // Initial scroll on load
-    handleHashScroll(false);
+    // Initial scroll on load — but yield to an in-flight back-nav scroll restore,
+    // which positions the page itself (see the scroll-restore effects above).
+    if (!hasPendingScrollRestore.current) {
+      handleHashScroll(false);
+    }
 
-    // Re-scroll on browser back/forward
+    // Re-scroll on browser back/forward (tryScroll itself yields to a pending restore)
     const onPopState = () => {
       handleHashScroll(true);
       setInternalJumpCount((prev) => Math.max(0, prev - 1));
@@ -524,7 +589,8 @@ export default function ChapterPage({
           e.preventDefault();
           scrollToAnchor(url.hash.slice(1));
         } else if (url.pathname !== window.location.pathname) {
-          // Cross-page reference: stamp scroll position so back button can restore it
+          // Cross-page reference: save scroll position so the browser Back
+          // button can restore it when the user returns to this page.
           saveScrollForBackNav();
         }
       } catch {
@@ -891,6 +957,7 @@ export default function ChapterPage({
                     {prevChapter ? (
                       <Link
                         href={`/regmaps/${standardCode.toLowerCase()}/${prevChapter.code}`}
+                        onClick={saveScrollForBackNav}
                         className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 group"
                       >
                         <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-[#355189] flex items-center justify-center transition-colors">
@@ -919,6 +986,7 @@ export default function ChapterPage({
                     {nextChapter ? (
                       <Link
                         href={`/regmaps/${standardCode.toLowerCase()}/${nextChapter.code}`}
+                        onClick={saveScrollForBackNav}
                         className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 justify-end text-right group"
                       >
                         <div className="min-w-0 flex-1">
