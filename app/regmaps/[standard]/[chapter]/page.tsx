@@ -423,6 +423,44 @@ export default function ChapterPage({
     hasPendingScrollRestore.current = true;
   }, []);
 
+  // 0. Take manual control of scroll restoration so the browser doesn't snap to
+  //    top (or a stale position) on a full-page back navigation and fight us.
+  //    Also save the scroll position on pagehide — this is the reliable way to
+  //    capture it for FULL-PAGE navigations (plain <a> reference links cause a
+  //    real document unload, where click handlers/Next routing don't apply).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const prev = history.scrollRestoration;
+    try {
+      history.scrollRestoration = "manual";
+    } catch {
+      /* not supported — ignore */
+    }
+    const onPageHide = () => {
+      saveScrollPosition(
+        sessionStorage,
+        window.location.pathname,
+        window.scrollY,
+      );
+      if (DEBUG_SCROLL)
+        console.log(
+          "[scroll] SAVE(pagehide)",
+          window.location.pathname,
+          "y=",
+          Math.round(window.scrollY),
+        );
+    };
+    window.addEventListener("pagehide", onPageHide);
+    return () => {
+      window.removeEventListener("pagehide", onPageHide);
+      try {
+        history.scrollRestoration = prev;
+      } catch {
+        /* ignore */
+      }
+    };
+  }, []);
+
   // 1. On the very first load, detect a full-page back/forward navigation and,
   //    if so, prime a restore for the current path. Runs once on mount.
   useEffect(() => {
