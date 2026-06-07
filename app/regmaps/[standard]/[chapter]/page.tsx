@@ -8,7 +8,6 @@ import { getApiUrl } from "@/lib/api";
 import {
   saveScrollPosition,
   consumeScrollPosition,
-  isBackForwardNavigation,
   isScrollTargetReachable,
 } from "@/lib/scrollRestore";
 import {
@@ -415,6 +414,15 @@ export default function ChapterPage({
   // Sets hasPendingScrollRestore so the hash-scroll effect yields to us.
   const primeScrollRestore = useCallback(() => {
     if (typeof window === "undefined") return;
+    // If the URL targets a specific anchor (e.g. a reference link to a
+    // subsection: /regmaps/aml/IV#AML.IV.53), honor that anchor instead of
+    // restoring scroll — and drop any stale saved position for this path.
+    if (window.location.hash) {
+      consumeScrollPosition(sessionStorage, window.location.pathname);
+      if (DEBUG_SCROLL)
+        console.log("[scroll] PRIME skipped (URL has hash) ->", window.location.hash);
+      return;
+    }
     const y = consumeScrollPosition(sessionStorage, window.location.pathname);
     if (DEBUG_SCROLL)
       console.log("[scroll] PRIME", window.location.pathname, "->", y);
@@ -425,18 +433,20 @@ export default function ChapterPage({
 
   // 0. Take manual control of scroll restoration so the browser doesn't snap to
   //    top (or a stale position) on a full-page back navigation and fight us.
-  //    Also save the scroll position on pagehide — this is the reliable way to
-  //    capture it for FULL-PAGE navigations (plain <a> reference links cause a
-  //    real document unload, where click handlers/Next routing don't apply).
+  //    Save the scroll position whenever the page is being left/backgrounded —
+  //    on FULL-PAGE navigations (plain <a> reference links cause a real document
+  //    unload) neither click handlers nor Next routing reliably run, but
+  //    pagehide/visibilitychange do. We save on both for cross-browser safety.
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (DEBUG_SCROLL) console.log("[scroll] v4 effect0 setup (save listeners)");
     const prev = history.scrollRestoration;
     try {
       history.scrollRestoration = "manual";
     } catch {
       /* not supported — ignore */
     }
-    const onPageHide = () => {
+    const save = (reason: string) => {
       saveScrollPosition(
         sessionStorage,
         window.location.pathname,
@@ -444,15 +454,21 @@ export default function ChapterPage({
       );
       if (DEBUG_SCROLL)
         console.log(
-          "[scroll] SAVE(pagehide)",
+          `[scroll] SAVE(${reason})`,
           window.location.pathname,
           "y=",
           Math.round(window.scrollY),
         );
     };
+    const onPageHide = () => save("pagehide");
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") save("visibility");
+    };
     window.addEventListener("pagehide", onPageHide);
+    document.addEventListener("visibilitychange", onVisibility);
     return () => {
       window.removeEventListener("pagehide", onPageHide);
+      document.removeEventListener("visibilitychange", onVisibility);
       try {
         history.scrollRestoration = prev;
       } catch {
@@ -461,26 +477,24 @@ export default function ChapterPage({
     };
   }, []);
 
-  // 1. On the very first load, detect a full-page back/forward navigation and,
-  //    if so, prime a restore for the current path. Runs once on mount.
+  // 1. On load, restore the saved scroll position for this path if one exists.
+  //    We deliberately do NOT gate on Navigation Timing's "back_forward" type:
+  //    in production it proved unreliable (always reported "reload"). The saved
+  //    position itself is the signal — it only exists because we left this exact
+  //    path earlier, so restoring it on return is what the user wants. A fresh
+  //    first visit has nothing saved and falls through to normal hash behaviour.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const navEntries = performance.getEntriesByType(
-      "navigation",
-    ) as PerformanceNavigationTiming[];
-    const legacyType = (
-      performance as Performance & { navigation?: { type?: number } }
-    ).navigation?.type;
-    if (DEBUG_SCROLL)
+    if (DEBUG_SCROLL) {
+      const navEntries = performance.getEntriesByType("navigation");
       console.log(
-        "[scroll] MOUNT navType=",
-        navEntries[0]?.type,
-        "legacy=",
-        legacyType,
+        "[scroll] v4 MOUNT navType=",
+        (navEntries[0] as PerformanceNavigationTiming | undefined)?.type,
+        "hash=",
+        window.location.hash,
       );
-    if (isBackForwardNavigation(navEntries, legacyType)) {
-      primeScrollRestore();
     }
+    primeScrollRestore();
   }, [primeScrollRestore]);
 
   // 2. On client-side back/forward (popstate) prime a restore for the path we
