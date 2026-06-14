@@ -264,7 +264,7 @@ export default function BaselCenterPage() {
                               {category.name}
                             </h3>
                             <p className="text-sm text-gray-500">
-                              {category.standards.length} standards
+                              {category.standards?.length ?? 0} standards
                             </p>
                           </div>
                           <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#355189] transition-all transform group-hover:translate-x-1" />
@@ -322,7 +322,7 @@ export default function BaselCenterPage() {
                       {/* Chapters List */}
                       {expandedStandards.has(standard.id) && (
                         <div className="border-t border-[#E1E7EF] bg-gray-50">
-                          {standard.chapters.length === 0 ? (
+                          {(standard.chapters?.length ?? 0) === 0 ? (
                             <p className="px-6 py-4 text-sm text-gray-500">
                               No chapters in this standard yet.
                             </p>
