@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
+import { BFORESIGHT_REQUIRE_LOGIN } from "@/lib/config";
 import { Lock } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -15,6 +16,12 @@ export default function RestrictedViz({
   children,
 }: RestrictedVizProps) {
   const { user } = useAuth();
+
+  // When login is not required (product-introduction phase), every
+  // visualization is fully open — no blur, no gate.
+  if (BFORESIGHT_REQUIRE_LOGIN === "NO") {
+    return <>{children}</>;
+  }
 
   // If user is logged in, or it's the first tab (e.g., Solvency), show the viz
   if (user || isFirstTab) {

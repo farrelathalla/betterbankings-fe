@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
+import RegMapsList from "@/components/RegMapsList";
 import Link from "next/link";
 import { getApiUrl } from "@/lib/api";
 import {
@@ -440,6 +441,9 @@ export default function BaselCenterPage() {
                   reference and monitoring.
                 </p>
               </div>
+
+              {/* Available RegMaps list (collapsible + lazy "show more") */}
+              <RegMapsList />
             </div>
           </div>
         </div>

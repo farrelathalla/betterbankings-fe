@@ -74,7 +74,7 @@ const NAV_SECTIONS: NavSection[] = [
       },
       { label: "RegMaps", href: "/regmaps", icon: FileText },
       {
-        label: "ILAAP Workshop",
+        label: "ILAAP Workshop (New)",
         href: "/ilaap-workshop",
         icon: GraduationCap,
       },
