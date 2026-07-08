@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import katex from "katex";
+import "katex/dist/katex.min.css";
 
 interface Mark {
   type: string;
@@ -192,6 +194,9 @@ function RenderNode({ node }: { node: ContentNode }) {
       );
     }
 
+    case "math":
+      return <MathBlock latex={(node.attrs?.latex as string) || ""} />;
+
     case "hardBreak":
       return <br />;
 
@@ -332,6 +337,31 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
   }
 
   return <>{element}</>;
+}
+
+// Renders a saved math node as display-mode KaTeX
+function MathBlock({ latex }: { latex: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    try {
+      katex.render(latex, ref.current, {
+        displayMode: true,
+        throwOnError: false,
+      });
+    } catch {
+      ref.current.textContent = latex;
+    }
+  }, [latex]);
+
+  return (
+    <div
+      ref={ref}
+      className="math-block my-4 overflow-x-auto text-center"
+      aria-label="math equation"
+    />
+  );
 }
 
 // Interactive tooltip component with hover popup

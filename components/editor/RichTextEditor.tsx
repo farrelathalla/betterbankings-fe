@@ -27,6 +27,7 @@ import { useState, useCallback, useEffect } from "react";
 import { getApiUrl } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import katex from "katex";
+import { MathMLToLaTeX } from "mathml-to-latex";
 
 import "katex/dist/katex.min.css";
 
@@ -241,6 +242,41 @@ export default function RichTextEditor({
               }
               return true;
             }
+          }
+        }
+
+        // Handle equations pasted from Microsoft Word / OneNote.
+        // Word puts the equation on the clipboard as MathML inside the HTML
+        // payload. Tiptap doesn't understand <math>, so it silently drops it —
+        // which is why pasted equations "don't display". Convert each MathML
+        // block to LaTeX and insert it as a rendered math node instead.
+        const html = event.clipboardData?.getData("text/html");
+        if (html && /<math[\s>]/i.test(html)) {
+          try {
+            const doc = new DOMParser().parseFromString(html, "text/html");
+            const mathEls = Array.from(doc.querySelectorAll("math"));
+            const latexBlocks = mathEls
+              .map((el) => {
+                try {
+                  return MathMLToLaTeX.convert(el.outerHTML).trim();
+                } catch {
+                  return "";
+                }
+              })
+              .filter((l) => l.length > 0);
+
+            if (latexBlocks.length > 0) {
+              event.preventDefault();
+              const mathType = view.state.schema.nodes.math;
+              let tr = view.state.tr;
+              latexBlocks.forEach((latex) => {
+                tr = tr.replaceSelectionWith(mathType.create({ latex }));
+              });
+              view.dispatch(tr);
+              return true;
+            }
+          } catch (err) {
+            console.error("Failed to parse pasted MathML equation:", err);
           }
         }
 
