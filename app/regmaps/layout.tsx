@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import RegmapsProtection from "@/components/RegmapsProtection";
+import ChatWidgetGate from "@/components/chat/ChatWidgetGate";
 
 export const metadata: Metadata = {
   title: "RegMaps - Basel Framework & Regulatory Standards",
@@ -33,5 +34,10 @@ export default function BaselCenterLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <RegmapsProtection>{children}</RegmapsProtection>;
+  return (
+    <RegmapsProtection>
+      {children}
+      <ChatWidgetGate />
+    </RegmapsProtection>
+  );
 }
