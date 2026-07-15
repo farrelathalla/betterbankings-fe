@@ -6,6 +6,8 @@ import * as chatApi from "@/lib/chatApi";
 
 beforeEach(() => {
   window.sessionStorage.clear();
+  // jsdom doesn't implement scrollIntoView — the widget calls it for auto-scroll.
+  Element.prototype.scrollIntoView = vi.fn();
 });
 
 afterEach(() => {
