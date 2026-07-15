@@ -136,6 +136,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
+      // Best-effort: clear the RegMaps chat session server-side so it doesn't
+      // persist across a future login. Never block sign-out on this.
+      if (typeof window !== "undefined") {
+        const chatSessionId = window.sessionStorage.getItem("chatSessionId");
+        if (chatSessionId) {
+          try {
+            const { clearSession } = await import("@/lib/chatApi");
+            await clearSession(chatSessionId);
+          } catch (error) {
+            console.error("Failed to clear chat session:", error);
+          }
+          window.sessionStorage.removeItem("chatSessionId");
+        }
+      }
+
       await fetch(`${API_URL}/auth/signout`, {
         method: "POST",
         credentials: "include",
