@@ -22,7 +22,11 @@ function parseCitations(raw: string): Citation[] {
 }
 
 function citationHref(citation: Citation): string {
-  return `/regmaps/${citation.standardCode}/${citation.chapterCode}#subsection-${citation.subsectionId}`;
+  // Matches the DOM id scheme already used on the chapter page
+  // (see app/regmaps/[standard]/[chapter]/page.tsx's `anchorId`), so the
+  // existing scroll-to-hash logic there resolves this link with no FE changes.
+  const anchorId = `${citation.standardCode}${citation.chapterCode}.${citation.subsectionNumber}`;
+  return `/regmaps/${citation.standardCode}/${citation.chapterCode}#${anchorId}`;
 }
 
 export default function ChatWidget() {
