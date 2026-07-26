@@ -4,7 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MessageCircle, X, Send, FileText, Sparkles } from "lucide-react";
 import { Streamdown } from "streamdown";
-import { sendMessage, getHistory, type ChatMessage, type Citation } from "@/lib/chatApi";
+import {
+  sendMessage,
+  getHistory,
+  ChatApiError,
+  type ChatMessage,
+  type Citation,
+} from "@/lib/chatApi";
 
 interface DisplayMessage {
   id: string;
@@ -192,13 +198,21 @@ export default function ChatWidget() {
           citations: result.citations,
         },
       ]);
-    } catch {
+    } catch (err) {
+      // Rate limits carry an actionable message from the server (how long to
+      // wait, when the daily quota resets). Show it verbatim rather than
+      // flattening it into a generic failure the user can't act on.
+      const content =
+        err instanceof ChatApiError && err.isRateLimit
+          ? err.message
+          : "Something went wrong sending that message. Please try again.";
+
       setMessages((prev) => [
         ...prev,
         {
           id: `local-${Date.now()}-error`,
           role: "assistant",
-          content: "Something went wrong sending that message. Please try again.",
+          content,
           citations: [],
         },
       ]);

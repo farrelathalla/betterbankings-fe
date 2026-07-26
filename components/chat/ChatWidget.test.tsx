@@ -107,6 +107,39 @@ describe("ChatWidget", () => {
     vi.useRealTimers();
   });
 
+  it("shows the server's rate-limit message verbatim so the user knows what to do", async () => {
+    const serverMessage =
+      "You've reached the daily limit of 50 questions. Your quota resets at 00:00 on 27 Jul UTC.";
+    vi.spyOn(chatApi, "sendMessage").mockRejectedValue(
+      new chatApi.ChatApiError(serverMessage, 429, "daily"),
+    );
+
+    render(<ChatWidget />);
+    fireEvent.click(screen.getByRole("button", { name: /open chat/i }));
+    fireEvent.change(screen.getByPlaceholderText(/ask about regmaps/i), {
+      target: { value: "one question too many" },
+    });
+    fireEvent.submit(screen.getByRole("form"));
+
+    await waitFor(() => screen.getByText(/daily limit of 50 questions/i));
+    expect(screen.queryByText(/something went wrong/i)).not.toBeInTheDocument();
+  });
+
+  it("still shows a generic message for non-rate-limit failures", async () => {
+    vi.spyOn(chatApi, "sendMessage").mockRejectedValue(
+      new chatApi.ChatApiError("Failed to generate answer", 500),
+    );
+
+    render(<ChatWidget />);
+    fireEvent.click(screen.getByRole("button", { name: /open chat/i }));
+    fireEvent.change(screen.getByPlaceholderText(/ask about regmaps/i), {
+      target: { value: "boom" },
+    });
+    fireEvent.submit(screen.getByRole("form"));
+
+    await waitFor(() => screen.getByText(/something went wrong/i));
+  });
+
   it("renders a blocked reply without treating it as an error", async () => {
     vi.spyOn(chatApi, "sendMessage").mockResolvedValue({
       sessionId: "s3",
