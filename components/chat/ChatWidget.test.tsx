@@ -79,6 +79,34 @@ describe("ChatWidget", () => {
     expect(chatApi.getHistory).toHaveBeenCalledWith("existing-session");
   });
 
+  it("escalates the thinking label while a slow answer is pending", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    // Never resolves — holds the widget in its pending state so the indicator
+    // stays mounted while we advance the clock.
+    vi.spyOn(chatApi, "sendMessage").mockReturnValue(new Promise(() => {}));
+
+    render(<ChatWidget />);
+    fireEvent.click(screen.getByRole("button", { name: /open chat/i }));
+    fireEvent.change(screen.getByPlaceholderText(/ask about regmaps/i), {
+      target: { value: "a slow question" },
+    });
+    fireEvent.submit(screen.getByRole("form"));
+
+    const status = await waitFor(() => screen.getByRole("status"));
+    expect(status).toHaveTextContent(/^Thinking$/);
+
+    await vi.advanceTimersByTimeAsync(5000);
+    expect(status).toHaveTextContent(/searching the regulations/i);
+
+    await vi.advanceTimersByTimeAsync(5000);
+    expect(status).toHaveTextContent(/this may take a moment/i);
+
+    await vi.advanceTimersByTimeAsync(10000);
+    expect(status).toHaveTextContent(/still working/i);
+
+    vi.useRealTimers();
+  });
+
   it("renders a blocked reply without treating it as an error", async () => {
     vi.spyOn(chatApi, "sendMessage").mockResolvedValue({
       sessionId: "s3",

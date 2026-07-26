@@ -72,11 +72,46 @@ function CitationChips({ citations }: { citations: Citation[] }) {
   );
 }
 
+// A grounded answer takes a while: the request fans out to a gatekeeper call, a
+// query rewrite, an embedding call, a vector search and finally answer
+// generation. Measured end-to-end against production, allowed questions land
+// between roughly 9 and 16 seconds. A bare "Thinking" reads as stalled well
+// before then, so the label escalates to set expectations instead.
+const THINKING_STAGES = [
+  { after: 0, label: "Thinking" },
+  { after: 4, label: "Searching the regulations" },
+  { after: 9, label: "Thinking — this may take a moment" },
+  { after: 18, label: "Still working — detailed questions take longer" },
+] as const;
+
 function ThinkingIndicator() {
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => setElapsed((s) => s + 1), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Last stage whose threshold has passed. Reduce (rather than findLast) keeps
+  // this working on the older JS targets Next may compile down to.
+  // The explicit <string> matters: THINKING_STAGES is `as const`, so without it
+  // the accumulator is inferred as the first stage's literal type and assigning
+  // any later label fails to compile.
+  const label = THINKING_STAGES.reduce<string>(
+    (current, stage) => (elapsed >= stage.after ? stage.label : current),
+    THINKING_STAGES[0].label,
+  );
+
   return (
-    <div className="flex items-center gap-2 text-sm text-[#64748B]">
-      <Sparkles size={14} className="text-[#355189]" />
-      <span>Thinking</span>
+    <div
+      className="flex items-center gap-2 text-sm text-[#64748B]"
+      // Announce to screen readers, but politely — this text changes a few
+      // times while a single answer is being generated.
+      role="status"
+      aria-live="polite"
+    >
+      <Sparkles size={14} className="shrink-0 text-[#355189]" />
+      <span>{label}</span>
       <span className="flex gap-0.5">
         <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#355189] [animation-delay:-0.3s]" />
         <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#355189] [animation-delay:-0.15s]" />
