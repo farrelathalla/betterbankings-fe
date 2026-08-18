@@ -1,46 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
-import RegMapsList from "@/components/RegMapsList";
 import Link from "next/link";
 import { getApiUrl } from "@/lib/api";
-import {
-  Search,
-  ChevronDown,
-  ChevronRight,
-  FileText,
-  Clock,
-  Loader2,
-  ExternalLink,
-} from "lucide-react";
+import { Search, ChevronRight, FileText, Loader2 } from "lucide-react";
 
-interface Standard {
-  id: string;
-  code: string;
-  name: string;
-  description: string | null;
-  chapters: {
-    id: string;
-    code: string;
-    title: string;
-    status: string;
-  }[];
-}
+// The inventory table ships its own dataset, so it is only downloaded once the
+// visitor actually opens the "All" tab.
+const RegInventoryTable = dynamic(
+  () => import("@/components/regmaps/RegInventoryTable"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin text-[#355189]" />
+      </div>
+    ),
+  }
+);
 
 interface Category {
   id: string;
   name: string;
   standards: Array<{ id: string }>;
-}
-
-interface Update {
-  id: string;
-  title: string;
-  description: string | null;
-  link: string | null;
-  date: string;
 }
 
 interface SearchResult {
@@ -51,39 +36,38 @@ interface SearchResult {
   url: string;
 }
 
-export default function BaselCenterPage() {
-  const [standards, setStandards] = useState<Standard[]>([]);
-  const [updates, setUpdates] = useState<Update[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [expandedStandards, setExpandedStandards] = useState<Set<string>>(
-    new Set()
+function AboutCard() {
+  return (
+    <div className="p-1.5 rounded-lg bg-linear-to-br from-[#355189] to-[#14213D] text-white">
+      <h3 className="font-bold mb-3">About RegMaps</h3>
+      <p className="text-sm text-white/80 leading-relaxed">
+        RegsMap is a structured and searchable regulatory intelligence platform
+        focused on OJK and Bank Indonesia regulations, helping financial
+        institutions navigate Indonesia’s regulations with clarity,
+        traceability, and confidence. LPS regulations are also included at the
+        document level for reference and monitoring.
+      </p>
+    </div>
   );
-  const [updatesExpanded, setUpdatesExpanded] = useState(false);
+}
+
+export default function BaselCenterPage() {
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [activeTab, setActiveTab] = useState<"category" | "all">("category");
   const [categories, setCategories] = useState<Category[]>([]);
-  const [visibleCount, setVisibleCount] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [standardsRes, categoriesRes, updatesRes] = await Promise.all([
-          fetch(getApiUrl("/basel/standards"), { credentials: "include" }),
-          fetch(getApiUrl("/basel/categories"), { credentials: "include" }),
-          fetch(getApiUrl("/basel/updates?limit=5"), {
-            credentials: "include",
-          }),
-        ]);
-
-        const standardsData = await standardsRes.json();
+        const categoriesRes = await fetch(getApiUrl("/basel/categories"), {
+          credentials: "include",
+        });
         const categoriesData = await categoriesRes.json();
-        const updatesData = await updatesRes.json();
 
-        setStandards(standardsData.standards || []);
         setCategories(categoriesData.categories || []);
-        setUpdates(updatesData.updates || []);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -93,18 +77,6 @@ export default function BaselCenterPage() {
 
     fetchData();
   }, []);
-
-  const toggleStandard = (id: string) => {
-    setExpandedStandards((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
-  };
 
   const handleSearch = async (query: string) => {
     setSearchQuery(query);
@@ -220,10 +192,7 @@ export default function BaselCenterPage() {
               Category
             </button>
             <button
-              onClick={() => {
-                setActiveTab("all");
-                setVisibleCount(10);
-              }}
+              onClick={() => setActiveTab("all")}
               className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${
                 activeTab === "all"
                   ? "bg-[#14213D] text-white shadow-lg"
@@ -234,218 +203,62 @@ export default function BaselCenterPage() {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content - Standards List */}
-            <div className="lg:col-span-2 space-y-4">
-              {loading ? (
-                <div className="flex items-center justify-center py-12">
-                  <Loader2 className="w-8 h-8 animate-spin text-[#355189]" />
-                </div>
-              ) : activeTab === "category" ? (
-                // Category View
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {categories.length === 0 ? (
-                    <div className="md:col-span-2 bg-white rounded-2xl border border-[#E1E7EF] p-8 text-center">
-                      <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                      <h3 className="text-lg font-semibold text-[#14213D] mb-2">
-                        No Categories Yet
-                      </h3>
-                    </div>
-                  ) : (
-                    categories.map((category) => (
-                      <Link
-                        key={category.id}
-                        href={`/regmaps/category/${category.id}`}
-                        className="bg-white rounded-2xl border border-[#E1E7EF] p-6 hover:shadow-md hover:border-[#355189]/30 transition-all group"
-                      >
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h3 className="font-bold text-[#14213D] group-hover:text-[#355189] transition-colors mb-1">
-                              {category.name}
-                            </h3>
-                            <p className="text-sm text-gray-500">
-                              {category.standards?.length ?? 0} standards
-                            </p>
-                          </div>
-                          <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#355189] transition-all transform group-hover:translate-x-1" />
-                        </div>
-                      </Link>
-                    ))
-                  )}
-                </div>
-              ) : standards.length === 0 ? (
-                <div className="bg-white rounded-2xl border border-[#E1E7EF] p-8 text-center">
-                  <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-[#14213D] mb-2">
-                    No Standards Yet
-                  </h3>
-                  <p className="text-gray-500">
-                    Basel Framework standards will appear here once created.
-                  </p>
-                </div>
-              ) : (
-                <>
-                  {standards.slice(0, visibleCount).map((standard) => (
-                    <div
-                      key={standard.id}
-                      className="bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden"
-                    >
-                      {/* Standard Header */}
-                      <div className="flex items-center">
+          {activeTab === "all" ? (
+            /* All View — the full OJK regulation inventory, full width */
+            <div className="space-y-8">
+              <RegInventoryTable />
+              <div className="lg:max-w-md">
+                <AboutCard />
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Category View */}
+              <div className="lg:col-span-2 space-y-4">
+                {loading ? (
+                  <div className="flex items-center justify-center py-12">
+                    <Loader2 className="w-8 h-8 animate-spin text-[#355189]" />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {categories.length === 0 ? (
+                      <div className="md:col-span-2 bg-white rounded-2xl border border-[#E1E7EF] p-8 text-center">
+                        <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                        <h3 className="text-lg font-semibold text-[#14213D] mb-2">
+                          No Categories Yet
+                        </h3>
+                      </div>
+                    ) : (
+                      categories.map((category) => (
                         <Link
-                          href={`/regmaps/${standard.code.toLowerCase()}`}
-                          className="flex-1 flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors"
+                          key={category.id}
+                          href={`/regmaps/category/${category.id}`}
+                          className="bg-white rounded-2xl border border-[#E1E7EF] p-6 hover:shadow-md hover:border-[#355189]/30 transition-all group"
                         >
-                          <div className="text-left">
-                            <h3 className="font-bold text-[#14213D]">
-                              {standard.code} - {standard.name}
-                            </h3>
-                            {standard.description && (
-                              <p className="text-sm text-gray-500 line-clamp-1">
-                                {standard.description}
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="font-bold text-[#14213D] group-hover:text-[#355189] transition-colors mb-1">
+                                {category.name}
+                              </h3>
+                              <p className="text-sm text-gray-500">
+                                {category.standards?.length ?? 0} standards
                               </p>
-                            )}
+                            </div>
+                            <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#355189] transition-all transform group-hover:translate-x-1" />
                           </div>
                         </Link>
-                        <button
-                          onClick={() => toggleStandard(standard.id)}
-                          className="px-4 py-4 hover:bg-gray-50 transition-colors border-l border-[#E1E7EF]"
-                        >
-                          {expandedStandards.has(standard.id) ? (
-                            <ChevronDown className="w-5 h-5 text-gray-400" />
-                          ) : (
-                            <ChevronRight className="w-5 h-5 text-gray-400" />
-                          )}
-                        </button>
-                      </div>
-
-                      {/* Chapters List */}
-                      {expandedStandards.has(standard.id) && (
-                        <div className="border-t border-[#E1E7EF] bg-gray-50">
-                          {(standard.chapters?.length ?? 0) === 0 ? (
-                            <p className="px-6 py-4 text-sm text-gray-500">
-                              No chapters in this standard yet.
-                            </p>
-                          ) : (
-                            standard.chapters.map((chapter) => (
-                              <Link
-                                key={chapter.id}
-                                href={`/regmaps/${standard.code.toLowerCase()}/${
-                                  chapter.code
-                                }`}
-                                className="flex items-center gap-3 px-6 py-3 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
-                              >
-                                <FileText className="w-4 h-4 text-[#355189]" />
-                                <span className="font-medium text-[#14213D]">
-                                  {standard.code}
-                                  {chapter.code}
-                                </span>
-                                <span className="text-gray-500">
-                                  {chapter.title}
-                                </span>
-                                {chapter.status === "archived" && (
-                                  <span className="ml-auto text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded">
-                                    Archived
-                                  </span>
-                                )}
-                              </Link>
-                            ))
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-
-                  {/* Load More */}
-                  {visibleCount < standards.length && (
-                    <button
-                      onClick={() => setVisibleCount((v) => v + 10)}
-                      className="w-full py-3 rounded-2xl border border-[#E1E7EF] bg-white text-sm font-semibold text-[#355189] hover:bg-[#355189] hover:text-white transition-all"
-                    >
-                      Load more ({standards.length - visibleCount} remaining)
-                    </button>
-                  )}
-                </>
-              )}
-            </div>
-
-            {/* Sidebar - Updates */}
-            <div className="space-y-6">
-              {/* Updates Card */}
-              <div className="bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden">
-                <button
-                  onClick={() => setUpdatesExpanded(!updatesExpanded)}
-                  className="w-full flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-[#F48C25]" />
-                    <span className="font-bold text-[#14213D]">
-                      Recent Updates
-                    </span>
-                  </div>
-                  {updatesExpanded ? (
-                    <ChevronDown className="w-5 h-5 text-gray-400" />
-                  ) : (
-                    <ChevronRight className="w-5 h-5 text-gray-400" />
-                  )}
-                </button>
-
-                {updatesExpanded && (
-                  <div className="border-t border-[#E1E7EF]">
-                    {updates.length === 0 ? (
-                      <p className="px-6 py-4 text-sm text-gray-500">
-                        No updates yet.
-                      </p>
-                    ) : (
-                      updates.map((update) => (
-                        <div
-                          key={update.id}
-                          className="px-6 py-3 border-b border-gray-100 last:border-b-0"
-                        >
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="flex-1">
-                              <p className="font-medium text-[#14213D] text-sm">
-                                {update.title}
-                              </p>
-                              {update.description && (
-                                <p className="text-xs text-gray-500 mt-1">
-                                  {update.description}
-                                </p>
-                              )}
-                            </div>
-                            {update.link && (
-                              <Link href={update.link}>
-                                <ExternalLink className="w-4 h-4 text-gray-400 hover:text-[#355189]" />
-                              </Link>
-                            )}
-                          </div>
-                          <p className="text-xs text-gray-400 mt-1">
-                            {new Date(update.date).toLocaleDateString()}
-                          </p>
-                        </div>
                       ))
                     )}
                   </div>
                 )}
               </div>
 
-              {/* Info Card */}
-              <div className="p-1.5 rounded-lg bg-linear-to-br from-[#355189] to-[#14213D] text-white">
-                <h3 className="font-bold mb-3">About RegMaps</h3>
-                <p className="text-sm text-white/80 leading-relaxed">
-                  RegsMap is a structured and searchable regulatory intelligence
-                  platform focused on OJK and Bank Indonesia regulations,
-                  helping financial institutions navigate Indonesia’s
-                  regulations with clarity, traceability, and confidence. LPS
-                  regulations are also included at the document level for
-                  reference and monitoring.
-                </p>
+              {/* Sidebar */}
+              <div className="space-y-6">
+                <AboutCard />
               </div>
-
-              {/* Available RegMaps list (collapsible + lazy "show more") */}
-              <RegMapsList />
             </div>
-          </div>
+          )}
         </div>
         <Footer />
       </main>
