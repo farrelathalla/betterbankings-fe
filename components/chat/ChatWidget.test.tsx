@@ -151,6 +151,7 @@ describe("ChatWidget", () => {
           title: "Prinsip Kehati-hatian Alih Daya",
           status: "dicabut",
           url: "https://pasal.id/peraturan/pojk/pojk-no-9-tahun-2016",
+          partial: true,
         },
       ],
       blocked: false,
@@ -172,6 +173,9 @@ describe("ChatWidget", () => {
     // A revoked regulation has to be labelled — it changes whether the answer
     // is still actionable.
     expect(chip).toHaveTextContent(/revoked/i);
+    // The source publishes article-level nodes but not the ayat beneath them,
+    // so "we have the whole regulation" must never be implied.
+    expect(chip).toHaveTextContent(/partial/i);
   });
 
   it("omits the external-source row when a reply has none", async () => {

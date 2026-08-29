@@ -97,6 +97,9 @@ function ExternalSourceChips({ sources }: { sources: ExternalSource[] }) {
   if (sources.length === 0) return null;
   return (
     <div className="mt-2 flex flex-wrap gap-1.5">
+      {/* "partial" is not a caveat about this link — it means the source itself
+          only published some of the regulation's articles, so the answer above
+          could not have been drawn from the whole text. */}
       {sources.map((source, i) => (
         <a
           key={i}
@@ -111,6 +114,11 @@ function ExternalSourceChips({ sources }: { sources: ExternalSource[] }) {
           {EXTERNAL_STATUS_LABELS[source.status] && (
             <span className="rounded-full bg-[#8A6421]/10 px-1.5 py-px text-[10px] uppercase tracking-wide">
               {EXTERNAL_STATUS_LABELS[source.status]}
+            </span>
+          )}
+          {source.partial && (
+            <span className="rounded-full bg-[#8A6421]/10 px-1.5 py-px text-[10px] uppercase tracking-wide">
+              partial
             </span>
           )}
         </a>

@@ -29,6 +29,12 @@ export interface ExternalSource {
   /** "berlaku" | "dicabut" | "diubah" — whether the regulation is still in force. */
   status: string;
   url: string;
+  /**
+   * The source only had some of the regulation's articles. This is the normal
+   * case rather than the exception — it publishes article-level nodes but not
+   * the ayat beneath them, so any provision written as ayat is missing.
+   */
+  partial?: boolean;
 }
 
 export interface ChatReply {
