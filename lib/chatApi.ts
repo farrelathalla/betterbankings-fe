@@ -17,10 +17,25 @@ export interface ChatMessage {
   createdAt: string;
 }
 
+/**
+ * A regulation the answer drew on that is NOT part of the RegMaps corpus —
+ * looked up from a public legal database because the visitor named it directly
+ * (e.g. "9/POJK.03/2016"). Rendered separately from `citations` so it is always
+ * obvious which sources are curated RegMaps content and which are not.
+ */
+export interface ExternalSource {
+  label: string;
+  title: string;
+  /** "berlaku" | "dicabut" | "diubah" — whether the regulation is still in force. */
+  status: string;
+  url: string;
+}
+
 export interface ChatReply {
   sessionId: string;
   reply: string;
   citations: Citation[];
+  externalSources?: ExternalSource[] | null;
   blocked: boolean;
   /** Present only when the backend enforces a daily cap (CHAT_DAILY_LIMIT). */
   quota?: { limit: number; used: number };

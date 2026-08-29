@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { MessageCircle, X, Send, FileText, Sparkles } from "lucide-react";
+import { MessageCircle, X, Send, FileText, Sparkles, ExternalLink } from "lucide-react";
 import { Streamdown } from "streamdown";
 import {
   sendMessage,
@@ -10,6 +10,7 @@ import {
   ChatApiError,
   type ChatMessage,
   type Citation,
+  type ExternalSource,
 } from "@/lib/chatApi";
 
 interface DisplayMessage {
@@ -17,6 +18,7 @@ interface DisplayMessage {
   role: "user" | "assistant";
   content: string;
   citations: Citation[];
+  externalSources: ExternalSource[];
 }
 
 function parseCitations(raw: string): Citation[] {
@@ -73,6 +75,45 @@ function CitationChips({ citations }: { citations: Citation[] }) {
             {c.standardCode} {c.chapterCode} &middot; Art. {c.subsectionNumber}
           </span>
         </Link>
+      ))}
+    </div>
+  );
+}
+
+// A regulation that isn't revoked needs no badge — "berlaku" is the default
+// assumption. The other two states change whether the answer is still
+// actionable, so they are called out.
+const EXTERNAL_STATUS_LABELS: Record<string, string> = {
+  dicabut: "revoked",
+  diubah: "amended",
+};
+
+/**
+ * Sources from outside RegMaps get their own row, styled unlike the citation
+ * chips on purpose: these open a third-party site rather than a RegMaps page,
+ * and the visitor should be able to tell at a glance which is which.
+ */
+function ExternalSourceChips({ sources }: { sources: ExternalSource[] }) {
+  if (sources.length === 0) return null;
+  return (
+    <div className="mt-2 flex flex-wrap gap-1.5">
+      {sources.map((source, i) => (
+        <a
+          key={i}
+          href={source.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={source.title}
+          className="group flex items-center gap-1.5 rounded-full border border-dashed border-[#C9B08A] bg-[#FDF8F1] px-2.5 py-1 text-xs font-medium text-[#8A6421] transition hover:border-[#F48C25] hover:text-[#B4600F]"
+        >
+          <ExternalLink size={12} className="opacity-70 group-hover:opacity-100" />
+          <span>{source.label}</span>
+          {EXTERNAL_STATUS_LABELS[source.status] && (
+            <span className="rounded-full bg-[#8A6421]/10 px-1.5 py-px text-[10px] uppercase tracking-wide">
+              {EXTERNAL_STATUS_LABELS[source.status]}
+            </span>
+          )}
+        </a>
       ))}
     </div>
   );
@@ -155,6 +196,9 @@ export default function ChatWidget() {
             role: m.role,
             content: m.content,
             citations: parseCitations(m.citations),
+            // Only RegMaps citations are persisted with a message; external
+            // sources are re-resolved per answer, so history shows none.
+            externalSources: [],
           })),
         );
       })
@@ -179,6 +223,7 @@ export default function ChatWidget() {
       role: "user",
       content: trimmed,
       citations: [],
+      externalSources: [],
     };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
@@ -196,6 +241,7 @@ export default function ChatWidget() {
           role: "assistant",
           content: result.reply,
           citations: result.citations,
+          externalSources: result.externalSources ?? [],
         },
       ]);
     } catch (err) {
@@ -214,6 +260,7 @@ export default function ChatWidget() {
           role: "assistant",
           content,
           citations: [],
+          externalSources: [],
         },
       ]);
     } finally {
@@ -257,7 +304,8 @@ export default function ChatWidget() {
       <div className="flex-1 space-y-4 overflow-y-auto bg-[#F8FAFC] px-4 py-4">
         {messages.length === 0 && (
           <p className="text-sm text-[#64748B]">
-            Ask a question about any Basel standard, chapter, or subsection on this page.
+            Ask a question about any Basel standard, chapter, or subsection on this page —
+            or name an Indonesian regulation directly, such as 9/POJK.03/2016.
           </p>
         )}
         {messages.map((m) =>
@@ -273,6 +321,7 @@ export default function ChatWidget() {
                 {m.content}
               </Streamdown>
               <CitationChips citations={m.citations} />
+              <ExternalSourceChips sources={m.externalSources} />
             </div>
           ),
         )}

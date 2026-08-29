@@ -107,6 +107,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         };
       }
       setUser(data.user);
+      // The chat is usable while signed out, and that conversation belongs to
+      // the anonymous identity, not to this account. Drop the pointer so the
+      // widget starts a fresh session rather than asking for a session the
+      // backend will (correctly) refuse to hand over.
+      if (typeof window !== "undefined") {
+        window.sessionStorage.removeItem("chatSessionId");
+      }
       return { success: true };
     } catch (error) {
       console.error("Sign in error:", error);

@@ -140,6 +140,59 @@ describe("ChatWidget", () => {
     await waitFor(() => screen.getByText(/something went wrong/i));
   });
 
+  it("links regulations found outside RegMaps to their external source", async () => {
+    vi.spyOn(chatApi, "sendMessage").mockResolvedValue({
+      sessionId: "s4",
+      reply: "POJK 9/2016 mengatur alih daya.",
+      citations: [],
+      externalSources: [
+        {
+          label: "POJK Nomor 9 Tahun 2016",
+          title: "Prinsip Kehati-hatian Alih Daya",
+          status: "dicabut",
+          url: "https://pasal.id/peraturan/pojk/pojk-no-9-tahun-2016",
+        },
+      ],
+      blocked: false,
+    });
+
+    render(<ChatWidget />);
+    fireEvent.click(screen.getByRole("button", { name: /open chat/i }));
+    fireEvent.change(screen.getByPlaceholderText(/ask about regmaps/i), {
+      target: { value: "apa isi 9/POJK.03/2016?" },
+    });
+    fireEvent.submit(screen.getByRole("form"));
+
+    const chip = await waitFor(() =>
+      screen.getByRole("link", { name: /POJK Nomor 9 Tahun 2016/i }),
+    );
+    // It leaves the site, so it must open in a new tab and not leak the referrer.
+    expect(chip).toHaveAttribute("href", "https://pasal.id/peraturan/pojk/pojk-no-9-tahun-2016");
+    expect(chip).toHaveAttribute("target", "_blank");
+    // A revoked regulation has to be labelled — it changes whether the answer
+    // is still actionable.
+    expect(chip).toHaveTextContent(/revoked/i);
+  });
+
+  it("omits the external-source row when a reply has none", async () => {
+    vi.spyOn(chatApi, "sendMessage").mockResolvedValue({
+      sessionId: "s5",
+      reply: "Grounded entirely in RegMaps.",
+      citations: [],
+      blocked: false,
+    });
+
+    render(<ChatWidget />);
+    fireEvent.click(screen.getByRole("button", { name: /open chat/i }));
+    fireEvent.change(screen.getByPlaceholderText(/ask about regmaps/i), {
+      target: { value: "what is CRE20?" },
+    });
+    fireEvent.submit(screen.getByRole("form"));
+
+    await waitFor(() => screen.getByText(/grounded entirely in regmaps/i));
+    expect(screen.queryByRole("link")).not.toBeInTheDocument();
+  });
+
   it("renders a blocked reply without treating it as an error", async () => {
     vi.spyOn(chatApi, "sendMessage").mockResolvedValue({
       sessionId: "s3",

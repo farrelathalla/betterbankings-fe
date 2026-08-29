@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import RegmapsProtection from "@/components/RegmapsProtection";
-import ChatWidgetGate from "@/components/chat/ChatWidgetGate";
+import ChatWidget from "@/components/chat/ChatWidget";
 
 export const metadata: Metadata = {
   title: "RegMaps - Basel Framework & Regulatory Standards",
@@ -37,7 +37,9 @@ export default function BaselCenterLayout({
   return (
     <RegmapsProtection>
       {children}
-      <ChatWidgetGate />
+      {/* Open to everyone: the API meters anonymous visitors on its own
+          (see middleware.ChatIdentityMiddleware), so no auth gate is needed. */}
+      <ChatWidget />
     </RegmapsProtection>
   );
 }
