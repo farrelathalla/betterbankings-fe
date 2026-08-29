@@ -113,7 +113,14 @@ export default function BaselCenterPage() {
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row overflow-x-hidden">
       <Sidebar />
 
-      <main className="w-full flex-1 lg:ml-[280px] relative">
+      {/*
+        min-w-0 is load-bearing. A flex item defaults to min-width:auto, so
+        without it the All tab's 1400px-wide table stretches <main> past the
+        viewport: the parent's overflow-x-hidden then clips the search bar and
+        filters off the right edge, and the table's own overflow-x-auto never
+        gets to scroll because its container is already as wide as the table.
+      */}
+      <main className="w-full min-w-0 flex-1 lg:ml-[280px] relative">
         {/* Background Gradients */}
         <div className="fixed inset-0 pointer-events-none z-0">
           <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-50 rounded-full blur-[100px] opacity-60"></div>
