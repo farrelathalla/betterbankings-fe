@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import { AnimatePresence, motion } from "framer-motion";
@@ -468,6 +469,56 @@ export default function AdvisoryProducts() {
                 organizational resilience.
               </motion.p>
             </div>
+          </section>
+
+          {/* Featured product: ILAAP Risk Cube */}
+          <section className="px-6 pb-4">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="max-w-6xl mx-auto"
+            >
+              <Link
+                href="/advisory-products/ilaap-risk-cube"
+                className="group grid grid-cols-1 items-center gap-8 rounded-2xl border border-gray-200/80 bg-white p-6 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-[#F48C25]/35 hover:shadow-xl hover:shadow-[#14213D]/[0.08] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F48C25] focus-visible:ring-offset-2 lg:grid-cols-[1fr_1.1fr] lg:p-8"
+              >
+                <div className="order-2 min-w-0 lg:order-1">
+                  <div className="flex items-center gap-2">
+                    <span className="rounded-full bg-[#F48C25]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#F48C25]">
+                      New
+                    </span>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#355189]/70">
+                      ILAAP Overlay Analytics
+                    </span>
+                  </div>
+                  <h3 className="mt-4 text-2xl font-bold tracking-tight text-[#14213D] lg:text-3xl">
+                    ILAAP <span className="text-[#F48C25]">Risk Cube</span>
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-relaxed text-gray-600">
+                    Turn OJK ILAAP reporting data into liquidity insight,
+                    foresight and action. A transparent analytical and assurance
+                    layer linking SPM, scenario choice, funding profile,
+                    executable liquidity and report-ready outputs.
+                  </p>
+                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#14213D]">
+                    Explore the framework
+                    <ArrowRight className="h-4 w-4 text-[#F48C25] transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
+                </div>
+                <div className="order-1 min-w-0 overflow-hidden rounded-xl bg-[#F5F8FC] p-3 lg:order-2">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/ilaap/01_Hero_ILAAP_Risk_Cube_Light.svg"
+                    alt="ILAAP Risk Cube connecting SPM data, Funding Rollover, CBC and HQLA with scenario choice, time, survival and low point."
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.02]"
+                  />
+                </div>
+              </Link>
+            </motion.div>
           </section>
 
           {/* Risk Disciplines Section */}

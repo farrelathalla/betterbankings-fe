@@ -55,6 +55,7 @@ import {
   Percent,
   GitCompare,
   GraduationCap,
+  Boxes,
 } from "lucide-react";
 
 const NAV_SECTIONS: NavSection[] = [
@@ -71,6 +72,13 @@ const NAV_SECTIONS: NavSection[] = [
         label: "Software Products",
         href: "/advisory-products",
         icon: ShoppingBag,
+        children: [
+          {
+            label: "ILAAP Risk Cube",
+            href: "/advisory-products/ilaap-risk-cube",
+            icon: Boxes,
+          },
+        ],
       },
       { label: "RegMaps", href: "/regmaps", icon: FileText },
       {
