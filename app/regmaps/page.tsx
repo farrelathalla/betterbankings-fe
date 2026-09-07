@@ -266,6 +266,7 @@ export default function BaselCenterPage() {
               </div>
             </div>
           )}
+
         </div>
         <Footer />
       </main>

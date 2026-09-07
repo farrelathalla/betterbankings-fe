@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   PiggyBank,
   Activity,
+  BarChart2,
   ArrowRight,
   ChevronLeft,
 } from "lucide-react";
@@ -45,6 +46,14 @@ const sections = [
     href: "/b-foresight/individual-bank-data/performance-monitoring",
     icon: Activity,
     index: "04",
+  },
+  {
+    title: "Custom Data Visualization",
+    description:
+      "Build tailored views of bank data with flexible charting and comparison tools. Combine metrics across categories to create custom dashboards suited to your analytical needs.",
+    href: "/b-foresight/individual-bank-data/custom-data-visualization",
+    icon: BarChart2,
+    index: "05",
   },
 ];
 
@@ -115,7 +124,9 @@ export default function IndividualBankDataPage() {
           <section className="px-6 lg:px-12 py-12">
             <div className="max-w-5xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {sections.map((section, index) => (
+                {sections.map((section, index) => {
+                  const isOrphan = index === sections.length - 1 && sections.length % 2 !== 0;
+                  return (
                   <motion.div
                     key={section.title}
                     initial={{ opacity: 0, y: 30 }}
@@ -126,6 +137,7 @@ export default function IndividualBankDataPage() {
                       type: "spring",
                       stiffness: 100,
                     }}
+                    className={isOrphan ? "md:col-span-2 md:max-w-[calc(50%-16px)] md:mx-auto w-full" : ""}
                   >
                     <Link href={section.href} className="group block h-full">
                       <div className="relative h-full bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-blue-100/40 hover:-translate-y-1">
@@ -159,7 +171,8 @@ export default function IndividualBankDataPage() {
                       </div>
                     </Link>
                   </motion.div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </section>
