@@ -21,6 +21,7 @@ import {
   NarrativeFigure,
   ServiceJourneyFigure,
 } from "@/components/ilaap/OutputFigures";
+import VideoIntro from "@/components/ilaap/VideoIntro";
 import {
   ArrowLeft,
   ArrowRight,
@@ -68,6 +69,7 @@ const inView = { once: true, margin: "-80px" } as const;
 const ASSETS = "/ilaap";
 
 const SECTIONS = [
+  { id: "introduction", label: "Introduction" },
   { id: "why", label: "Why now" },
   { id: "architecture", label: "Architecture" },
   { id: "framework", label: "Framework" },
@@ -515,6 +517,30 @@ export default function IlaapRiskCubePage() {
         </section>
 
         <SectionNav activeId={activeId} />
+
+        {/* ---------------------------------------------------------- */}
+        {/* Introduction: video walkthrough                             */}
+        {/* ---------------------------------------------------------- */}
+        <section
+          id="introduction"
+          className="scroll-mt-20 border-b border-gray-200/70 bg-white px-6 py-20 lg:py-24"
+        >
+          <div className="mx-auto max-w-6xl">
+            <SectionHeading
+              eyebrow="Introduction"
+              title="See the Risk Cube"
+              accent="in motion"
+              lede="A short walkthrough of how the ILAAP Risk Cube turns reporting data into scenario analytics, executable liquidity and report-ready outputs."
+            />
+            <div className="mt-12">
+              <VideoIntro
+                videoId="eDbmCicwGeY"
+                title="ILAAP Risk Cube"
+                caption="A recorded walkthrough of the ILAAP Risk Cube framework and its outputs."
+              />
+            </div>
+          </div>
+        </section>
 
         {/* ---------------------------------------------------------- */}
         {/* Why now                                                     */}

@@ -56,6 +56,7 @@ import {
   GitCompare,
   GraduationCap,
   Boxes,
+  Scale,
 } from "lucide-react";
 
 const NAV_SECTIONS: NavSection[] = [
@@ -77,6 +78,11 @@ const NAV_SECTIONS: NavSection[] = [
             label: "ILAAP Risk Cube",
             href: "/advisory-products/ilaap-risk-cube",
             icon: Boxes,
+          },
+          {
+            label: "Balance Sheet Simulation",
+            href: "/advisory-products/balance-sheet-simulation",
+            icon: Scale,
           },
         ],
       },
