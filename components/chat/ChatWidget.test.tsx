@@ -3,6 +3,8 @@ import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/re
 import "@testing-library/jest-dom/vitest";
 import ChatWidget from "./ChatWidget";
 import * as chatApi from "@/lib/chatApi";
+import { askChatbot } from "@/lib/chatBridge";
+import { act } from "@testing-library/react";
 
 beforeEach(() => {
   window.sessionStorage.clear();
@@ -213,5 +215,61 @@ describe("ChatWidget", () => {
     fireEvent.submit(screen.getByRole("form"));
 
     await waitFor(() => screen.getByText(/I can only answer questions/i));
+  });
+
+  it("opens and sends a question asked from the page", async () => {
+    vi.spyOn(chatApi, "sendMessage").mockResolvedValue({
+      sessionId: "s3",
+      reply: "ALDA mengatur alih daya.",
+      citations: [],
+      blocked: false,
+    });
+
+    render(<ChatWidget />);
+    act(() => askChatbot("Jelaskan apa itu 9/POJK.03/2016"));
+
+    await waitFor(() => screen.getByText(/mengatur alih daya/i));
+    expect(screen.getByText("Jelaskan apa itu 9/POJK.03/2016")).toBeInTheDocument();
+    expect(chatApi.sendMessage).toHaveBeenCalledWith(null, "Jelaskan apa itu 9/POJK.03/2016");
+  });
+
+  it("keeps a page question when stored history arrives after it", async () => {
+    window.sessionStorage.setItem("chatSessionId", "existing-session");
+    let resolveHistory: (v: Awaited<ReturnType<typeof chatApi.getHistory>>) => void = () => {};
+    vi.spyOn(chatApi, "getHistory").mockReturnValue(
+      new Promise((resolve) => {
+        resolveHistory = resolve;
+      }),
+    );
+    vi.spyOn(chatApi, "sendMessage").mockResolvedValue({
+      sessionId: "existing-session",
+      reply: "fresh answer",
+      citations: [],
+      blocked: false,
+    });
+
+    render(<ChatWidget />);
+    act(() => askChatbot("new question"));
+    await waitFor(() => screen.getByText(/fresh answer/i));
+
+    await act(async () => {
+      resolveHistory({
+        messages: [
+          {
+            id: "m1",
+            sessionId: "existing-session",
+            role: "assistant",
+            content: "older answer",
+            citations: "[]",
+            blocked: false,
+            createdAt: new Date().toISOString(),
+          },
+        ],
+      });
+    });
+
+    expect(screen.getByText(/older answer/i)).toBeInTheDocument();
+    expect(screen.getByText("new question")).toBeInTheDocument();
+    expect(screen.getByText(/fresh answer/i)).toBeInTheDocument();
   });
 });

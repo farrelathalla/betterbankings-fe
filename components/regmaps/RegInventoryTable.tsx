@@ -2,8 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ExternalLink, Search, X } from "lucide-react";
+import { ExternalLink, Search, Sparkles, X } from "lucide-react";
 import { regInventory, type RegInventoryEntry } from "@/lib/regInventory";
+import { askChatbot } from "@/lib/chatBridge";
 
 // Rows are appended in batches as the user scrolls — the full inventory is a
 // few hundred wide rows and mounting them all at once is a noticeable stall.
@@ -95,6 +96,38 @@ function RegLink({ entry }: { entry: RegInventoryEntry }) {
   }
 
   return <span className="font-semibold text-[#14213D]">{entry.id}</span>;
+}
+
+/**
+ * The question sent when a visitor asks the assistant about a regulation.
+ * Bare IDs like "9 Tahun 2023" don't say what kind of rule they are, so the
+ * type is prefixed; the title is included because it is what retrieval
+ * actually matches on — the ID alone carries little meaning for an embedding.
+ */
+export function explainRegulationQuestion(entry: RegInventoryEntry): string {
+  const name = entry.id.toUpperCase().includes(entry.type.toUpperCase())
+    ? entry.id
+    : `${entry.type} ${entry.id}`.trim();
+  return (
+    `Jelaskan apa itu ${name} tentang ${entry.title}. ` +
+    "Apa tujuan, ruang lingkup, dan poin-poin pengaturan utamanya?"
+  );
+}
+
+/** Only regulations mapped into RegMaps get this — the assistant is grounded in RegMaps content. */
+function AskChatButton({ entry }: { entry: RegInventoryEntry }) {
+  return (
+    <button
+      type="button"
+      onClick={() => askChatbot(explainRegulationQuestion(entry))}
+      title={`Ask the RegMaps Assistant to explain ${entry.id}`}
+      aria-label={`Ask the RegMaps Assistant to explain ${entry.id}`}
+      className="mt-1.5 inline-flex items-center gap-1 rounded-full border border-[#F48C25]/40 bg-[#FFF6EC] px-2 py-0.5 text-[11px] font-semibold text-[#B4600F] transition hover:border-[#F48C25] hover:bg-[#F48C25] hover:text-white"
+    >
+      <Sparkles className="w-3 h-3" />
+      Ask AI
+    </button>
+  );
 }
 
 export default function RegInventoryTable() {
@@ -234,6 +267,10 @@ export default function RegInventoryTable() {
             <span className="w-2.5 h-2.5 rounded-full bg-[#355189]" />
             Official OJK document
           </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Sparkles className="w-3 h-3 text-[#F48C25]" />
+            Ask AI explains a RegMaps regulation in the chat
+          </span>
         </div>
         <span>
           Showing {visible.length} of {filtered.length} regulations
@@ -284,6 +321,11 @@ export default function RegInventoryTable() {
                     </td>
                     <td className="px-4 py-3 min-w-[150px]">
                       <RegLink entry={entry} />
+                      {entry.linkType === "regmaps" && (
+                        <div>
+                          <AskChatButton entry={entry} />
+                        </div>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
                       {entry.type}

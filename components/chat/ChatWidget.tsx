@@ -12,6 +12,7 @@ import {
   type Citation,
   type ExternalSource,
 } from "@/lib/chatApi";
+import { ASK_CHAT_EVENT, type AskChatDetail } from "@/lib/chatBridge";
 
 interface DisplayMessage {
   id: string;
@@ -181,6 +182,9 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState<DisplayMessage[]>([]);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
+  // A question asked from elsewhere on the page (see lib/chatBridge.ts), held
+  // until any answer already in flight has arrived.
+  const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
   const sessionIdRef = useRef<string | null>(null);
   const hasLoadedHistory = useRef(false);
   const scrollBottomRef = useRef<HTMLDivElement>(null);
@@ -198,8 +202,10 @@ export default function ChatWidget() {
 
     getHistory(sessionId)
       .then(({ messages: history }: { messages: ChatMessage[] }) => {
-        setMessages(
-          history.map((m) => ({
+        // Prepend rather than replace: a question asked from the page can be
+        // sent before the history request comes back.
+        setMessages((prev) => [
+          ...history.map((m) => ({
             id: m.id,
             role: m.role,
             content: m.content,
@@ -208,7 +214,8 @@ export default function ChatWidget() {
             // sources are re-resolved per answer, so history shows none.
             externalSources: [],
           })),
-        );
+          ...prev,
+        ]);
       })
       .catch(() => {
         // History failed to load (e.g. session expired) — start fresh silently.
@@ -221,9 +228,19 @@ export default function ChatWidget() {
     scrollBottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, isSending, isOpen]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmed = input.trim();
+  useEffect(() => {
+    const onAsk = (e: Event) => {
+      const question = (e as CustomEvent<AskChatDetail>).detail?.question?.trim();
+      if (!question) return;
+      setIsOpen(true);
+      setPendingQuestion(question);
+    };
+    window.addEventListener(ASK_CHAT_EVENT, onAsk);
+    return () => window.removeEventListener(ASK_CHAT_EVENT, onAsk);
+  }, []);
+
+  const send = async (text: string) => {
+    const trimmed = text.trim();
     if (!trimmed || isSending) return;
 
     const userMessage: DisplayMessage = {
@@ -234,7 +251,6 @@ export default function ChatWidget() {
       externalSources: [],
     };
     setMessages((prev) => [...prev, userMessage]);
-    setInput("");
     setIsSending(true);
 
     try {
@@ -274,6 +290,21 @@ export default function ChatWidget() {
     } finally {
       setIsSending(false);
     }
+  };
+
+  useEffect(() => {
+    if (!pendingQuestion || isSending) return;
+    setPendingQuestion(null);
+    void send(pendingQuestion);
+    // `send` is recreated every render; the effect only needs to re-run when a
+    // question arrives or the previous answer lands.
+  }, [pendingQuestion, isSending]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isSending) return;
+    setInput("");
+    void send(input);
   };
 
   if (!isOpen) {
