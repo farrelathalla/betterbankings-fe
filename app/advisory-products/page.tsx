@@ -6,6 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ModuleMap } from "@/components/product-landing/ProductArt";
 
 const RISK_DISCIPLINES = [
   {
@@ -98,17 +99,18 @@ export default function AdvisoryProducts() {
                       New
                     </span>
                     <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#355189]/70">
-                      ILAAP Overlay Analytics
+                      Liquidity Analytics &amp; Submission Support
                     </span>
                   </div>
                   <h3 className="mt-4 text-2xl font-bold tracking-tight text-[#14213D] lg:text-3xl">
                     ILAAP <span className="text-[#F48C25]">Risk Cube</span>
                   </h3>
                   <p className="mt-3 text-[15px] leading-relaxed text-gray-600">
-                    Turn OJK ILAAP reporting data into liquidity insight,
-                    foresight and action. A transparent analytical and assurance
-                    layer linking SPM, scenario choice, funding profile,
-                    executable liquidity and report-ready outputs.
+                    Liquidity analytics and ILAAP submission support. An
+                    Excel-based tool connecting Survival Period Monitoring
+                    (SPM), funding data and bank-specific assumptions, with
+                    practical support to prepare a clear submission on a tight
+                    timeline.
                   </p>
                   <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#14213D]">
                     Explore the framework
@@ -124,6 +126,48 @@ export default function AdvisoryProducts() {
                     decoding="async"
                     className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.02]"
                   />
+                </div>
+              </Link>
+
+              <Link
+                href="/advisory-products/counterparty-capital-calculator"
+                className="group grid grid-cols-1 items-center gap-8 rounded-2xl border border-gray-200/80 bg-white p-6 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-[#F48C25]/35 hover:shadow-xl hover:shadow-[#14213D]/[0.08] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F48C25] focus-visible:ring-offset-2 lg:grid-cols-[1fr_1.1fr] lg:p-8"
+              >
+                <div className="order-2 min-w-0 lg:order-1">
+                  <div className="flex items-center gap-2">
+                    <span className="rounded-full bg-[#F48C25]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#F48C25]">
+                      New
+                    </span>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#355189]/70">
+                      Counterparty Credit Risk Capital
+                    </span>
+                  </div>
+                  <h3 className="mt-4 text-2xl font-bold tracking-tight text-[#14213D] lg:text-3xl">
+                    Counterparty Capital{" "}
+                    <span className="text-[#F48C25]">Calculator</span>
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-relaxed text-gray-600">
+                    SA-CCR, Basic Approach CVA and CCP exposures in one
+                    Excel-based calculator. Derive derivative exposures,
+                    risk-weighted assets and capital requirements with
+                    traceable results and practical support for OJK reporting.
+                  </p>
+                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#14213D]">
+                    Explore the calculator
+                    <ArrowRight className="h-4 w-4 text-[#F48C25] transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
+                </div>
+                <div className="relative order-1 min-w-0 overflow-hidden rounded-xl bg-[#102d49] p-6 sm:p-8 lg:order-2">
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-[#287aa7]/35 blur-[80px] transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <p className="relative mb-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[#b8dff1]">
+                    Three connected calculations
+                  </p>
+                  <div className="relative">
+                    <ModuleMap compact animateOnMount={false} />
+                  </div>
                 </div>
               </Link>
 

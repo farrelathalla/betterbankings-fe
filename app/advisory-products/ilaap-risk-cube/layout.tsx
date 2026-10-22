@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "ILAAP Risk Cube - Liquidity Analytics and Reporting Assurance",
+  title: "ILAAP Risk Cube - Liquidity Analytics and ILAAP Submission Support",
   description:
-    "Turn OJK ILAAP reporting data into liquidity insight, foresight and action. A transparent analytical and assurance layer linking SPM, scenario choice, funding profile, executable liquidity and report-ready outputs.",
+    "Liquidity analytics and practical ILAAP submission support from BetterBankings. Assess stress, survival and usable liquidity, and prepare a clear submission within a tight timeline.",
   keywords: [
     "ILAAP",
     "ILAAP Risk Cube",
     "OJK ILAAP",
     "liquidity risk analytics",
     "SPM reporting",
-    "Funding Rollover Analytics",
+    "ILAAP submission support",
+    "SEOJK 26/2025",
     "counterbalancing capacity",
     "CBC",
     "HQLA",
@@ -22,9 +23,9 @@ export const metadata: Metadata = {
     canonical: "https://betterbankings.com/advisory-products/ilaap-risk-cube",
   },
   openGraph: {
-    title: "ILAAP Risk Cube - Liquidity Analytics and Reporting Assurance",
+    title: "ILAAP Risk Cube - Liquidity Analytics and ILAAP Submission Support",
     description:
-      "A transparent analytical and assurance layer linking SPM, scenario choice, funding profile, executable liquidity and report-ready outputs.",
+      "An Excel-based ILAAP tool connecting SPM, funding data and bank-specific assumptions, with practical support for a clear submission.",
     url: "https://betterbankings.com/advisory-products/ilaap-risk-cube",
     images: ["https://betterbankings.com/og-image.png"],
   },

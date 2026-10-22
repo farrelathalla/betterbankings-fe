@@ -80,6 +80,11 @@ const NAV_SECTIONS: NavSection[] = [
             icon: Boxes,
           },
           {
+            label: "Counterparty Capital Calculator",
+            href: "/advisory-products/counterparty-capital-calculator",
+            icon: Calculator,
+          },
+          {
             label: "Balance Sheet Simulation",
             href: "/advisory-products/balance-sheet-simulation",
             icon: Scale,
