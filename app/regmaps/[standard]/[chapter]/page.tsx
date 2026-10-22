@@ -9,6 +9,7 @@ import {
   saveScrollPosition,
   consumeScrollPosition,
 } from "@/lib/scrollRestore";
+import { ANCHOR_ATTR, findAnchorElement, samePath } from "@/lib/regmapsAnchor";
 import {
   ChevronLeft,
   ChevronDown,
@@ -409,12 +410,11 @@ export default function ChapterPage({
     fetchChapter();
   }, [standardCode, chapterCode]);
 
-  // Resolve an anchor: exact id match first, then prefix match (e.g. "AML.IV.51" → "AML.IV.51.1-5")
+  // Resolve an anchor to a subsection: case-insensitive, prefix match
+  // ("AML.IV.51" → "AML.IV.51.1-5"), enclosing subsection after renumbering.
+  // See lib/regmapsAnchor.ts.
   const resolveAnchor = useCallback((anchorId: string): HTMLElement | null => {
-    return (
-      document.getElementById(anchorId) ??
-      (document.querySelector(`[id^="${anchorId}."]`) as HTMLElement | null)
-    );
+    return findAnchorElement(document, anchorId);
   }, []);
 
   // Scroll to an anchor ID with URL synchronization
@@ -739,10 +739,10 @@ export default function ChapterPage({
       // e.g. href="/regmaps/sco/10#SCO10.5"
       try {
         const url = new URL(href, window.location.origin);
-        if (url.pathname === window.location.pathname && url.hash) {
+        if (samePath(url.pathname, window.location.pathname) && url.hash) {
           e.preventDefault();
           scrollToAnchor(url.hash.slice(1));
-        } else if (url.pathname !== window.location.pathname) {
+        } else if (!samePath(url.pathname, window.location.pathname)) {
           // Cross-page reference: save scroll position so the browser Back
           // button can restore it when the user returns to this page.
           saveScrollForBackNav();
@@ -777,7 +777,7 @@ export default function ChapterPage({
     return (
       <div className="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row">
         <Sidebar />
-        <main className="w-full flex-1 lg:ml-[280px] flex items-center justify-center">
+        <main className="w-full min-w-0 flex-1 lg:ml-[280px] flex items-center justify-center">
           <Loader2 className="w-8 h-8 animate-spin text-[#355189]" />
         </main>
       </div>
@@ -788,7 +788,7 @@ export default function ChapterPage({
     return (
       <div className="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row">
         <Sidebar />
-        <main className="w-full flex-1 lg:ml-[280px] relative">
+        <main className="w-full min-w-0 flex-1 lg:ml-[280px] relative">
           <div className="px-6 lg:px-12 py-8">
             <Link
               href={`/regmaps/${standardCode.toLowerCase()}`}
@@ -816,7 +816,7 @@ export default function ChapterPage({
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col lg:flex-row overflow-x-hidden pb-10">
       <Sidebar />
 
-      <main className="w-full flex-1 lg:ml-[280px] relative">
+      <main className="w-full min-w-0 flex-1 lg:ml-[280px] relative">
         {/* Background Gradients */}
         <div className="fixed inset-0 pointer-events-none z-0">
           <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-50 rounded-full blur-[100px] opacity-60"></div>
@@ -943,6 +943,9 @@ export default function ChapterPage({
                               <div
                                 key={subsection.id}
                                 id={anchorId}
+                                {...{
+                                  [ANCHOR_ATTR]: `${chapter.standard.code}${chapter.code}`,
+                                }}
                                 ref={(el) => {
                                   sectionRefs.current[subsection.id] = el;
                                   sectionRefs.current[anchorId] = el;

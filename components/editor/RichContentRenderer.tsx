@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import katex from "katex";
+import { findAnchorElement, internalRegmapsPath, samePath } from "@/lib/regmapsAnchor";
 import "katex/dist/katex.min.css";
 
 interface Mark {
@@ -47,7 +48,7 @@ export default function RichContentRenderer({
   }
 
   return (
-    <div className="rich-content-container prose prose-sm max-w-none text-[#1a1a1a]">
+    <div className="rich-content-container prose prose-sm max-w-none min-w-0 break-words text-[#1a1a1a]">
       <RenderNodes nodes={nodes} />
     </div>
   );
@@ -240,6 +241,17 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
 
         case "link": {
           const rawHref = (mark.attrs?.href as string) || "";
+          // An absolute link to RegMaps on this site navigates in-app like a
+          // reference link (and scrolls to its #anchor) instead of a new tab
+          const internal = internalRegmapsPath(rawHref);
+          if (internal) {
+            element = (
+              <Link href={internal} className="text-blue-600 hover:underline">
+                {element}
+              </Link>
+            );
+            break;
+          }
           // Block javascript: and data: URIs to prevent XSS
           const safeHref = /^(https?:\/\/|mailto:|\/|#)/i.test(rawHref)
             ? rawHref
@@ -300,16 +312,12 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
                 const targetPathname = refUrl.split("#")[0];
                 if (
                   typeof window !== "undefined" &&
-                  window.location.pathname === targetPathname
+                  samePath(window.location.pathname, targetPathname)
                 ) {
                   // Prevent Next.js from re-navigating (no-op or hash update).
                   // Scroll to the anchor ourselves so repeated clicks always work.
                   e.preventDefault();
-                  const el =
-                    document.getElementById(anchorId) ??
-                    (document.querySelector(
-                      `[id^="${anchorId}."]`,
-                    ) as HTMLElement | null);
+                  const el = findAnchorElement(document, anchorId);
                   if (el)
                     el.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
