@@ -18,6 +18,7 @@ import {
   mailto,
 } from "@/components/product-landing/ProductLanding";
 import { RiskCubeHeroArt } from "@/components/product-landing/ProductArt";
+import VideoIntro from "@/components/product-landing/VideoIntro";
 
 /* Copy follows the approved one-page sheet
    (BetterBankings_ILAAP_Risk_Cube_Website.html). */
@@ -25,6 +26,7 @@ import { RiskCubeHeroArt } from "@/components/product-landing/ProductArt";
 const SUBJECT = "ILAAP Risk Cube and submission support";
 
 const SECTIONS = [
+  { id: "video", label: "Video" },
   { id: "analytics", label: "Analytics" },
   { id: "submission", label: "Submission support" },
   { id: "about", label: "About us" },
@@ -115,8 +117,20 @@ export default function IlaapRiskCubePage() {
 
       <SectionNav items={SECTIONS} />
 
+      {/* Video introduction */}
+      <Section id="video">
+        <Heading id="video-title" eyebrow="Video introduction" className="mb-8">
+          See the ILAAP Risk Cube in action
+        </Heading>
+        <VideoIntro
+          videoId="eDbmCicwGeY"
+          title="ILAAP Risk Cube"
+          caption="A short walkthrough of the ILAAP Risk Cube and its outputs."
+        />
+      </Section>
+
       {/* Analytics */}
-      <Section id="analytics">
+      <Section id="analytics" tinted>
         <Heading id="analytics-title" className="mb-7">
           Three dimensions of liquidity adequacy
         </Heading>
@@ -127,6 +141,7 @@ export default function IlaapRiskCubePage() {
           <DefinitionTable
             label="ILAAP Risk Cube capabilities"
             rows={CAPABILITIES}
+            onTint
           />
           <Reveal>
             <p className="mt-6 text-[#556c7d]">
@@ -138,7 +153,7 @@ export default function IlaapRiskCubePage() {
       </Section>
 
       {/* Submission support */}
-      <Section id="submission" tinted>
+      <Section id="submission">
         <Heading id="submission-title" eyebrow="Submission support">
           ILAAP submission support for tight timelines
         </Heading>
