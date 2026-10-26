@@ -25,7 +25,7 @@ describe("explainRegulationQuestion", () => {
 });
 
 describe("RegInventoryTable", () => {
-  it("offers Ask AI only on rows that are on RegMaps", () => {
+  it("offers Ask RegMaps only on rows that are on RegMaps", () => {
     // jsdom has no IntersectionObserver; the table uses it to load more rows.
     vi.stubGlobal(
       "IntersectionObserver",

@@ -125,7 +125,7 @@ function AskChatButton({ entry }: { entry: RegInventoryEntry }) {
       className="mt-1.5 inline-flex items-center gap-1 rounded-full border border-[#F48C25]/40 bg-[#FFF6EC] px-2 py-0.5 text-[11px] font-semibold text-[#B4600F] transition hover:border-[#F48C25] hover:bg-[#F48C25] hover:text-white"
     >
       <Sparkles className="w-3 h-3" />
-      Ask AI
+      Ask RegMaps
     </button>
   );
 }
@@ -269,7 +269,7 @@ export default function RegInventoryTable() {
           </span>
           <span className="inline-flex items-center gap-1.5">
             <Sparkles className="w-3 h-3 text-[#F48C25]" />
-            Ask AI explains a RegMaps regulation in the chat
+            Ask RegMaps explains a regulation in the chat
           </span>
         </div>
         <span>
