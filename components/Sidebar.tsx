@@ -99,7 +99,7 @@ const NAV_SECTIONS: NavSection[] = [
       },
       {
         label: "BetterBankings Angle",
-        href: "/coming-soon",
+        href: "/betterbankings-angle",
         icon: TrendingUp,
       },
     ],

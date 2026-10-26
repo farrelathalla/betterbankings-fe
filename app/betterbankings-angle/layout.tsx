@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "BetterBankings Angle - Banking & Finance Podcast",
+  title: "BetterBankings Angle - Banking Articles & Podcast",
   description:
-    "Listen to conversations with industry leaders about banking regulation, risk management, and the future of finance in Southeast Asia. Expert insights on Basel compliance, regulatory trends, and banking best practices.",
+    "Read analysis and listen to conversations with industry leaders about banking regulation, risk management, and the future of finance in Southeast Asia. Expert insights on Basel compliance, regulatory trends, and banking best practices.",
   keywords: [
     "BetterBankings Angle",
+    "ILAAP Cube",
+    "ILAAP",
+    "liquidity stress testing",
     "banking podcast",
     "finance podcast",
     "risk management",

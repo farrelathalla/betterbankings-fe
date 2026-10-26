@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1200" height="650" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1200 650" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1200" height="650"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-650)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1200" height="650" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="30" y="610" style="font-family: Arial; font-weight: bold; font-size: 31px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,1220) scale(1,-1)">Digital Confidence Shock</text>
+			<text x="30" y="575" style="font-family: Arial; font-size: 23px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,1150) scale(1,-1)">Same withdrawal total with faster timing</text>
+			<text x="30" y="540" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,1080) scale(1,-1)">Cumulative share of total 30-day withdrawals (%)</text>
+			<path d="M 100,140 L 1100,140 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="70.324" y="133.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,266) scale(1,-1)">0</text>
+			<path d="M 100,204 L 1100,204 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="58.647999999999996" y="197.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,394) scale(1,-1)">20</text>
+			<path d="M 100,268 L 1100,268 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="58.647999999999996" y="261.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,522) scale(1,-1)">40</text>
+			<path d="M 100,332 L 1100,332 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="58.647999999999996" y="325.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,650) scale(1,-1)">60</text>
+			<path d="M 100,396 L 1100,396 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="58.647999999999996" y="389.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,778) scale(1,-1)">80</text>
+			<path d="M 100,460 L 1100,460 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="46.972" y="453.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,906) scale(1,-1)">100</text>
+			<text x="94.162" y="108" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,216) scale(1,-1)">0</text>
+			<text x="327.49533333333335" y="108" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,216) scale(1,-1)">7</text>
+			<text x="588.324" y="108" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,216) scale(1,-1)">15</text>
+			<text x="1088.324" y="108" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,216) scale(1,-1)">30</text>
+			<text x="1064.44" y="77" style="font-family: Arial; font-size: 20px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,154) scale(1,-1)">Day</text>
+			<path d="M 333.333333,140 L 333.333333,460 Z" style="stroke: rgb(38%,47%,51%); stroke-linecap: butt; stroke-width: 1; stroke-dasharray: 3, 4;"/>
+			<polyline points="100 140, 133.3333 150.6667, 166.6667 161.3333, 200 172, 233.3333 182.6667, 266.6667 193.3333, 300 204, 333.3333 214.6667, 366.6667 225.3333, 400 236, 433.3333 246.6667, 466.6667 257.3333, 500 268, 533.3333 278.6667, 566.6667 289.3333, 600 300, 633.3333 310.6667, 666.6667 321.3333, 700 332, 733.3333 342.6667, 766.6667 353.3333, 800 364, 833.3333 374.6667, 866.6667 385.3333, 900 396, 933.3333 406.6667, 966.6667 417.3333, 1000 428, 1033.333 438.6667, 1066.667 449.3333, 1100 460" style="stroke: rgb(9%,23%,31%); stroke-linecap: butt; stroke-width: 4; fill: None; fill-rule: evenodd; stroke-dasharray: 8, 6;"/>
+			<circle cx="333.33333333333337" cy="214.66666666666666" r="5.5" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 2; fill: rgb(9%,23%,31%); fill-rule: evenodd;"/>
+			<polyline points="100 140, 133.3333 172, 166.6667 204, 200 236, 233.3333 268, 266.6667 300, 300 332, 333.3333 364, 366.6667 368.1739, 400 372.3478, 433.3333 376.5217, 466.6667 380.6957, 500 384.8696, 533.3333 389.0435, 566.6667 393.2174, 600 397.3913, 633.3333 401.5652, 666.6667 405.7391, 700 409.913, 733.3333 414.087, 766.6667 418.2609, 800 422.4348, 833.3333 426.6087, 866.6667 430.7826, 900 434.9565, 933.3333 439.1304, 966.6667 443.3043, 1000 447.4783, 1033.333 451.6522, 1066.667 455.8261, 1100 460" style="stroke: rgb(71%,39%,20%); stroke-linecap: butt; stroke-width: 4; fill: None; fill-rule: evenodd;"/>
+			<circle cx="333.33333333333337" cy="364.0" r="5.5" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 2; fill: rgb(71%,39%,20%); fill-rule: evenodd;"/>
+			<text x="349.33333333333337" y="379.0" style="font-family: Arial; font-weight: bold; font-size: 26px;fill: rgb(71%,39%,20%); stroke:none;" transform="translate(0,758) scale(1,-1)">70%</text>
+			<text x="349.33333333333337" y="188.66666666666666" style="font-family: Arial; font-weight: bold; font-size: 25px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,377) scale(1,-1)">23.3%</text>
+			<text x="1110" y="452" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,904) scale(1,-1)">100%</text>
+			<path d="M 100,505 L 145,505 Z" style="stroke: rgb(71%,39%,20%); stroke-linecap: butt; stroke-width: 4;"/>
+			<text x="156" y="498" style="font-family: Arial; font-size: 22px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,996) scale(1,-1)">Front-loaded 70% by Day 7</text>
+			<path d="M 685,505 L 730,505 Z" style="stroke: rgb(9%,23%,31%); stroke-linecap: butt; stroke-width: 4; stroke-dasharray: 8, 6;"/>
+			<text x="742" y="498" style="font-family: Arial; font-size: 22px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,996) scale(1,-1)">Uniform over 30 days</text>
+			<text x="100" y="54" style="font-family: Arial; font-size: 20px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,108) scale(1,-1)">Timing sensitivity only; not a cash balance or survival result.</text>
+			<text x="30" y="18" style="font-family: Arial; font-size: 17px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,36) scale(1,-1)">Illustrative scenario using the Cube timing formula</text>
+			<text x="947.187" y="18" style="font-family: Arial; font-size: 17px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,36) scale(1,-1)">Betterbankings | ILAAP Cube</text>
+		</g>
+	</g>
+</svg>

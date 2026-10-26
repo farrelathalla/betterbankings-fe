@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1200" height="640" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1200 640" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1200" height="640"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-640)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1200" height="640" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="30" y="598" style="font-family: Arial; font-weight: bold; font-size: 30px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,1196) scale(1,-1)">Repo bridges the period before staged sales</text>
+			<text x="30" y="563" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,1126) scale(1,-1)">Illustrative simulation | Transaction cash flows, IDR trillion</text>
+			<path d="M 100,163.571429 L 1090,163.571429 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<text x="51.655" y="156.57142857142856" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,313) scale(1,-1)">-30</text>
+			<path d="M 100,234.285714 L 1090,234.285714 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<text x="51.655" y="227.28571428571428" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,454) scale(1,-1)">-15</text>
+			<path d="M 100,305 L 1090,305 Z" style="stroke: rgb(38%,47%,51%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<text x="70.324" y="298.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,596) scale(1,-1)">0</text>
+			<path d="M 100,375.714286 L 1090,375.714286 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<text x="58.647999999999996" y="368.7142857142857" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,737) scale(1,-1)">15</text>
+			<path d="M 100,446.428571 L 1090,446.428571 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 0.8;"/>
+			<text x="58.647999999999996" y="439.42857142857144" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,878) scale(1,-1)">30</text>
+			<text x="157.699" y="110" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,220) scale(1,-1)">15</text>
+			<text x="454.574" y="110" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,220) scale(1,-1)">20</text>
+			<text x="573.324" y="110" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,220) scale(1,-1)">22</text>
+			<text x="692.074" y="110" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,220) scale(1,-1)">24</text>
+			<text x="870.199" y="110" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,220) scale(1,-1)">27</text>
+			<text x="988.949" y="110" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,220) scale(1,-1)">29</text>
+			<text x="1048.324" y="110" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,220) scale(1,-1)">30</text>
+			<rect x="155.375" y="305.0" width="28.0" height="134.35714285714283" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,23%,31%); fill-rule: evenodd;"/>
+			<text x="141.853" y="452.35714285714283" style="font-family: Arial; font-weight: bold; font-size: 22px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,904) scale(1,-1)">28.50</text>
+			<rect x="452.25" y="305.0" width="28.0" height="115.5" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(3%,49%,51%); fill-rule: evenodd;"/>
+			<text x="438.728" y="433.5" style="font-family: Arial; font-weight: bold; font-size: 22px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,867) scale(1,-1)">24.50</text>
+			<rect x="571.0" y="305.0" width="28.0" height="115.5" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(3%,49%,51%); fill-rule: evenodd;"/>
+			<text x="557.478" y="433.5" style="font-family: Arial; font-weight: bold; font-size: 22px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,867) scale(1,-1)">24.50</text>
+			<rect x="689.75" y="305.0" width="28.0" height="115.5" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(3%,49%,51%); fill-rule: evenodd;"/>
+			<text x="676.228" y="433.5" style="font-family: Arial; font-weight: bold; font-size: 22px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,867) scale(1,-1)">24.50</text>
+			<rect x="867.875" y="305.0" width="28.0" height="115.5" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(3%,49%,51%); fill-rule: evenodd;"/>
+			<text x="854.353" y="433.5" style="font-family: Arial; font-weight: bold; font-size: 22px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,867) scale(1,-1)">24.50</text>
+			<rect x="1000.625" y="170.32935714285713" width="28.0" height="134.67064285714287" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(71%,39%,20%); fill-rule: evenodd;"/>
+			<text x="983.44" y="143.32935714285713" style="font-family: Arial; font-weight: bold; font-size: 22px;fill: rgb(71%,39%,20%); stroke:none;" transform="translate(0,286) scale(1,-1)">-28.57</text>
+			<rect x="972.625" y="305.0" width="28.0" height="69.30000000000001" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(3%,49%,51%); fill-rule: evenodd;"/>
+			<text x="959.103" y="387.3" style="font-family: Arial; font-weight: bold; font-size: 22px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,774) scale(1,-1)">14.70</text>
+			<rect x="110" y="513" width="20" height="20" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(9%,23%,31%); fill-rule: evenodd;"/>
+			<text x="142" y="512" style="font-family: Arial; font-size: 21px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,1024) scale(1,-1)">Repo proceeds</text>
+			<rect x="420" y="513" width="20" height="20" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(3%,49%,51%); fill-rule: evenodd;"/>
+			<text x="452" y="512" style="font-family: Arial; font-size: 21px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,1024) scale(1,-1)">Sale proceeds</text>
+			<rect x="740" y="513" width="20" height="20" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(71%,39%,20%); fill-rule: evenodd;"/>
+			<text x="772" y="512" style="font-family: Arial; font-size: 21px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,1024) scale(1,-1)">Repo repayment</text>
+			<text x="1034.44" y="78" style="font-family: Arial; font-size: 20px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,156) scale(1,-1)">Day</text>
+			<text x="100" y="65" style="font-family: Arial; font-size: 20px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,130) scale(1,-1)">Day 29: sale +14.70 and repo repayment -28.5665, including interest. No rollover assumed.</text>
+			<text x="32" y="18" style="font-family: Arial; font-size: 17px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,36) scale(1,-1)">Illustrative data; not actual bank results</text>
+			<text x="937.735" y="18" style="font-family: Arial; font-size: 17px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,36) scale(1,-1)">Betterbankings  |  ILAAP Cube</text>
+		</g>
+	</g>
+</svg>

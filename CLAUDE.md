@@ -76,8 +76,10 @@ betterbankings-fe/
 │   │   │   └── [chapter]/       # Chapter detail → sections → subsections
 │   │   └── category/[id]/       # Category-filtered standards
 │   │
-│   ├── betterbankings-angle/    # Podcast platform
-│   │   └── page.tsx             # Category filter + podcast grid
+│   ├── betterbankings-angle/    # Articles + podcast platform
+│   │   ├── page.tsx             # Article cards (lib/angle/articles.ts) + podcast grid
+│   │   ├── [slug]/page.tsx      # Static bilingual article pages (EN/ID switch)
+│   │   └── article.css          # Scoped .bb-ilaap-article styles from the web package
 │   │
 │   ├── b-foresight/             # Banking analytics & data visualization
 │   │   ├── page.tsx             # Overview/landing

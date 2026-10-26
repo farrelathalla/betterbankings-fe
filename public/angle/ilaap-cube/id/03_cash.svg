@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1200" height="680" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1200 680" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1200" height="680"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-680)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1200" height="680" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="30" y="638" style="font-family: Arial; font-weight: bold; font-size: 30px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,1276) scale(1,-1)">Kas sebelum dan setelah rencana monetisasi</text>
+			<text x="30" y="603" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,1206) scale(1,-1)">Simulasi ilustratif | Saldo kas akhir hari, Rp triliun | Hari 1-30</text>
+			<g transform="">
+				<g transform="">
+					<g transform="">
+						<path d="M 92,125 L 1037,125 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+					</g>
+					<g transform="">
+						<path d="M 92,125 L 92,120 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 222.344828,125 L 222.344828,120 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 385.275862,125 L 385.275862,120 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 548.206897,125 L 548.206897,120 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 711.137931,125 L 711.137931,120 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 874.068966,125 L 874.068966,120 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 1037,125 L 1037,120 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+					</g>
+					<g transform="">
+						<g transform=" matrix(1,0,0,1,92,120)">
+							<text x="-5.838000000000001" y="-21.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-42) scale(1,-1)">1</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,222.344828,120)">
+							<text x="-5.838000000000001" y="-21.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-42) scale(1,-1)">5</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,385.275862,120)">
+							<text x="-11.676000000000002" y="-21.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-42) scale(1,-1)">10</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,548.206897,120)">
+							<text x="-11.676000000000002" y="-21.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-42) scale(1,-1)">15</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,711.137931,120)">
+							<text x="-11.676000000000002" y="-21.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-42) scale(1,-1)">20</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,874.068966,120)">
+							<text x="-11.676000000000002" y="-21.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-42) scale(1,-1)">25</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,1037,120)">
+							<text x="-11.676000000000002" y="-21.0" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-42) scale(1,-1)">30</text>
+						</g>
+					</g>
+				</g>
+				<g transform="">
+					<g transform="">
+						<path d="M 92,125 L 92,530 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+					</g>
+					<g transform="">
+						<path d="M 92,125 L 87,125 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 92,202.884615 L 87,202.884615 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 92,280.769231 L 87,280.769231 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 92,358.653846 L 87,358.653846 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 92,436.538462 L 87,436.538462 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+						<path d="M 92,514.423077 L 87,514.423077 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+					</g>
+					<g transform="">
+						<g transform=" matrix(1,0,0,1,87,125)">
+							<text x="-42.021" y="-8.4" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-16) scale(1,-1)">-100</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,87,202.884615)">
+							<text x="-30.345000000000002" y="-8.4" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-16) scale(1,-1)">-50</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,87,280.769231)">
+							<text x="-11.676000000000002" y="-8.4" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-16) scale(1,-1)">0</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,87,358.653846)">
+							<text x="-23.352000000000004" y="-8.4" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-16) scale(1,-1)">50</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,87,436.538462)">
+							<text x="-35.028" y="-8.4" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-16) scale(1,-1)">100</text>
+						</g>
+						<g transform=" matrix(1,0,0,1,87,514.423077)">
+							<text x="-35.028" y="-8.4" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,-16) scale(1,-1)">150</text>
+						</g>
+					</g>
+				</g>
+				<path d="M 92,202.884615 L 1037,202.884615 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 0.8;"/>
+				<path d="M 92,280.769231 L 1037,280.769231 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 0.8;"/>
+				<path d="M 92,358.653846 L 1037,358.653846 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 0.8;"/>
+				<path d="M 92,436.538462 L 1037,436.538462 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 0.8;"/>
+				<path d="M 92,514.423077 L 1037,514.423077 Z" style="stroke: rgb(84%,88%,90%); stroke-linecap: butt; stroke-width: 0.8;"/>
+				<g transform="">
+					<polyline points="92 501.6361, 124.5862 490.1663, 157.1724 478.6945, 189.7586 468.7439, 222.3448 464.3764, 254.931 452.9511, 287.5172 441.7053, 320.1034 436.2129, 352.6897 423.7062, 385.2759 421.5627, 417.8621 362.1993, 450.4483 351.6474, 483.0345 339.9961, 515.6207 329.0282, 548.2069 317.8961, 580.7931 304.9703, 613.3793 293.0158, 645.9655 281.4783, 678.5517 269.7503, 711.1379 268.8211, 743.7241 257.5582, 776.3103 246.6448, 808.8966 233.4805, 841.4828 217.9199, 874.069 205.9015, 906.6552 193.9761, 939.2414 182.0509, 971.8276 172.0927, 1004.414 161.2916, 1037 166.3892" style="stroke: rgb(71%,39%,20%); stroke-linecap: round; stroke-width: 3; fill: None; fill-rule: evenodd; stroke-dasharray: 7, 5;"/>
+					<polyline points="92 501.6361, 124.5862 490.1663, 157.1724 478.6945, 189.7586 468.7439, 222.3448 464.3764, 254.931 452.9511, 287.5172 441.7053, 320.1034 436.2129, 352.6897 423.7062, 385.2759 421.5627, 417.8621 362.1993, 450.4483 351.6474, 483.0345 339.9961, 515.6207 329.0282, 548.2069 362.2903, 580.7931 349.3645, 613.3793 337.4101, 645.9655 325.8725, 678.5517 314.1446, 711.1379 351.3788, 743.7241 340.1159, 776.3103 367.3659, 808.8966 354.2016, 841.4828 376.8046, 874.069 364.7861, 906.6552 352.8607, 939.2414 379.099, 971.8276 369.1407, 1004.414 336.74, 1037 341.8375" style="stroke: rgb(3%,49%,51%); stroke-linecap: round; stroke-width: 4; fill: None; fill-rule: evenodd;"/>
+				</g>
+			</g>
+			<path d="M 92,280.769231 L 1037,280.769231 Z" style="stroke: rgb(38%,47%,51%); stroke-linecap: butt; stroke-width: 1.4;"/>
+			<path d="M 92,311.923077 L 1037,311.923077 Z" style="stroke: rgb(78%,65%,47%); stroke-linecap: butt; stroke-width: 1.5; stroke-dasharray: 3, 4;"/>
+			<text x="1048" y="303.9230769230769" style="font-family: Arial; font-size: 17px;fill: rgb(54%,42%,26%); stroke:none;" transform="translate(0,607) scale(1,-1)">EWI 20</text>
+			<circle cx="678.551724137931" cy="314.14457034159113" r="6" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 2; fill: rgb(3%,49%,51%); fill-rule: evenodd;"/>
+			<text x="598.551724137931" y="440" style="font-family: Arial; font-weight: bold; font-size: 23px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,880) scale(1,-1)">Minimum 21,43</text>
+			<circle cx="1037.0" cy="341.8375007280682" r="6" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 2; fill: rgb(3%,49%,51%); fill-rule: evenodd;"/>
+			<text x="1048" y="353.8375007280682" style="font-family: Arial; font-weight: bold; font-size: 23px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,707) scale(1,-1)">39,20</text>
+			<text x="598.551724137931" y="412" style="font-family: Arial; font-size: 19px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,824) scale(1,-1)">Hari 19</text>
+			<path d="M 678.551724,400 L 678.551724,323.14457 Z" style="stroke: rgb(3%,49%,51%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="1048" y="161.38916418960662" style="font-family: Arial; font-size: 20px;fill: rgb(71%,39%,20%); stroke:none;" transform="translate(0,322) scale(1,-1)">-73,43</text>
+			<path d="M 95,578 L 140,578 Z" style="stroke: rgb(3%,49%,51%); stroke-linecap: butt; stroke-width: 4;"/>
+			<text x="150" y="571" style="font-family: Arial; font-size: 21px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,1142) scale(1,-1)">Setelah rencana repo dan penjualan</text>
+			<path d="M 670,578 L 715,578 Z" style="stroke: rgb(71%,39%,20%); stroke-linecap: butt; stroke-width: 3; stroke-dasharray: 7, 5;"/>
+			<text x="725" y="571" style="font-family: Arial; font-size: 21px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,1142) scale(1,-1)">Sebelum transaksi tambahan</text>
+			<text x="92" y="70" style="font-family: Arial; font-size: 20px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,140) scale(1,-1)">Penerimaan jatuh tempo sudah masuk; EWI 20 adalah ambang peringatan ilustratif.</text>
+			<text x="32" y="18" style="font-family: Arial; font-size: 17px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,36) scale(1,-1)">Data ilustratif, bukan hasil bank sebenarnya</text>
+			<text x="937.735" y="18" style="font-family: Arial; font-size: 17px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,36) scale(1,-1)">Betterbankings  |  ILAAP Cube</text>
+		</g>
+	</g>
+</svg>

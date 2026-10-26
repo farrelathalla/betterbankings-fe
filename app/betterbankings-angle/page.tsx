@@ -4,8 +4,19 @@ import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import { getApiUrl } from "@/lib/api";
-import { Search, Calendar, Clock, Play, User } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { Search, Calendar, Clock, Play, User, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { angleArticles } from "@/lib/angle/articles";
+
+// One card per article, with links to both language versions.
+const articlePairs = angleArticles
+  .filter((a) => a.lang === "en")
+  .map((en) => ({
+    en,
+    id: angleArticles.find((a) => a.slug === en.translationSlug) ?? en,
+  }));
 
 interface PodcastCategory {
   id: string;
@@ -121,13 +132,84 @@ export default function BetterBankingsAnglePage() {
               <span className="text-[#F48C25]">Angle</span>
             </h1>
             <p className="text-gray-500 max-w-2xl mx-auto">
-              Conversations with industry leaders about banking regulation, risk
+              Analysis and conversations on banking regulation, risk
               management, and the future of finance in Southeast Asia
             </p>
           </div>
 
+          {/* Articles */}
+          <section className="mb-14">
+            <h2 className="text-sm font-bold text-[#14213D] mb-4 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-[#14213D] rounded-full"></span>
+              Articles
+            </h2>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              {articlePairs.map(({ en, id }) => (
+                <article
+                  key={en.slug}
+                  className="bg-white rounded-2xl border border-[#E1E7EF] overflow-hidden hover:shadow-lg transition-all duration-300 group flex flex-col"
+                >
+                  <Link
+                    href={`/betterbankings-angle/${en.slug}`}
+                    className="block border-b border-[#E1E7EF] bg-white"
+                  >
+                    <Image
+                      src={en.cover}
+                      alt={en.coverAlt}
+                      width={1200}
+                      height={680}
+                      className="w-full h-auto"
+                      unoptimized
+                    />
+                  </Link>
+                  <div className="p-5 flex flex-col flex-1">
+                    <div className="flex flex-wrap items-center gap-3 mb-2">
+                      <span className="text-xs font-semibold text-[#355189] bg-[#E0E7FF] px-2.5 py-1 rounded-full">
+                        Article
+                      </span>
+                      <span className="flex items-center gap-1 text-xs text-gray-500">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {formatDate(en.publishedAt)}
+                      </span>
+                    </div>
+                    <Link href={`/betterbankings-angle/${en.slug}`}>
+                      <h3 className="text-lg font-bold text-[#14213D] mb-1 group-hover:text-[#F48C25] transition-colors">
+                        {en.title}
+                      </h3>
+                    </Link>
+                    <p className="text-sm text-gray-500 italic mb-2">
+                      {id.title}
+                    </p>
+                    <p className="text-sm text-gray-600 mb-4 flex-1">
+                      {en.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {[en, id].map((a) => (
+                        <Link
+                          key={a.slug}
+                          href={`/betterbankings-angle/${a.slug}`}
+                          hrefLang={a.lang}
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold border border-[#E1E7EF] text-[#14213D] hover:bg-[#F48C25] hover:border-[#F48C25] hover:text-white transition-colors"
+                        >
+                          <BookOpen className="w-4 h-4" />
+                          {a.lang === "en" ? "Read in English" : "Baca dalam Bahasa Indonesia"}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {/* Podcasts */}
+          <h2 className="text-sm font-bold text-[#14213D] mb-4 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 bg-[#14213D] rounded-full"></span>
+            Podcast
+          </h2>
+
           {/* Search Bar */}
-          <div className="max-w-xl mx-auto mb-10">
+          <div className="max-w-xl mb-8">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input

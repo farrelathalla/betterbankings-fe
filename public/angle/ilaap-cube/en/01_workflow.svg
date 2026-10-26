@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1200" height="320" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1200" height="320"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-320)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1200" height="320" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="30" y="278" style="font-family: Arial; font-weight: bold; font-size: 30px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,556) scale(1,-1)">One workflow from bank data to assessment</text>
+			<text x="30" y="243" style="font-family: Arial; font-size: 21px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,486) scale(1,-1)">Connecting assumptions, actions and report materials</text>
+			<rect x="30" y="66" width="250" height="145" rx="12" ry="12" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(92%,96%,96%); fill-rule: evenodd;"/>
+			<text x="47" y="174" style="font-family: Arial; font-weight: bold; font-size: 23px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,348) scale(1,-1)">BANK DATA</text>
+			<text x="47" y="132" style="font-family: Arial; font-size: 22px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,264) scale(1,-1)">Positions and flows</text>
+			<text x="47" y="99" style="font-family: Arial; font-size: 22px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,198) scale(1,-1)">Funding profile</text>
+			<path d="M 287,139 L 313,139 Z" style="stroke: rgb(3%,49%,51%); stroke-linecap: butt; stroke-width: 3;"/>
+			<polygon points="313 139, 304 145, 304 133" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(3%,49%,51%); fill-rule: evenodd;"/>
+			<rect x="326" y="66" width="250" height="145" rx="12" ry="12" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(92%,96%,96%); fill-rule: evenodd;"/>
+			<text x="343" y="174" style="font-family: Arial; font-weight: bold; font-size: 23px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,348) scale(1,-1)">SCENARIOS</text>
+			<text x="343" y="132" style="font-family: Arial; font-size: 22px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,264) scale(1,-1)">Severity and timing</text>
+			<text x="343" y="99" style="font-family: Arial; font-size: 22px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,198) scale(1,-1)">Survival target</text>
+			<path d="M 583,139 L 609,139 Z" style="stroke: rgb(3%,49%,51%); stroke-linecap: butt; stroke-width: 3;"/>
+			<polygon points="609 139, 600 145, 600 133" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(3%,49%,51%); fill-rule: evenodd;"/>
+			<rect x="622" y="66" width="250" height="145" rx="12" ry="12" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(92%,96%,96%); fill-rule: evenodd;"/>
+			<text x="639" y="174" style="font-family: Arial; font-weight: bold; font-size: 23px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,348) scale(1,-1)">ACTIONS</text>
+			<text x="639" y="132" style="font-family: Arial; font-size: 22px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,264) scale(1,-1)">Repo and sales</text>
+			<text x="639" y="99" style="font-family: Arial; font-size: 22px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,198) scale(1,-1)">Cash impact</text>
+			<path d="M 879,139 L 905,139 Z" style="stroke: rgb(3%,49%,51%); stroke-linecap: butt; stroke-width: 3;"/>
+			<polygon points="905 139, 896 145, 896 133" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(3%,49%,51%); fill-rule: evenodd;"/>
+			<rect x="918" y="66" width="250" height="145" rx="12" ry="12" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(92%,96%,96%); fill-rule: evenodd;"/>
+			<text x="935" y="174" style="font-family: Arial; font-weight: bold; font-size: 23px;fill: rgb(3%,49%,51%); stroke:none;" transform="translate(0,348) scale(1,-1)">REPORTING</text>
+			<text x="935" y="132" style="font-family: Arial; font-size: 22px;fill: rgb(9%,23%,31%); stroke:none;" transform="translate(0,264) scale(1,-1)">Tables and charts</text>
+			<text x="935" y="99" style="font-family: Arial; font-size: 22px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,198) scale(1,-1)">Assessment</text>
+			<text x="937.735" y="18" style="font-family: Arial; font-size: 17px;fill: rgb(38%,47%,51%); stroke:none;" transform="translate(0,36) scale(1,-1)">Betterbankings  |  ILAAP Cube</text>
+		</g>
+	</g>
+</svg>
