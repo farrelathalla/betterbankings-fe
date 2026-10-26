@@ -10,6 +10,9 @@ import { Search, Calendar, Clock, Play, User, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { angleArticles } from "@/lib/angle/articles";
 
+// Hidden until there are episodes to show (podcast backend and admin still work).
+const SHOW_PODCASTS = false;
+
 // One card per article, with links to both language versions.
 const articlePairs = angleArticles
   .filter((a) => a.lang === "en")
@@ -56,11 +59,11 @@ export default function BetterBankingsAnglePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchData();
+    if (SHOW_PODCASTS) fetchData();
   }, []);
 
   useEffect(() => {
-    fetchPodcasts();
+    if (SHOW_PODCASTS) fetchPodcasts();
   }, [selectedCategory, searchQuery]);
   const fetchData = async () => {
     try {
@@ -138,7 +141,7 @@ export default function BetterBankingsAnglePage() {
           </div>
 
           {/* Articles */}
-          <section className="mb-14">
+          <section className="mb-8">
             <h2 className="text-sm font-bold text-[#14213D] mb-4 flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-[#14213D] rounded-full"></span>
               Articles
@@ -202,6 +205,9 @@ export default function BetterBankingsAnglePage() {
             </div>
           </section>
 
+          {/* Podcast section is hidden for now; set SHOW_PODCASTS to true to bring it back. */}
+          {SHOW_PODCASTS && (
+          <>
           {/* Podcasts */}
           <h2 className="text-sm font-bold text-[#14213D] mb-4 flex items-center gap-2">
             <span className="w-1.5 h-1.5 bg-[#14213D] rounded-full"></span>
@@ -390,6 +396,8 @@ export default function BetterBankingsAnglePage() {
               Subscribe
             </button>
           </div>
+          </>
+          )}
         </div>
 
         <Footer />
