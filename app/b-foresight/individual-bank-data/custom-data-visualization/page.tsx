@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Loader2, RefreshCw } from "lucide-react";
 import Footer from "@/components/Footer";
 import RestrictedViz from "@/components/RestrictedViz";
+import { lockScrollPosition } from "@/lib/scrollLock";
 
 // Declare Tableau types for TypeScript
 declare global {
@@ -89,6 +90,7 @@ export default function CustomDataVisualization() {
     async (tab: string) => {
       const viz = vizRef.current;
       const token = ++switchTokenRef.current;
+      const unlockScroll = lockScrollPosition();
       shownTabRef.current = tab;
       setVizReady(false);
 
@@ -100,12 +102,14 @@ export default function CustomDataVisualization() {
         );
         if (!sheet) throw new Error(`Sheet not found for tab "${tab}"`);
         await viz.workbook.activateSheetAsync(sheet.name);
+        unlockScroll();
         if (token !== switchTokenRef.current) return;
         setTimeout(() => {
           if (token === switchTokenRef.current) setVizReady(true);
         }, 1000);
       } catch (error) {
         console.error("Error switching Tableau sheet:", error);
+        unlockScroll(0);
         if (token === switchTokenRef.current) mountViz(tab);
       }
     },

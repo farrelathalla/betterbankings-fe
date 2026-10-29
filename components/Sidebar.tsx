@@ -323,7 +323,10 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const SidebarContent = () => (
+  // Plain render function, NOT a component: a component defined inside Sidebar
+  // gets a new identity every render, so React remounts the whole nav (and
+  // replays the accordion animation) whenever the parent page re-renders.
+  const renderSidebarContent = () => (
     <div className="flex flex-col h-full bg-white border-r border-[#E1E7EF] font-sans">
       {/* Header / Logo */}
       <div className="p-6 border-b border-[#E1E7EF]">
@@ -820,7 +823,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
 
       {/* Desktop Sidebar (Fixed) */}
       <aside className="hidden lg:block fixed left-0 top-0 h-screen w-[280px] z-40">
-        <SidebarContent />
+        {renderSidebarContent()}
       </aside>
 
       {/* Mobile Drawer */}
@@ -844,7 +847,7 @@ export default function Sidebar({ isAuthenticated = false }: SidebarProps) {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed left-0 top-0 h-full w-[280px] z-50 bg-white shadow-2xl"
             >
-              <SidebarContent />
+              {renderSidebarContent()}
               {/* Close Button Inside Drawer */}
               <button
                 onClick={() => setIsOpen(false)}
