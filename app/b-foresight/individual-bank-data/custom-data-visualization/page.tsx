@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Sidebar from "@/components/Sidebar";
 import { useAuth } from "@/hooks/useAuth";
 import { Loader2, RefreshCw } from "lucide-react";
@@ -15,8 +15,24 @@ declare global {
   }
 }
 
+// The workbook is loaded once; tabs switch dashboards inside the same session.
+// Requires "Show Sheets as Tabs" on the published workbook.
+const tableauUrls: Record<string, string> = {
+  bankDeepDive:
+    "https://public.tableau.com/views/CustomDataVisualization/Dashboard",
+  peerComparison:
+    "https://public.tableau.com/views/CustomDataVisualization/Dashboardperbank",
+};
+
+// Sheet names are resolved from the workbook by matching the view name in the
+// URL (case/space/symbol-insensitive), e.g. "CreditFundingRates" -> "Credit & Funding Rates".
+const normalizeSheetName = (name: string) =>
+  name.toLowerCase().replace(/[^a-z0-9]/g, "");
+
 interface TableauVizElement extends HTMLElement {
   workbook?: {
+    activateSheetAsync: (sheetName: string) => Promise<unknown>;
+    publishedSheetsInfo: Array<{ name: string }>;
     activeSheet: {
       sheetType: string;
       worksheets?: Array<{
@@ -37,12 +53,10 @@ export default function CustomDataVisualization() {
   const vizRef = useRef<TableauVizElement | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const tableauUrls: Record<string, string> = {
-    bankDeepDive:
-      "https://public.tableau.com/views/CustomDataVisualization/Dashboard",
-    peerComparison:
-      "https://public.tableau.com/views/CustomDataVisualization/Dashboardperbank",
-  };
+  const activeTabRef = useRef(activeTab);
+  const shownTabRef = useRef(activeTab);
+  const interactiveRef = useRef(false);
+  const switchTokenRef = useRef(0);
 
   const tabLabels: Record<string, string> = {
     bankDeepDive: "Bank Deep Dive",
@@ -69,24 +83,56 @@ export default function CustomDataVisualization() {
     document.head.appendChild(script);
   }, []);
 
-  // Initialize Tableau Viz
-  useEffect(() => {
-    if (!containerRef.current || !scriptLoaded) return;
+  // Switch dashboard inside the already-loaded workbook (no reload).
+  // Falls back to a fresh viz if the sheet can't be activated.
+  const switchSheet = useCallback(
+    async (tab: string) => {
+      const viz = vizRef.current;
+      const token = ++switchTokenRef.current;
+      shownTabRef.current = tab;
+      setVizReady(false);
 
-    containerRef.current.innerHTML = "";
-    setVizLoaded(false);
-    setVizReady(false);
-    setVizError(null);
-    vizRef.current = null;
+      try {
+        if (!viz?.workbook) throw new Error("Workbook not available");
+        const wanted = normalizeSheetName(tableauUrls[tab].split("/").pop() ?? "");
+        const sheet = viz.workbook.publishedSheetsInfo.find(
+          (info) => normalizeSheetName(info.name) === wanted,
+        );
+        if (!sheet) throw new Error(`Sheet not found for tab "${tab}"`);
+        await viz.workbook.activateSheetAsync(sheet.name);
+        if (token !== switchTokenRef.current) return;
+        setTimeout(() => {
+          if (token === switchTokenRef.current) setVizReady(true);
+        }, 1000);
+      } catch (error) {
+        console.error("Error switching Tableau sheet:", error);
+        if (token === switchTokenRef.current) mountViz(tab);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
-    const timeout = setTimeout(() => {
-      if (!containerRef.current) return;
+  // Create the <tableau-viz> element. Only used for the first load, retry,
+  // and as a fallback; normal tab changes go through switchSheet.
+  const mountViz = useCallback(
+    (tab: string) => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      container.innerHTML = "";
+      switchTokenRef.current++;
+      shownTabRef.current = tab;
+      interactiveRef.current = false;
+      setVizLoaded(false);
+      setVizReady(false);
+      setVizError(null);
 
       const vizElement = document.createElement(
         "tableau-viz",
       ) as TableauVizElement;
       vizElement.setAttribute("id", "tableauViz");
-      vizElement.setAttribute("src", tableauUrls[activeTab]);
+      vizElement.setAttribute("src", tableauUrls[tab]);
       vizElement.setAttribute("hide-tabs", "true");
       vizElement.setAttribute("toolbar", "bottom");
       vizElement.style.width = "100%";
@@ -94,23 +140,53 @@ export default function CustomDataVisualization() {
       vizElement.style.display = "block";
 
       vizElement.addEventListener("firstinteractive", () => {
-        setVizLoaded(true);
+        interactiveRef.current = true;
         vizRef.current = vizElement;
-        setTimeout(() => setVizReady(true), 2000);
+        setVizLoaded(true);
+
+        // User clicked another tab while the workbook was still loading
+        if (activeTabRef.current !== tab) {
+          switchSheet(activeTabRef.current);
+          return;
+        }
+        setTimeout(() => {
+          setVizReady(true);
+        }, 2000);
       });
 
-      containerRef.current.appendChild(vizElement);
-    }, 100);
+      vizRef.current = vizElement;
+      container.appendChild(vizElement);
+    },
+    [switchSheet],
+  );
 
-    return () => {
-      clearTimeout(timeout);
-      if (containerRef.current) containerRef.current.innerHTML = "";
-    };
-  }, [activeTab, scriptLoaded]);
+  // Mount once when the script is ready; afterwards just switch sheets
+  useEffect(() => {
+    activeTabRef.current = activeTab;
+    const container = containerRef.current;
+    if (!container || !scriptLoaded) return;
+
+    const existing = container.querySelector(
+      "tableau-viz",
+    ) as TableauVizElement | null;
+
+    // First load, or the container was remounted (e.g. by RestrictedViz)
+    if (!existing) {
+      mountViz(activeTab);
+      return;
+    }
+
+    vizRef.current = existing;
+    if (shownTabRef.current === activeTab) return;
+    // Still loading: firstinteractive will pick up the latest tab
+    if (!interactiveRef.current) return;
+
+    switchSheet(activeTab);
+  }, [activeTab, scriptLoaded, mountViz, switchSheet]);
 
   const handleReload = () => {
-    setScriptLoaded(false);
-    setTimeout(() => setScriptLoaded(true), 100);
+    if (!scriptLoaded) return;
+    mountViz(activeTab);
   };
 
   return (
