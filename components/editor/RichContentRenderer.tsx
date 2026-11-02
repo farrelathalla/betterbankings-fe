@@ -185,11 +185,15 @@ function RenderNode({ node }: { node: ContentNode }) {
       const rawSrc = (node.attrs?.src as string) || "";
       // Only allow http/https image URLs to prevent javascript: src XSS
       if (!/^https?:\/\//i.test(rawSrc)) return null;
+      // A width (CSS px) shows a high-resolution image at its intended size:
+      // formulas cut from a PDF at 3x would otherwise render 3x too large.
+      const width = Number(node.attrs?.width) || undefined;
       return (
         <img
           src={rawSrc}
           alt={(node.attrs?.alt as string) || ""}
           title={(node.attrs?.title as string) || undefined}
+          width={width}
           className="max-w-full h-auto rounded-lg my-3"
         />
       );
@@ -237,6 +241,14 @@ function RenderText({ text, marks }: { text: string; marks?: Mark[] }) {
 
         case "strike":
           element = <s className="line-through">{element}</s>;
+          break;
+
+        case "subscript":
+          element = <sub>{element}</sub>;
+          break;
+
+        case "superscript":
+          element = <sup>{element}</sup>;
           break;
 
         case "link": {

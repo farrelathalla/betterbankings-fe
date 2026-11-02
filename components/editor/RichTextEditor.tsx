@@ -20,6 +20,8 @@ import {
   LineHeight,
   FontSize,
   OverflowTable,
+  SubscriptMark,
+  SuperscriptMark,
 } from "./extensions";
 
 import "./editor.css";
@@ -206,6 +208,8 @@ export default function RichTextEditor({
       FontSize,
       TooltipMark,
       ReferenceMark,
+      SubscriptMark,
+      SuperscriptMark,
       Indent,
       MathNode,
       LineHeight,

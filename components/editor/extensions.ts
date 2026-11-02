@@ -74,6 +74,31 @@ export const TooltipMark = Mark.create({
   },
 });
 
+// Sub- and superscript ("AddOn^agregat", "D_jk"): regulation formulas
+// imported from PDFs carry these, so the editor must keep them on save.
+// Mutually exclusive, like the official Tiptap extensions.
+export const SubscriptMark = Mark.create({
+  name: "subscript",
+  excludes: "superscript",
+  parseHTML() {
+    return [{ tag: "sub" }, { style: "vertical-align=sub" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ["sub", mergeAttributes(HTMLAttributes), 0];
+  },
+});
+
+export const SuperscriptMark = Mark.create({
+  name: "superscript",
+  excludes: "subscript",
+  parseHTML() {
+    return [{ tag: "sup" }, { style: "vertical-align=super" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ["sup", mergeAttributes(HTMLAttributes), 0];
+  },
+});
+
 // Custom Reference Mark - for linking to other Basel sections
 export const ReferenceMark = Mark.create({
   name: "reference",
